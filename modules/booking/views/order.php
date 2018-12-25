@@ -78,7 +78,7 @@ class View extends \Gcms\View
             'labelClass' => 'g-input icon-category',
             'itemClass' => 'width50',
             'label' => '{LNG_Requested department}',
-            'options' => \Index\Category\Model::init()->toSelect('department'),
+            'options' => \Index\Category\Model::init()->department(),
             'value' => isset($index->department) ? $index->department : 0,
         ));
         $groups = $fieldset->add('groups');
