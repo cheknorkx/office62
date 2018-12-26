@@ -49,6 +49,8 @@ class Model extends \Kotchasan\KBase
                     $config->$key = $request->post($key)->toBoolean();
                 }
                 $config->timezone = $request->post('timezone')->text();
+                $config->facebook_appId = $request->post('facebook_appId')->text();
+                $config->google_client_id = $request->post('google_client_id')->text();
                 if (empty($ret)) {
                     // อัปโหลดไฟล์
                     foreach ($request->getUploadedFiles() as $item => $file) {

@@ -10,6 +10,7 @@
 
 namespace Index\System;
 
+use Gcms\Login;
 use Kotchasan\Html;
 use Kotchasan\Language;
 
@@ -26,10 +27,11 @@ class View extends \Gcms\View
      * ฟอร์มตั้งค่า system.
      *
      * @param object $config
+     * @param array  $login
      *
      * @return string
      */
-    public function render($config)
+    public function render($config, $login)
     {
         $form = Html::create('form', array(
             'id' => 'setup_frm',
@@ -106,6 +108,24 @@ class View extends \Gcms\View
             'label' => '{LNG_Send a welcome email to new members}',
             'options' => Language::get('BOOLEANS'),
             'value' => isset($config->welcome_email) ? $config->welcome_email : 0,
+        ));
+        $notDemoMode = Login::notDemoMode($login);
+        // google_client_id
+        $fieldset->add('text', array(
+            'id' => 'google_client_id',
+            'labelClass' => 'g-input icon-google',
+            'itemClass' => 'item',
+            'label' => '{LNG_Google client ID} <a class=icon-help href="https://gcms.in.th/index.php?module=howto&id=374" target=_blank></a>',
+            'comment' => '<em>xxxxxxxxxx</em>.apps.googleusercontent.com',
+            'value' => $notDemoMode && isset($config->google_client_id) ? $config->google_client_id : '',
+        ));
+        // facebook_appId
+        $fieldset->add('text', array(
+            'id' => 'facebook_appId',
+            'labelClass' => 'g-input icon-facebook',
+            'itemClass' => 'item',
+            'label' => '{LNG_Facebook App ID} <a class=icon-help href="https://gcms.in.th/index.php?module=howto&id=350" target="_blank"></a>',
+            'value' => $notDemoMode && isset($config->facebook_appId) ? $config->facebook_appId : '',
         ));
         $fieldset = $form->add('fieldset', array(
             'title' => '{LNG_Style}',
