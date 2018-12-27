@@ -151,6 +151,12 @@ class View extends \Gcms\View
             ),
             /* ปุ่มแสดงในแต่ละแถว */
             'buttons' => array(
+                array(
+                    'class' => 'icon-print button print notext',
+                    'href' => WEB_URL.'modules/repair/print.php?id=:id',
+                    'target' => 'print',
+                    'title' => '{LNG_Print}',
+                ),
                 'status' => array(
                     'class' => 'icon-list button orange notext',
                     'id' => ':id',
