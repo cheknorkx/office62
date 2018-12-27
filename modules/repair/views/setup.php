@@ -155,11 +155,7 @@ class View extends \Gcms\View
                     'class' => 'icon-print button print notext',
                     'href' => WEB_URL.'modules/repair/print.php?id=:id',
                     'target' => 'print',
-<<<<<<< HEAD
                     'title' => '{LNG_Print} {LNG_Repair receipt}',
-=======
-                    'title' => '{LNG_Print}',
->>>>>>> 35a9bc40acb3daaecfda0e8ec2186e40d7a89def
                 ),
                 'status' => array(
                     'class' => 'icon-list button orange notext',
