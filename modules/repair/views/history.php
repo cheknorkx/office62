@@ -109,7 +109,7 @@ class View extends \Gcms\View
                     'class' => 'icon-print button print notext',
                     'href' => WEB_URL.'modules/repair/print.php?id=:id',
                     'target' => 'print',
-                    'title' => '{LNG_Print}',
+                    'title' => '{LNG_Print} {LNG_Repair receipt}',
                 ),
                 array(
                     'class' => 'icon-report button purple notext',
