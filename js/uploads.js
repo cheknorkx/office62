@@ -7,11 +7,11 @@
  * @copyright 2016 Goragod.com
  * @license http://www.kotchasan.com/license/
  */
-(function() {
+(function () {
   "use strict";
   window.GUploads = GClass.create();
   GUploads.prototype = {
-    initialize: function(options) {
+    initialize: function (options) {
       this.options = {
         form: "",
         input: "",
@@ -39,9 +39,9 @@
       input.multiple = this.multiple;
       this.result = $E(this.options.fileprogress);
       var temp = this;
-      var _doUploadChanged = function(e) {
+      var _doUploadChanged = function (e) {
         var index = 0;
-        var doProgress = function(val) {
+        var doProgress = function (val) {
           $E("bar_" + temp.prefix + "_" + index).style.width = val + "%";
         };
         var xhr = new GAjax({
@@ -59,24 +59,24 @@
                 data.append(
                   name,
                   encodeURIComponent(temp.options.customSettings[name])
-                );
+                  );
               }
               data.append("file", f);
               $G("close_" + temp.prefix + "_" + index).remove();
-              xhr.send(temp.form.action, data, function(xhr) {
+              xhr.send(temp.form.action, data, function (xhr) {
                 var ds = xhr.responseText.toJSON();
                 if (ds) {
                   if (ds.alert) {
                     $G("result_" + temp.prefix + "_" + index).addClass(
                       "invalid"
-                    ).innerHTML =
+                      ).innerHTML =
                       ds.alert;
                     temp.error.push(ds.alert);
                   }
                 } else if (xhr.responseText != "") {
                   $G("result_" + temp.prefix + "_" + index).addClass(
                     "invalid"
-                  ).innerHTML =
+                    ).innerHTML =
                     xhr.responseText;
                   temp.error.push(xhr.responseText);
                 } else {
@@ -93,7 +93,7 @@
           }
         }
         if (temp.multiple) {
-          forEach(this.files, function() {
+          forEach(this.files, function () {
             var file = temp._ext(this.name);
             if (temp.options.fileext.indexOf(file.ext) != -1) {
               temp._display(file);
@@ -138,7 +138,7 @@
       input.addEvent("change", _doUploadChanged);
       this.uploading = false;
       this.error = new Array();
-      var _submit = function(forms, index) {
+      var _submit = function (forms, index) {
         var total = 0;
         var id = forms[index].id;
         var result = $E(id.replace("form_", "result_"));
@@ -146,7 +146,7 @@
         result.className = "icon-loading";
         var frm = new GForm(id);
         frm.result = result;
-        frm.submit(function(xhr) {
+        frm.submit(function (xhr) {
           var ds = xhr.responseText.toJSON();
           if (ds) {
             if (ds.alert) {
@@ -170,7 +170,7 @@
           }
         });
       };
-      this.form.addEvent("submit", function(e) {
+      this.form.addEvent("submit", function (e) {
         GEvent.stop(e);
         if (!temp.uploading && temp.index > 0) {
           temp.uploading = true;
@@ -181,10 +181,10 @@
         }
       });
     },
-    cancel: function() {
+    cancel: function () {
       this.uploading = false;
     },
-    _ext: function(name) {
+    _ext: function (name) {
       var obj = new Object();
       var files = name.replace(/\\/g, "/").split("/");
       obj.name = files[files.length - 1];
@@ -192,7 +192,7 @@
       obj.ext = exts[exts.length - 1].toLowerCase();
       return obj;
     },
-    _display: function(file) {
+    _display: function (file) {
       var p = document.createElement("p");
       this.result.appendChild(p);
       p.id = "p_" + this.prefix + "_" + this.index;
@@ -207,7 +207,7 @@
       a.id = "close_" + this.prefix + "_" + this.index;
       p.appendChild(a);
       var temp = this;
-      callClick(a, function() {
+      callClick(a, function () {
         temp._remove(this.id.replace("close_" + temp.prefix + "_", ""));
       });
       var span = document.createElement("span");
@@ -223,7 +223,7 @@
         bar.appendChild(span);
       }
     },
-    _getIcon: function(ext) {
+    _getIcon: function (ext) {
       var icons = new Array(
         "file",
         "aiff",
@@ -271,12 +271,12 @@
         "xml",
         "xvid",
         "zip"
-      );
+        );
       var i = icons.indexOf(ext);
       i = i > 0 ? i : 0;
       return this.options.iconpath + icons[i] + ".png";
     },
-    _remove: function(index) {
+    _remove: function (index) {
       $G("p_" + this.prefix + "_" + index).remove();
       $G("form_" + this.prefix + "_" + index).remove();
       this.count--;
@@ -291,9 +291,9 @@ function initGUploads(form_id, id, model) {
   } else {
     G_Lightbox.clear();
   }
-  var _doDelete = function() {
+  var _doDelete = function () {
     var cs = new Array();
-    forEach(form.elems("a"), function() {
+    forEach(form.elems("a"), function () {
       if (this.className == "icon-check") {
         var hs = patt.exec(this.id);
         cs.push(hs[2]);
@@ -304,22 +304,22 @@ function initGUploads(form_id, id, model) {
     } else if (
       confirm(
         trans("You want to XXX the selected items ?").replace(
-          /XXX/,
-          this.innerHTML
+        /XXX/,
+        this.innerHTML
         )
-      )
-    ) {
+        )
+      ) {
       _action(
         "action=deletep&mid=" +
-          $E("module_id").value +
-          "&aid=" +
-          id +
-          "&id=" +
-          cs.join(",")
-      );
+        $E("module_id").value +
+        "&aid=" +
+        id +
+        "&id=" +
+        cs.join(",")
+        );
     }
   };
-  var _doAction = function() {
+  var _doAction = function () {
     var hs = patt.exec(this.id);
     if (hs[1] == "delete") {
       this.className =
@@ -327,22 +327,22 @@ function initGUploads(form_id, id, model) {
     } else if (
       hs[1] == "cover" &&
       confirm(trans("You want to XXX ?").replace(/XXX/, this.title))
-    ) {
+      ) {
       _action(
         "action=cover&mid=" +
-          $E("module_id").value +
-          "&aid=" +
-          id +
-          "&id=" +
-          hs[2]
-      );
+        $E("module_id").value +
+        "&aid=" +
+        id +
+        "&id=" +
+        hs[2]
+        );
     }
     return false;
   };
   function _action(q) {
     send("index.php/" + model, q, doFormSubmit);
   }
-  forEach(form.elems("a"), function() {
+  forEach(form.elems("a"), function () {
     var hs = patt.exec(this.id);
     if (hs) {
       if (hs[1] == "preview") {
@@ -352,16 +352,16 @@ function initGUploads(form_id, id, model) {
       }
     }
   });
-  var _setSel = function() {
+  var _setSel = function () {
     var chk = this.id == "selectAll" ? "icon-check" : "icon-uncheck";
-    forEach(form.elems("a"), function() {
+    forEach(form.elems("a"), function () {
       var hs = patt.exec(this.id);
       if (hs && hs[1] == "delete") {
         this.className = chk;
       }
     });
   };
-  var galleryUploadResult = function(error, count) {
+  var galleryUploadResult = function (error, count) {
     if (error != "") {
       alert(error);
     }
@@ -379,12 +379,12 @@ function initGUploads(form_id, id, model) {
     input: "fileupload_tmp",
     fileprogress: "fsUploadProgress",
     oncomplete: galleryUploadResult,
-    onupload: function() {
+    onupload: function () {
       $E("btnCancel").disabled = false;
     },
-    customSettings: { albumId: id }
+    customSettings: {albumId: id}
   });
-  callClick("btnCancel", function() {
+  callClick("btnCancel", function () {
     upload.cancel();
   });
   callClick("btnDelete", _doDelete);

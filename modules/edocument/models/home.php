@@ -21,24 +21,25 @@ use Kotchasan\Database\Sql;
  */
 class Model extends \Kotchasan\Model
 {
-    /**
-     * อ่านเอกสารใหม่.
-     *
-     * @return object
-     */
-    public static function getNew($login)
-    {
-        $search = static::createQuery()
-            ->from('edocument_download')
-            ->where(array(
-                array('member_id', $login['id']),
-                array('downloads', 0),
-            ))
-            ->first(Sql::COUNT('id', 'count'));
-        if ($search) {
-            return $search->count;
-        }
 
-        return 0;
+  /**
+   * อ่านเอกสารใหม่.
+   *
+   * @return object
+   */
+  public static function getNew($login)
+  {
+    $search = static::createQuery()
+      ->from('edocument_download')
+      ->where(array(
+        array('member_id', $login['id']),
+        array('downloads', 0),
+      ))
+      ->first(Sql::COUNT('id', 'count'));
+    if ($search) {
+      return $search->count;
     }
+
+    return 0;
+  }
 }

@@ -7,11 +7,11 @@
  * @copyright 2016 Goragod.com
  * @license http://www.kotchasan.com/license/
  */
-(function() {
+(function () {
   "use strict";
   window.Clock = GClass.create();
   Clock.prototype = {
-    initialize: function(id, options) {
+    initialize: function (id, options) {
       this.options = {
         reverse: false,
         onTimer: null
@@ -25,11 +25,11 @@
         this._setDisplay(new Date().format("H:I:S"));
       }
       var temp = this;
-      this.clock = window.setInterval(function() {
+      this.clock = window.setInterval(function () {
         temp._updateTime.call(temp);
       }, 1000);
     },
-    hourOffset: function(val) {
+    hourOffset: function (val) {
       var d = new Date();
       var Second = d.getSeconds();
       var Minute = d.getMinutes();
@@ -38,19 +38,13 @@
       if (Hour >= 24) {
         Hour = 0;
       }
-      this._setDisplay(
-        Hour.toString().leftPad(2, "0") +
-          ":" +
-          Minute.toString().leftPad(2, "0") +
-          ":" +
-          Second.toString().leftPad(2, "0")
-      );
+      this._setDisplay(Hour.toString().leftPad(2, "0") + ":" + Minute.toString().leftPad(2, "0") + ":" + Second.toString().leftPad(2, "0"));
       return this;
     },
-    stop: function() {
+    stop: function () {
       window.clearInterval(this.clock);
     },
-    _updateTime: function() {
+    _updateTime: function () {
       var ds = this._getDisplay().split(":");
       var Hour = floatval(ds[0]);
       var Minute = floatval(ds[1]);
@@ -84,23 +78,18 @@
         }
       }
       this._setDisplay(
-        Hour.toString().leftPad(2, "0") +
-          ":" +
-          Minute.toString().leftPad(2, "0") +
-          ":" +
-          Second.toString().leftPad(2, "0")
-      );
+        Hour.toString().leftPad(2, "0") + ":" + Minute.toString().leftPad(2, "0") + ":" + Second.toString().leftPad(2, "0"));
       if (Object.isFunction(this.options.onTimer)) {
         this.options.onTimer.call(this, Hour, Minute, Second);
       }
     },
-    _getDisplay: function() {
+    _getDisplay: function () {
       if (this.display.value) {
         return this.display.value;
       }
       return this.display.innerHTML;
     },
-    _setDisplay: function(val) {
+    _setDisplay: function (val) {
       if (this.display.value) {
         this.display.value = val;
       } else {

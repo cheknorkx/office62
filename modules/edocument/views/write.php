@@ -22,118 +22,119 @@ use Kotchasan\Text;
  */
 class View extends \Gcms\View
 {
-    /**
-     * ฟอร์มสร้าง/แก้ไข เอกสาร.
-     *
-     * @param object $index
-     * @param array  $login
-     *
-     * @return string
-     */
-    public function render($index, $login)
-    {
-        // form
-        $form = Html::create('form', array(
-            'id' => 'setup_frm',
-            'class' => 'setup_frm',
-            'autocomplete' => 'off',
-            'action' => 'index.php/edocument/model/write/submit',
-            'onsubmit' => 'doFormSubmit',
-            'ajax' => true,
-            'token' => true,
-        ));
-        $fieldset = $form->add('fieldset', array(
-            'title' => '{LNG_Details of} {LNG_Document}',
-        ));
-        // document_no
-        $fieldset->add('text', array(
-            'id' => 'document_no',
-            'labelClass' => 'g-input icon-number',
-            'itemClass' => 'item',
-            'label' => '{LNG_Document number}',
-            'comment' => '{LNG_Registration number of the document}',
-            'maxlength' => 20,
-            'value' => $index->document_no,
-        ));
-        // topic
-        $fieldset->add('text', array(
-            'id' => 'topic',
-            'labelClass' => 'g-input icon-edit',
-            'itemClass' => 'item',
-            'label' => '{LNG_Document title}',
-            'comment' => '{LNG_The name of the document when downloaded. If empty, use the name of the uploaded file. (Thai language available)}',
-            'maxlength' => 255,
-            'value' => $index->topic,
-        ));
-        // file
-        $fieldset->add('file', array(
-            'id' => 'file',
-            'labelClass' => 'g-input icon-upload',
-            'itemClass' => 'item',
-            'label' => '{LNG_Browse file}',
-            'comment' => '{LNG_Upload :type files no larger than :size}',
-            'accept' => self::$cfg->edocument_file_typies,
-        ));
-        // detail
-        $fieldset->add('textarea', array(
-            'id' => 'detail',
-            'labelClass' => 'g-input icon-file',
-            'itemClass' => 'item',
-            'label' => '{LNG_Description}',
-            'comment' => '{LNG_Notes or Additional Notes}',
-            'rows' => 5,
-            'value' => $index->detail,
-        ));
-        $fieldset = $form->add('fieldset', array(
-            'title' => '{LNG_Recipient}',
-        ));
-        // department
-        $fieldset->add('checkboxgroups', array(
-            'id' => 'department',
-            'name' => 'department[]',
-            'labelClass' => 'g-input icon-group',
-            'itemClass' => 'item',
-            'label' => '{LNG_Department}',
-            'comment' => '{LNG_Recipients in the selected department can download the content. (Can select multiple departments)}',
-            'options' => \Index\Category\Model::init()->department(),
-            'value' => $index->department,
-        ));
-        // reciever
-        $fieldset->add('inputgroups', array(
-            'id' => 'reciever',
-            'labelClass' => 'g-input icon-users',
-            'itemClass' => 'item',
-            'label' => '{LNG_Member list}',
-            'comment' => '{LNG_Select the member name you want to send to Can choose many people}',
-            'options' => $index->reciever,
-            'value' => array_keys($index->reciever),
-        ));
-        $fieldset = $form->add('fieldset', array(
-            'class' => 'submit',
-        ));
-        // submit
-        $fieldset->add('submit', array(
-            'class' => 'button ok large',
-            'value' => '{LNG_Save}',
-        ));
-        $fieldset->add('checkbox', array(
-            'id' => 'send_mail',
-            'label' => '&nbsp;{LNG_Send a notification message to the person concerned}',
-            'checked' => self::$cfg->edocument_send_mail && $index->id == 0,
-            'value' => 1,
-        ));
-        // id
-        $fieldset->add('hidden', array(
-            'id' => 'id',
-            'value' => $index->id,
-        ));
-        \Gcms\Controller::$view->setContentsAfter(array(
-            '/:type/' => implode(', ', self::$cfg->edocument_file_typies),
-            '/:size/' => Text::formatFileSize(self::$cfg->edocument_upload_size),
-        ));
-        // Javascript
-        $form->script('initEdocumentWrite();');
 
-        return $form->render();
-    }
+  /**
+   * ฟอร์มสร้าง/แก้ไข เอกสาร.
+   *
+   * @param object $index
+   * @param array  $login
+   *
+   * @return string
+   */
+  public function render($index, $login)
+  {
+    // form
+    $form = Html::create('form', array(
+        'id' => 'setup_frm',
+        'class' => 'setup_frm',
+        'autocomplete' => 'off',
+        'action' => 'index.php/edocument/model/write/submit',
+        'onsubmit' => 'doFormSubmit',
+        'ajax' => true,
+        'token' => true,
+    ));
+    $fieldset = $form->add('fieldset', array(
+      'title' => '{LNG_Details of} {LNG_Document}',
+    ));
+    // document_no
+    $fieldset->add('text', array(
+      'id' => 'document_no',
+      'labelClass' => 'g-input icon-number',
+      'itemClass' => 'item',
+      'label' => '{LNG_Document number}',
+      'comment' => '{LNG_Registration number of the document}',
+      'maxlength' => 20,
+      'value' => $index->document_no,
+    ));
+    // topic
+    $fieldset->add('text', array(
+      'id' => 'topic',
+      'labelClass' => 'g-input icon-edit',
+      'itemClass' => 'item',
+      'label' => '{LNG_Document title}',
+      'comment' => '{LNG_The name of the document when downloaded. If empty, use the name of the uploaded file. (Thai language available)}',
+      'maxlength' => 255,
+      'value' => $index->topic,
+    ));
+    // file
+    $fieldset->add('file', array(
+      'id' => 'file',
+      'labelClass' => 'g-input icon-upload',
+      'itemClass' => 'item',
+      'label' => '{LNG_Browse file}',
+      'comment' => '{LNG_Upload :type files no larger than :size}',
+      'accept' => self::$cfg->edocument_file_typies,
+    ));
+    // detail
+    $fieldset->add('textarea', array(
+      'id' => 'detail',
+      'labelClass' => 'g-input icon-file',
+      'itemClass' => 'item',
+      'label' => '{LNG_Description}',
+      'comment' => '{LNG_Notes or Additional Notes}',
+      'rows' => 5,
+      'value' => $index->detail,
+    ));
+    $fieldset = $form->add('fieldset', array(
+      'title' => '{LNG_Recipient}',
+    ));
+    // department
+    $fieldset->add('checkboxgroups', array(
+      'id' => 'department',
+      'name' => 'department[]',
+      'labelClass' => 'g-input icon-group',
+      'itemClass' => 'item',
+      'label' => '{LNG_Department}',
+      'comment' => '{LNG_Recipients in the selected department can download the content. (Can select multiple departments)}',
+      'options' => \Index\Category\Model::init()->department(),
+      'value' => $index->department,
+    ));
+    // reciever
+    $fieldset->add('inputgroups', array(
+      'id' => 'reciever',
+      'labelClass' => 'g-input icon-users',
+      'itemClass' => 'item',
+      'label' => '{LNG_Member list}',
+      'comment' => '{LNG_Select the member name you want to send to Can choose many people}',
+      'options' => $index->reciever,
+      'value' => array_keys($index->reciever),
+    ));
+    $fieldset = $form->add('fieldset', array(
+      'class' => 'submit',
+    ));
+    // submit
+    $fieldset->add('submit', array(
+      'class' => 'button ok large',
+      'value' => '{LNG_Save}',
+    ));
+    $fieldset->add('checkbox', array(
+      'id' => 'send_mail',
+      'label' => '&nbsp;{LNG_Send a notification message to the person concerned}',
+      'checked' => self::$cfg->edocument_send_mail && $index->id == 0,
+      'value' => 1,
+    ));
+    // id
+    $fieldset->add('hidden', array(
+      'id' => 'id',
+      'value' => $index->id,
+    ));
+    \Gcms\Controller::$view->setContentsAfter(array(
+      '/:type/' => implode(', ', self::$cfg->edocument_file_typies),
+      '/:size/' => Text::formatFileSize(self::$cfg->edocument_upload_size),
+    ));
+    // Javascript
+    $form->script('initEdocumentWrite();');
+
+    return $form->render();
+  }
 }

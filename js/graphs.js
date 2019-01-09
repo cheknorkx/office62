@@ -7,11 +7,11 @@
  * @copyright 2016 Goragod.com
  * @license http://www.kotchasan.com/license/
  */
-(function() {
+(function () {
   "use strict";
   window.GGraphs = GClass.create();
   GGraphs.prototype = {
-    initialize: function(id, o) {
+    initialize: function (id, o) {
       this.graphs = $G(id);
       this.graphs.addClass("ggraphs");
       this.graphs.style.position = "relative";
@@ -74,7 +74,7 @@
       var datas = new Array();
       forEach(
         this.graphs.getElementsByTagName("thead")[0].getElementsByTagName("th"),
-        function(item, index) {
+        function (item, index) {
           if (index > 0) {
             datas.push(item.innerHTML.strip_tags());
           }
@@ -91,13 +91,13 @@
       var rows = new Array();
       forEach(
         this.graphs.getElementsByTagName("tbody")[0].getElementsByTagName("tr"),
-        function() {
+        function () {
           var val,
             datas = new Array(),
             d = new Object(),
             max = 0,
             sum = 0;
-          forEach(this.getElementsByTagName("td"), function() {
+          forEach(this.getElementsByTagName("td"), function () {
             val = new Object();
             if (this.dataset.value) {
               val.value = floatval(this.dataset.value);
@@ -124,34 +124,34 @@
       if (this.max % options.rows) {
         this.max = Math.ceil(this.max / options.rows) * options.rows;
       }
-      var _mouseMove = function(e) {
+      var _mouseMove = function (e) {
         var currItem = null;
         var offset = self.canvas.viewportOffset();
         var pos = GEvent.pointer(e);
         var mouseX = pos.x - offset.left;
         var mouseY = pos.y - offset.top;
         var tootip = new Array();
-        forEach(self.datas.rows, function(rows, row) {
-          forEach(this.items, function(item, index) {
+        forEach(self.datas.rows, function (rows, row) {
+          forEach(this.items, function (item, index) {
             if (
               mouseX >= item.x &&
               mouseX <= item.w &&
               mouseY >= item.y &&
               mouseY <= item.h
-            ) {
+              ) {
               currItem = item;
               if (item.tooltip) {
                 tootip.push(item.tooltip);
               } else {
                 tootip.push(
                   "<b>" +
-                    self.subtitle +
-                    self.datas.labels[index] +
-                    "</b> " +
-                    rows.title +
-                    " " +
-                    item.title
-                );
+                  self.subtitle +
+                  self.datas.labels[index] +
+                  "</b> " +
+                  rows.title +
+                  " " +
+                  item.title
+                  );
               }
               return true;
             }
@@ -183,7 +183,7 @@
       };
       this.loading = true;
       var transparent = /rgba\([0-9a-fA-F,\s]+0\)/;
-      var _change = function() {
+      var _change = function () {
         var val,
           changed = false;
         val = self.getFontSize();
@@ -227,7 +227,8 @@
             } else {
               self.drawVChart();
             }
-          } catch (err) {}
+          } catch (err) {
+          }
         }
         if (self.loading) {
           if (options.type !== "pie" && options.type !== "donut") {
@@ -245,20 +246,20 @@
         this.tooltip.className = "tooltip-bottom";
         this.tooltip.id = "ggraph_tooltip";
         this.tooltip.hide();
-        $G(document.body).addEvent("click", function() {
+        $G(document.body).addEvent("click", function () {
           self.tooltip.hide();
         });
       }
     },
-    drawLine: function() {
+    drawLine: function () {
       this.clear();
       var options = this.options;
       var self = this;
       var context = this.context;
       var offsetRight = Math.ceil(
         context.measureText(this.datas.labels[this.datas.labels.length - 1])
-          .width / 2
-      );
+        .width / 2
+        );
       var label = this.max;
       var labelValue = this.max / options.rows;
       if (labelValue > 1) {
@@ -281,8 +282,8 @@
       b = cellHeight * rows + t;
       var clientHeight = b - t;
       var o = options.lineWidth + 2;
-      forEach(this.datas.rows, function() {
-        forEach(this.items, function(item, index) {
+      forEach(this.datas.rows, function () {
+        forEach(this.items, function (item, index) {
           item.cx = index * cellWidth + l;
           item.cy =
             clientHeight +
@@ -322,7 +323,7 @@
         context.textAlign = "center";
         context.textBaseline = "bottom";
         context.fillStyle = self.fontColor;
-        forEach(self.datas.labels, function(item, index) {
+        forEach(self.datas.labels, function (item, index) {
           if (options.gridHColor && index > 0 && index < cols - 1) {
             context.strokeStyle = options.gridHColor;
             context.beginPath();
@@ -357,8 +358,8 @@
         context.closePath();
         var xp, yp;
         context.lineWidth = Math.max(1, options.lineWidth);
-        forEach(self.datas.rows, function(rows, row) {
-          forEach(rows.items, function(item, index) {
+        forEach(self.datas.rows, function (rows, row) {
+          forEach(rows.items, function (item, index) {
             if (index > 0) {
               context.strokeStyle = options.colors[row % options.colors.length];
               context.beginPath();
@@ -370,7 +371,7 @@
             xp = item.cx;
             yp = item.cy;
           });
-          forEach(this.items, function() {
+          forEach(this.items, function () {
             context.fillStyle = options.colors[row % options.colors.length];
             context.beginPath();
             context.arc(
@@ -380,7 +381,7 @@
               0,
               Math.PI * 2,
               true
-            );
+              );
             context.fill();
             context.fillStyle = self.backgroundColor;
             context.beginPath();
@@ -392,7 +393,7 @@
       }
       drawGraph();
     },
-    drawPie: function() {
+    drawPie: function () {
       this.clear();
       var options = this.options;
       var self = this;
@@ -405,7 +406,7 @@
       var counter = 0.0;
       var chartStartAngle = -0.5 * Math.PI;
       var sum = this.datas.rows[0].total;
-      forEach(this.datas.rows[0].items, function(item, index) {
+      forEach(this.datas.rows[0].items, function (item, index) {
         var fraction = item.value / sum;
         item.startAngle = counter * Math.PI * 2;
         item.endAngle = (counter + fraction) * Math.PI * 2;
@@ -420,10 +421,10 @@
             options.labelOffset;
           var labelX = Math.round(
             centerX + Math.sin(slice.midAngle * Math.PI * 2) * distance
-          );
+            );
           var labelY = Math.round(
             centerY - Math.cos(slice.midAngle * Math.PI * 2) * distance
-          );
+            );
           var c = options.colors[index % options.colors.length];
           context.strokeStyle = c;
           context.beginPath();
@@ -468,7 +469,7 @@
         context.arc(centerX, centerY, radius + 2, 0, Math.PI * 2, false);
         context.fill();
         context.restore();
-        forEach(self.datas.rows[0].items, function(item, index) {
+        forEach(self.datas.rows[0].items, function (item, index) {
           drawSlice(item, index);
         });
         if (options.showTitle) {
@@ -480,7 +481,7 @@
           context.textBaseline = "middle";
           context.lineWidth = 1;
           var offset = self.fontSize / 2;
-          forEach(self.datas.labels, function(item, index) {
+          forEach(self.datas.labels, function (item, index) {
             context.fillStyle = options.colors[index % options.colors.length];
             context.fillRect(x, y, self.fontSize, self.fontSize);
             context.fillStyle = self.fontColor;
@@ -490,7 +491,7 @@
         }
       }
       drawGraph();
-      var _mouseMove = function(e) {
+      var _mouseMove = function (e) {
         var currItem = null;
         var offset = self.canvas.viewportOffset();
         var pos = GEvent.pointer(e);
@@ -500,15 +501,15 @@
         var yFromCenter = mouseY - centerY;
         var distanceFromCenter = Math.sqrt(
           Math.pow(Math.abs(xFromCenter), 2) +
-            Math.pow(Math.abs(yFromCenter), 2)
-        );
+          Math.pow(Math.abs(yFromCenter), 2)
+          );
         if (distanceFromCenter <= radius) {
           var mouseAngle =
             Math.atan2(yFromCenter, xFromCenter) - chartStartAngle;
           if (mouseAngle < 0) {
             mouseAngle = 2 * Math.PI + mouseAngle;
           }
-          forEach(self.datas.rows[0].items, function(item, index) {
+          forEach(self.datas.rows[0].items, function (item, index) {
             if (mouseAngle >= item.startAngle && mouseAngle <= item.endAngle) {
               currItem = item;
               if (item.tooltip) {
@@ -553,7 +554,7 @@
         this.canvas.addEvent("mousemove", _mouseMove);
       }
     },
-    drawDonut: function() {
+    drawDonut: function () {
       this.clear();
       var options = this.options;
       var self = this;
@@ -566,7 +567,7 @@
       var counter = 0.0;
       var chartStartAngle = -0.5 * Math.PI;
       var sum = this.datas.rows[0].total;
-      forEach(this.datas.rows[0].items, function(item, index) {
+      forEach(this.datas.rows[0].items, function (item, index) {
         var fraction = item.value / sum;
         item.startAngle = counter * Math.PI * 2;
         item.endAngle = (counter + fraction) * Math.PI * 2;
@@ -581,10 +582,10 @@
             options.labelOffset;
           var labelX = Math.round(
             centerX + Math.sin(slice.midAngle * Math.PI * 2) * distance
-          );
+            );
           var labelY = Math.round(
             centerY - Math.cos(slice.midAngle * Math.PI * 2) * distance
-          );
+            );
           var c = options.colors[index % options.colors.length];
           context.strokeStyle = c;
           context.beginPath();
@@ -628,7 +629,7 @@
         context.beginPath();
         context.arc(centerX, centerY, radius + 2, 0, Math.PI * 2, false);
         context.fill();
-        forEach(self.datas.rows[0].items, function(item, index) {
+        forEach(self.datas.rows[0].items, function (item, index) {
           drawSlice(item, index);
         });
         context.fillStyle = self.backgroundColor;
@@ -640,7 +641,7 @@
           0,
           Math.PI * 2,
           false
-        );
+          );
         context.fill();
         context.restore();
         if (options.showTitle) {
@@ -652,7 +653,7 @@
           context.textBaseline = "middle";
           context.lineWidth = 1;
           var offset = self.fontSize / 2;
-          forEach(self.datas.labels, function(item, index) {
+          forEach(self.datas.labels, function (item, index) {
             context.fillStyle = options.colors[index % options.colors.length];
             context.fillRect(x, y, self.fontSize, self.fontSize);
             context.fillStyle = self.fontColor;
@@ -662,7 +663,7 @@
         }
       }
       drawGraph();
-      var _mouseMove = function(e) {
+      var _mouseMove = function (e) {
         var currItem = null;
         var offset = self.canvas.viewportOffset();
         var pos = GEvent.pointer(e);
@@ -672,18 +673,18 @@
         var yFromCenter = mouseY - centerY;
         var distanceFromCenter = Math.sqrt(
           Math.pow(Math.abs(xFromCenter), 2) +
-            Math.pow(Math.abs(yFromCenter), 2)
-        );
+          Math.pow(Math.abs(yFromCenter), 2)
+          );
         if (
           distanceFromCenter <= radius &&
           distanceFromCenter > radius - options.ringWidth
-        ) {
+          ) {
           var mouseAngle =
             Math.atan2(yFromCenter, xFromCenter) - chartStartAngle;
           if (mouseAngle < 0) {
             mouseAngle = 2 * Math.PI + mouseAngle;
           }
-          forEach(self.datas.rows[0].items, function(item, index) {
+          forEach(self.datas.rows[0].items, function (item, index) {
             if (mouseAngle >= item.startAngle && mouseAngle <= item.endAngle) {
               currItem = item;
               if (item.tooltip) {
@@ -728,14 +729,14 @@
         this.canvas.addEvent("mousemove", _mouseMove);
       }
     },
-    drawHChart: function() {
+    drawHChart: function () {
       this.clear();
       var options = this.options;
       var self = this;
       var context = this.context;
       var offsetRight = Math.ceil(context.measureText(this.max).width / 2);
       var l = 0;
-      forEach(this.datas.labels, function() {
+      forEach(this.datas.labels, function () {
         l = Math.max(l, self.context.measureText(this).width);
       });
       l = l + 10;
@@ -752,17 +753,17 @@
       var barHeight = Math.max(
         2,
         (cellHeight - 8 - 2 * (this.datas.rows.length + 1)) /
-          this.datas.rows.length
-      );
+        this.datas.rows.length
+        );
       var offsetHeight = t + 6;
-      forEach(self.datas.rows, function() {
-        forEach(this.items, function(item, index) {
+      forEach(self.datas.rows, function () {
+        forEach(this.items, function (item, index) {
           item.x = l;
           item.y = index * cellHeight + offsetHeight;
           item.cw = Math.max(
             3,
             Math.floor((clientWidth * item.value) / self.max)
-          );
+            );
           item.ch = barHeight;
           item.w = item.x + item.cw;
           item.h = item.y + barHeight;
@@ -775,7 +776,7 @@
         context.textBaseline = "middle";
         context.fillStyle = self.fontColor;
         var offset = cellHeight / 2;
-        forEach(self.datas.labels, function(item, index) {
+        forEach(self.datas.labels, function (item, index) {
           context.fillText(item, 0, y + offset);
           if (options.gridVColor && index > 0 && index < rows) {
             context.strokeStyle = options.gridVColor;
@@ -835,8 +836,8 @@
         context.closePath();
         var sw = barHeight < 10 ? 1 : 3;
         var dl = self.datas.rows.length;
-        forEach(self.datas.rows, function(rows, row) {
-          forEach(this.items, function(item, index) {
+        forEach(self.datas.rows, function (rows, row) {
+          forEach(this.items, function (item, index) {
             if (item.cw > sw && item.value > 0) {
               context.fillStyle = options.shadowColor;
               context.fillRect(item.x, item.y, item.cw - sw, item.ch);
@@ -852,15 +853,15 @@
       }
       drawGraph();
     },
-    drawVChart: function() {
+    drawVChart: function () {
       this.clear();
       var options = this.options;
       var self = this;
       var context = this.context;
       var offsetRight = Math.ceil(
         context.measureText(this.datas.labels[this.datas.labels.length - 1])
-          .width / 2
-      );
+        .width / 2
+        );
       var label = this.max;
       var labelValue = this.max / options.rows;
       if (labelValue > 1) {
@@ -885,11 +886,11 @@
       var barWidth = Math.max(
         2,
         (cellWidth - 8 - 2 * (this.datas.rows.length + 1)) /
-          this.datas.rows.length
-      );
+        this.datas.rows.length
+        );
       var offsetWidth = l + 6;
-      forEach(self.datas.rows, function() {
-        forEach(this.items, function(item, index) {
+      forEach(self.datas.rows, function () {
+        forEach(this.items, function (item, index) {
           item.x = index * cellWidth + offsetWidth;
           item.y =
             clientHeight +
@@ -937,7 +938,7 @@
         context.textAlign = "center";
         context.textBaseline = "bottom";
         context.fillStyle = self.fontColor;
-        forEach(self.datas.labels, function(item, index) {
+        forEach(self.datas.labels, function (item, index) {
           if (index < cols) {
             if (options.rotate) {
               var metric = context.measureText(item);
@@ -974,8 +975,8 @@
         context.closePath();
         var sw = barWidth < 10 ? 1 : 3;
         var dl = self.datas.rows.length;
-        forEach(self.datas.rows, function(rows, row) {
-          forEach(this.items, function(item, index) {
+        forEach(self.datas.rows, function (rows, row) {
+          forEach(this.items, function (item, index) {
             if (item.ch > sw && item.value > 0) {
               context.fillStyle = options.shadowColor;
               context.fillRect(item.x, item.y + sw, item.cw, item.ch - sw);
@@ -991,7 +992,7 @@
       }
       drawGraph();
     },
-    clear: function() {
+    clear: function () {
       this.canvas.set("width", this.width);
       this.canvas.set("height", this.height);
       this.context.font =
@@ -999,7 +1000,7 @@
       this.context.fillStyle = this.backgroundColor;
       this.context.fillRect(0, 0, this.width, this.height);
     },
-    drawTitle: function(x, t) {
+    drawTitle: function (x, t) {
       if (this.options.showTitle) {
         var self = this;
         t = t + 10;
@@ -1009,7 +1010,7 @@
         context.textBaseline = "middle";
         context.lineWidth = 1;
         var offset = this.fontSize / 2;
-        forEach(this.datas.rows, function(item, index) {
+        forEach(this.datas.rows, function (item, index) {
           context.fillStyle = self.fontColor;
           context.fillText(item.title, x - 5, t + offset);
           context.fillStyle =
@@ -1019,7 +1020,7 @@
         });
       }
     },
-    getFontSize: function() {
+    getFontSize: function () {
       var div = document.createElement("div");
       var atts = {
         fontSize: "1em",

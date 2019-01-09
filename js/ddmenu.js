@@ -7,17 +7,17 @@
  * @copyright 2016 Goragod.com
  * @license http://www.kotchasan.com/license/
  */
-(function() {
+(function () {
   "use strict";
   var GDDMenus = new Array();
   window.GDDMenu = GClass.create();
   GDDMenu.prototype = {
-    initialize: function(id, onClick) {
+    initialize: function (id, onClick) {
       var menu_id = "toggle-menu-" + GDDMenus.length;
       this.menu = $G(id);
       this.onClick = onClick;
       var self = this;
-      var _toggleMenu = function(val) {
+      var _toggleMenu = function (val) {
         var chk = $E(menu_id);
         if (chk) {
           chk.checked = val;
@@ -47,7 +47,7 @@
               $E("slidemenu_content").parentNode.insertBefore(
                 chk,
                 $E("slidemenu_content")
-              );
+                );
             } else {
               this.menu.parentNode.insertBefore(chk, this.menu);
             }
@@ -56,11 +56,11 @@
           label.className = "toggle-menu";
           label.set("for", menu_id);
           label.tabIndex = 1;
-          label.addEvent("click", function(e) {
+          label.addEvent("click", function (e) {
             _toggleMenu(!chk.checked);
             GEvent.stop(e);
           });
-          label.addEvent("keydown", function(e) {
+          label.addEvent("keydown", function (e) {
             if (GEvent.keyCode(e) == 32) {
               _toggleMenu(!chk.checked);
             }
@@ -72,22 +72,22 @@
         this.menu = ul;
       }
       this.id = "GDDmenu" + GDDMenus.length;
-      var _dofocus = function(e) {
+      var _dofocus = function (e) {
         window.clearTimeout(self.blurTime);
         self.select(this.parentNode, 0, true);
       };
-      var _domouseover = function(e) {
+      var _domouseover = function (e) {
         self.select(this, 0);
         GEvent.stop(e);
       };
-      var _doblur = function(e) {
+      var _doblur = function (e) {
         self.blurItem = this.parentNode;
-        self.blurTime = window.setTimeout(function() {
+        self.blurTime = window.setTimeout(function () {
           self.select(self.blurItem, null, false);
         }, 1);
         GEvent.stop(e);
       };
-      var _domouseout = function(e) {
+      var _domouseout = function (e) {
         this.removeClass("hover focus");
       };
       function initMenu(ul, tab, id) {
@@ -115,7 +115,7 @@
       }
       initMenu(this.menu, 1, this.id);
       this.menu.tabIndex = 0;
-      this.menu.addEvent("keydown", function(e) {
+      this.menu.addEvent("keydown", function (e) {
         var li = $G(GEvent.element(e).parentNode);
         var key = GEvent.keyCode(e);
         if (key == 13) {
@@ -165,12 +165,12 @@
           }
         }
       });
-      this.menu.addEvent("click", function(e) {
+      this.menu.addEvent("click", function (e) {
         var a = GEvent.element(e).parentNode;
         if (
           a.tagName.toLowerCase() == "a" &&
           (a.href != "" || a.parentNode.getElementsByTagName("li").length == 0)
-        ) {
+          ) {
           _toggleMenu(false);
           self.clearSelect();
           if (Object.isFunction(self.onClick)) {
@@ -180,7 +180,7 @@
       });
       GDDMenus.push(this);
     },
-    selectTop: function(li, v, s) {
+    selectTop: function (li, v, s) {
       var m = li;
       while (m && m.tagName.toLowerCase() == "li" && $G(m).hasClass(this.id)) {
         li = m;
@@ -188,12 +188,12 @@
       }
       this.select(li, v, s);
     },
-    clearSelect: function() {
-      forEach(this.menu.getElementsByTagName("li"), function() {
+    clearSelect: function () {
+      forEach(this.menu.getElementsByTagName("li"), function () {
         this.removeClass("hover focus");
       });
     },
-    select: function(m, v, s) {
+    select: function (m, v, s) {
       var n,
         f = m.parentNode.firstChild,
         treeNode = new Array(),
@@ -213,14 +213,14 @@
               n &&
               n.tagName.toLowerCase() == "li" &&
               $G(n).hasClass(this.id)
-            ) {
+              ) {
               treeNode.push(n);
               n = n.parentNode.parentNode;
             }
           }
           f = self.nextNode(f);
         }
-        forEach(this.menu.getElementsByTagName("li"), function() {
+        forEach(this.menu.getElementsByTagName("li"), function () {
           if (treeNode.indexOf(this) > -1) {
             if (this == m) {
               self.currItem = this;
@@ -236,21 +236,21 @@
         });
       }
     },
-    nextNode: function(n) {
+    nextNode: function (n) {
       n = n.nextSibling;
       while (n && n.nodeType == 3) {
         n = n.nextSibling;
       }
       return n;
     },
-    previousNode: function(n) {
+    previousNode: function (n) {
       n = n.previousSibling;
       while (n && n.nodeType == 3) {
         n = n.previousSibling;
       }
       return n;
     },
-    firstNode: function(n) {
+    firstNode: function (n) {
       n = n.firstChild;
       while (n && n.nodeType == 3) {
         n = n.nextSibling;

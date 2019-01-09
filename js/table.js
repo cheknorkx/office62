@@ -7,11 +7,11 @@
  * @copyright 2016 Goragod.com
  * @license http://www.kotchasan.com/license/
  */
-(function() {
+(function () {
   "use strict";
   window.GTable = GClass.create();
   GTable.prototype = {
-    initialize: function(id, o) {
+    initialize: function (id, o) {
       this.options = {
         action: null,
         actionCallback: null,
@@ -62,12 +62,12 @@
         sort_patt = /sort_(none|asc|desc)\s(col_([\w]+))(|\s.*)$/,
         action_patt = /button[\s][a-z]+[\s]action/,
         temp = this;
-      var _doSort = function(e) {
+      var _doSort = function (e) {
         if ((hs = sort_patt.exec(this.className))) {
           var sort = new Array();
           if (GEvent.isCtrlKey(e)) {
             var patt = new RegExp(hs[3] + "[\\s](asc|desc|none)");
-            forEach(temp.sort.split(","), function() {
+            forEach(temp.sort.split(","), function () {
               if (!patt.test(this)) {
                 sort.push(this);
               }
@@ -85,20 +85,20 @@
         }
       };
       if (this.table) {
-        forEach($G(this.table).elems("th"), function() {
+        forEach($G(this.table).elems("th"), function () {
           if (sort_patt.test(this.className)) {
             callClick(this, _doSort);
           }
         });
         this.initTR(this.table);
-        forEach(this.table.elems("tbody"), function() {
+        forEach(this.table.elems("tbody"), function () {
           temp.initTBODY(this, null);
         });
-        var doAction = function() {
+        var doAction = function () {
           var action = "",
             cs = new Array(),
             chk = /check_[0-9]+/;
-          forEach(temp.table.elems("a"), function() {
+          forEach(temp.table.elems("a"), function () {
             if (chk.test(this.id) && $G(this).hasClass("icon-check")) {
               cs.push(this.id.replace("check_", ""));
             }
@@ -114,14 +114,7 @@
             if (Object.isFunction(fn)) {
               action = fn(t, $E(f).value, cs);
             } else {
-              if (
-                confirm(
-                  trans("You want to XXX the selected items ?").replace(
-                    /XXX/,
-                    t
-                  )
-                )
-              ) {
+              if (confirm(trans("You want to XXX the selected items ?").replace(/XXX/, t))) {
                 action = "module=" + f + "&action=" + $E(f).value + "&id=" + cs;
               }
             }
@@ -130,16 +123,16 @@
             }
           }
         };
-        forEach(this.table.elems("label"), function() {
+        forEach(this.table.elems("label"), function () {
           if (action_patt.test(this.className)) {
             callClick(this, doAction);
           }
         });
         if (this.options.dragColumn > -1) {
           new GSortTable(this.table, {
-            endDrag: function() {
+            endDrag: function () {
               var trs = new Array();
-              forEach(temp.table.elems("tr"), function() {
+              forEach(temp.table.elems("tr"), function () {
                 if (this.id) {
                   trs.push(this.id.replace(id + "_", ""));
                 }
@@ -151,28 +144,28 @@
           });
         }
       }
-      forEach(this.table.elems("button"), function() {
+      forEach(this.table.elems("button"), function () {
         if (this.className == "clear_search") {
           temp.clear_search = this;
           temp.input_search = this.parentNode.firstChild.firstChild;
-          callClick(this, function() {
+          callClick(this, function () {
             temp.input_search.value = "";
           });
         } else if (this.id != "") {
-          callClick(this, function() {
+          callClick(this, function () {
             temp._doButton(this);
           });
         }
       });
       if (this.options.action) {
-        window.setTimeout(function() {
+        window.setTimeout(function () {
           if ($E(temp.table)) {
-            forEach(temp.table.elems("tbody"), function() {
+            forEach(temp.table.elems("tbody"), function () {
               forEach(
                 this.querySelectorAll("select,input,textarea"),
-                function() {
+                function () {
                   if (this.id != "") {
-                    $G(this).addEvent("change", function() {
+                    $G(this).addEvent("change", function () {
                       temp._doButton(this);
                     });
                   }
@@ -182,7 +175,7 @@
           }
         }, 1000);
       }
-      var doSearchChanged = function() {
+      var doSearchChanged = function () {
         if (temp.input_search.value == "") {
           temp.clear_search.style.display = "none";
         } else {
@@ -194,18 +187,18 @@
         doSearchChanged.call(temp);
       }
       if (typeof loader !== "undefined") {
-        forEach(this.table.querySelectorAll("form.table_nav"), function() {
-          this.onsubmit = function() {
+        forEach(this.table.querySelectorAll("form.table_nav"), function () {
+          this.onsubmit = function () {
             var urls = this.action.split("?"),
               obj = new Object();
             if (urls[1]) {
-              forEach(urls[1].split("&"), function() {
+              forEach(urls[1].split("&"), function () {
                 var hs = this.split("=");
                 if (hs.length == 2 && hs[1] != "") {
                   obj[hs[0]] = hs[1];
                 }
               });
-              forEach(this.querySelectorAll("input,select"), function() {
+              forEach(this.querySelectorAll("input,select"), function () {
                 obj[this.name] = this.value;
               });
               var q = new Array();
@@ -224,7 +217,7 @@
         });
       }
     },
-    callAction: function(el, action) {
+    callAction: function (el, action) {
       var hs = this.options.action.split("?");
       if (hs[1]) {
         action = hs[1] + "&" + action;
@@ -235,7 +228,7 @@
       }
       var temp = this;
       el.addClass("wait");
-      send(hs[0], action, function(xhr) {
+      send(hs[0], action, function (xhr) {
         el.removeClass("wait");
         if (temp.options.actionCallback) {
           var fn = window[temp.options.actionCallback];
@@ -249,7 +242,7 @@
         }
       });
     },
-    _doButton: function(input) {
+    _doButton: function (input) {
       var action = "",
         patt = /^([a-z_\-]+)_([0-9]+)(_([0-9]+))?$/,
         q = input.get("data-confirm");
@@ -267,9 +260,7 @@
         hs = patt.exec(input.id);
         if (hs) {
           if (hs[1] == "delete" || hs[1] == "cancel") {
-            if (
-              confirm(trans("You want to XXX ?").replace(/XXX/, trans(hs[1])))
-            ) {
+            if (confirm(trans("You want to XXX ?").replace(/XXX/, trans(hs[1])))) {
               action = "action=" + hs[1] + "&id=" + hs[2];
             }
           } else if (hs[4]) {
@@ -285,13 +276,13 @@
         this.callAction(input, action);
       }
     },
-    initTBODY: function(tbody, tr) {
+    initTBODY: function (tbody, tr) {
       var row = 0,
         temp = this;
-      forEach($G(tbody).elems("tr"), function() {
+      forEach($G(tbody).elems("tr"), function () {
         if (temp.options.pmButton) {
           this.id = temp.table.id + "_" + row;
-          forEach($G(this).elems("input"), function() {
+          forEach($G(this).elems("input"), function () {
             this.id = this.name.replace(/([\[\]_]+)/g, "_") + row;
           });
         }
@@ -301,10 +292,10 @@
           }
           if (temp.options.action) {
             var move = /(check|move)_([0-9]+)/;
-            forEach($G(this).elems("a"), function() {
+            forEach($G(this).elems("a"), function () {
               var id = this.id;
               if (id && !move.test(id)) {
-                callClick(this, function() {
+                callClick(this, function () {
                   temp._doButton(this);
                 });
               }
@@ -314,12 +305,12 @@
         row++;
       });
     },
-    initTR: function(el) {
+    initTR: function (el) {
       var hs,
         a_patt = /(delete|icon)[_\-](plus|minus|[0-9]+)/,
         check_patt = /check_([0-9]+)/,
         temp = this;
-      var aClick = function() {
+      var aClick = function () {
         var c = this.className;
         if (c == "icon-plus") {
           var tr = $G(this.parentNode.parentNode.parentNode);
@@ -344,9 +335,7 @@
           if (temp.options.onBeforeDelete) {
             ret = temp.options.onBeforeDelete.call(temp, tr);
           } else if (tbody.elems("tr").length > 1) {
-            ret = confirm(
-              trans("You want to XXX ?").replace(/XXX/, trans("delete"))
-            );
+            ret = confirm(trans("You want to XXX ?").replace(/XXX/, trans("delete")));
           }
           if (ret) {
             if (tbody.elems("tr").length > 1) {
@@ -359,60 +348,50 @@
           }
         } else if ((hs = a_patt.exec(c))) {
           var action = "";
-          if (
-            hs[1] == "delete" &&
-            confirm(trans("You want to XXX ?").replace(/XXX/, trans("delete")))
-          ) {
+          if (hs[1] == "delete" && confirm(trans("You want to XXX ?").replace(/XXX/, trans("delete")))) {
             action = "action=delete&id=" + hs[2];
           }
           if (action != "" && temp.options.action) {
-            send(
-              temp.options.action,
-              action,
-              function(xhr) {
-                var ds = xhr.responseText.toJSON();
-                if (ds) {
-                  if (ds.alert && ds.alert != "") {
-                    alert(ds.alert);
-                  } else if (ds.action) {
-                    if (ds.action == "delete") {
-                      var tr = $G(temp.table.id + "_" + ds.id);
-                      var tbody = tr.parentNode;
-                      tr.remove();
-                      temp.initTBODY(tbody, tr);
-                    }
+            send(temp.options.action, action, function (xhr) {
+              var ds = xhr.responseText.toJSON();
+              if (ds) {
+                if (ds.alert && ds.alert != "") {
+                  alert(ds.alert);
+                } else if (ds.action) {
+                  if (ds.action == "delete") {
+                    var tr = $G(temp.table.id + "_" + ds.id);
+                    var tbody = tr.parentNode;
+                    tr.remove();
+                    temp.initTBODY(tbody, tr);
                   }
-                } else if (xhr.responseText != "") {
-                  alert(xhr.responseText);
                 }
-              },
-              this
-            );
+              } else if (xhr.responseText != "") {
+                alert(xhr.responseText);
+              }
+            }, this);
           }
         }
       };
-      var saClick = function() {
+      var saClick = function () {
         this.focus();
         var chk = this.hasClass("icon-check");
-        forEach(el.elems("a"), function() {
+        forEach(el.elems("a"), function () {
           if (check_patt.test(this.id)) {
             this.className = chk ? "icon-uncheck" : "icon-check";
             this.title = chk ? trans("check") : trans("uncheck");
           } else if (this.hasClass("checkall")) {
-            this.className = chk
-              ? "checkall icon-uncheck"
-              : "checkall icon-check";
+            this.className = chk ? "checkall icon-uncheck" : "checkall icon-check";
             this.title = chk ? trans("select all") : trans("select none");
           }
         });
         return false;
       };
-      var sClick = function() {
+      var sClick = function () {
         this.focus();
         var chk = $G(this).hasClass("icon-check");
         this.className = chk ? "icon-uncheck" : "icon-check";
         this.title = chk ? trans("check") : trans("uncheck");
-        forEach(el.elems("a"), function() {
+        forEach(el.elems("a"), function () {
           if (this.hasClass("checkall")) {
             this.className = "checkall icon-uncheck";
             this.title = trans("select all");
@@ -420,7 +399,7 @@
         });
         return false;
       };
-      forEach($G(el).elems("a"), function() {
+      forEach($G(el).elems("a"), function () {
         if (a_patt.test(this.className)) {
           callClick(this, aClick);
         } else if ($G(this).hasClass("checkall")) {
@@ -432,26 +411,20 @@
         }
       });
     },
-    setSort: function(sort, patt) {
+    setSort: function (sort, patt) {
       var hs;
-      forEach(this.table.elems("th"), function() {
+      forEach(this.table.elems("th"), function () {
         hs = patt.exec(this.className);
         if (hs) {
           if (sort == hs[2]) {
-            this.className = this.className.replace(
-              "sort_" + hs[1],
-              "sort_" + (hs[1] == "asc" ? "desc" : "asc")
-            );
+            this.className = this.className.replace("sort_" + hs[1], "sort_" + (hs[1] == "asc" ? "desc" : "asc"));
           } else {
-            this.className = this.className.replace(
-              "sort_" + hs[1],
-              "sort_none"
-            );
+            this.className = this.className.replace("sort_" + hs[1], "sort_none");
           }
         }
       });
     },
-    redirect: function() {
+    redirect: function () {
       var hs,
         url = "",
         patt = /^(.*)=(.*)$/,
@@ -465,16 +438,11 @@
         url = us1[1];
       }
       if (url != "") {
-        forEach(url.split("&"), function() {
+        forEach(url.split("&"), function () {
           if ((hs = patt.exec(this))) {
             hs[1] = hs[1].toLowerCase();
             hs[2] = hs[2].toLowerCase();
-            if (
-              hs[1] != "page" &&
-              hs[1] != "sort" &&
-              hs[1] != "search" &&
-              !(hs[1] == "action" && (hs[2] == "login" || hs[2] == "logout"))
-            ) {
+            if (hs[1] != "page" && hs[1] != "sort" && hs[1] != "search" && !(hs[1] == "action" && (hs[2] == "login" || hs[2] == "logout"))) {
               urls[hs[1]] = this;
             }
           } else {

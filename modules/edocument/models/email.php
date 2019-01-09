@@ -22,86 +22,87 @@ use Kotchasan\Language;
  */
 class Model extends \Kotchasan\KBase
 {
-    /**
-     * ส่งอีเมล.
-     *
-     * @param string $recievers  ID ผู้รับ
-     * @param string $department แผนกผู้รับ
-     * @param array  $edocument  ข้อมูล
-     */
-    public static function send($recievers, $department, $edocument)
-    {
-        $ret = array();
-        // ข้อความ
-        $msg = array(
-            '{LNG_E-Document}',
-            '{LNG_Document number}: '.$edocument['document_no'],
-            '{LNG_Topic}: '.$edocument['topic'],
-            '{LNG_date}: '.Date::format($edocument['last_update']),
-            '{LNG_A new document has been sent to you. Please check back}',
-            'URL: '.WEB_URL.'index.php?module=edocument-received',
-        );
-        $msg = Language::trans(implode("\n", $msg));
-        // Model
-        $model = new \Kotchasan\Model();
-        // ส่งอีเมลไปยังผู้ทำรายการเสมอ
-        $emails = array();
-        // ส่งอีเมลไปยังผู้ที่เกี่ยว
-        if (!empty(self::$cfg->edocument_send_mail)) {
-            // query อีเมล์ผู้รับ
-            $query = $model->db()->createQuery()
-                ->select('name', 'username')
-                ->from('user');
-            if (!empty($department)) {
-                // ผู้รับในแผนก
-                $query->where(array(
-                    array('status', $department),
-                    array('username', '!=', ''),
-                    array('id', '!=', (int) $login['id']),
-                ));
-            } else {
-                // ผู้รับที่เลือก
-                $query->where(array('id', $recievers));
-            }
-            foreach ($query->execute() as $item) {
-                $emails[$item->username] = $item->username.'<'.$item->name.'>';
-            }
-            if (!empty($emails)) {
-                // ส่งอีเมล
-                $subject = '['.self::$cfg->web_title.'] '.Language::get('There are new documents sent to you');
-                $err = \Kotchasan\Email::send(implode(',', $emails), self::$cfg->noreply_email, $subject, nl2br($msg));
-                if ($err->error()) {
-                    // คืนค่า error
-                    $ret[] = $err->getErrorMessage();
-                }
-            }
-        }
-        // ส่งใลน์
-        if (!empty(self::$cfg->edocument_line_id)) {
-            // บัญชีไลน์ที่ต้องส่ง
-            $lines = array();
-            foreach ($department as $s) {
-                if (!empty(self::$cfg->edocument_line_id[$s])) {
-                    $lines[] = self::$cfg->edocument_line_id[$s];
-                }
-            }
-            if (!empty($lines)) {
-                // อ่าน token
-                $query = $model->db()->createQuery()
-                    ->select('token')
-                    ->from('line')
-                    ->where(array('id', $lines))
-                    ->groupBy('token')
-                    ->cacheOn();
-                foreach ($query->execute() as $item) {
-                    $err = \Gcms\Line::send($msg, $item->token);
-                    if ($err != '') {
-                        $ret['alert'] = $err;
-                    }
-                }
-            }
-        }
 
-        return empty($ret) ? '' : implode("\n", $ret);
+  /**
+   * ส่งอีเมล.
+   *
+   * @param string $recievers  ID ผู้รับ
+   * @param string $department แผนกผู้รับ
+   * @param array  $edocument  ข้อมูล
+   */
+  public static function send($recievers, $department, $edocument)
+  {
+    $ret = array();
+    // ข้อความ
+    $msg = array(
+      '{LNG_E-Document}',
+      '{LNG_Document number}: '.$edocument['document_no'],
+      '{LNG_Topic}: '.$edocument['topic'],
+      '{LNG_date}: '.Date::format($edocument['last_update']),
+      '{LNG_A new document has been sent to you. Please check back}',
+      'URL: '.WEB_URL.'index.php?module=edocument-received',
+    );
+    $msg = Language::trans(implode("\n", $msg));
+    // Model
+    $model = new \Kotchasan\Model();
+    // ส่งอีเมลไปยังผู้ทำรายการเสมอ
+    $emails = array();
+    // ส่งอีเมลไปยังผู้ที่เกี่ยว
+    if (!empty(self::$cfg->edocument_send_mail)) {
+      // query อีเมล์ผู้รับ
+      $query = $model->db()->createQuery()
+        ->select('name', 'username')
+        ->from('user');
+      if (!empty($department)) {
+        // ผู้รับในแผนก
+        $query->where(array(
+          array('status', $department),
+          array('username', '!=', ''),
+          array('id', '!=', (int)$login['id']),
+        ));
+      } else {
+        // ผู้รับที่เลือก
+        $query->where(array('id', $recievers));
+      }
+      foreach ($query->execute() as $item) {
+        $emails[$item->username] = $item->username.'<'.$item->name.'>';
+      }
+      if (!empty($emails)) {
+        // ส่งอีเมล
+        $subject = '['.self::$cfg->web_title.'] '.Language::get('There are new documents sent to you');
+        $err = \Kotchasan\Email::send(implode(',', $emails), self::$cfg->noreply_email, $subject, nl2br($msg));
+        if ($err->error()) {
+          // คืนค่า error
+          $ret[] = $err->getErrorMessage();
+        }
+      }
     }
+    // ส่งใลน์
+    if (!empty(self::$cfg->edocument_line_id)) {
+      // บัญชีไลน์ที่ต้องส่ง
+      $lines = array();
+      foreach ($department as $s) {
+        if (!empty(self::$cfg->edocument_line_id[$s])) {
+          $lines[] = self::$cfg->edocument_line_id[$s];
+        }
+      }
+      if (!empty($lines)) {
+        // อ่าน token
+        $query = $model->db()->createQuery()
+          ->select('token')
+          ->from('line')
+          ->where(array('id', $lines))
+          ->groupBy('token')
+          ->cacheOn();
+        foreach ($query->execute() as $item) {
+          $err = \Gcms\Line::send($msg, $item->token);
+          if ($err != '') {
+            $ret['alert'] = $err;
+          }
+        }
+      }
+    }
+
+    return empty($ret) ? '' : implode("\n", $ret);
+  }
 }

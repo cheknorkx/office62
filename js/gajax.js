@@ -6,21 +6,21 @@
  * @copyright 2018 Goragod.com
  * @license http://www.kotchasan.com/license/
  */
-window.$K = (function() {
+window.$K = (function () {
   "use strict";
   var domloaded = false;
   var $K = {
-    emptyFunction: function() {},
-    resultFunction: function() {
+    emptyFunction: function () {},
+    resultFunction: function () {
       return true;
     },
-    isMobile: function() {
+    isMobile: function () {
       return navigator.userAgent.match(
         /(iPhone|iPod|iPad|Android|webOS|BlackBerry|Windows Phone)/i
-      );
+        );
     },
-    init: function(element) {
-      forEach(element.querySelectorAll("input,textarea"), function(elem) {
+    init: function (element) {
+      forEach(element.querySelectorAll("input,textarea"), function (elem) {
         var tagName = $G(elem).tagName.toLowerCase(),
           type = elem.get("type"),
           type = type ? type.toLowerCase() : "";
@@ -32,7 +32,7 @@ window.$K = (function() {
               type !== "checkbox" &&
               type !== "button" &&
               type !== "submit"))
-        ) {
+          ) {
           var obj = new Object();
           obj.tagName = tagName;
           obj.type = type;
@@ -49,7 +49,7 @@ window.$K = (function() {
           obj.dataset = elem.dataset;
           if (typeof obj.dataset == "undefined") {
             obj.dataset = {};
-            forEach(elem.attributes, function() {
+            forEach(elem.attributes, function () {
               var hs = this.name.match(/^data\-(.+)/);
               if (hs) {
                 obj.dataset[hs[0]] = this.value;
@@ -58,23 +58,23 @@ window.$K = (function() {
           }
           if (obj.tagName == "textarea") {
             if (obj.maxlength > 0 || obj.required || obj.pattern) {
-              var _docheck = function() {
+              var _docheck = function () {
                 if (this.value == "" && obj.required !== null) {
                   this.addClass("required");
                   this.invalid(
                     obj.title !== ""
-                      ? obj.title
-                      : trans("Please fill in") +
-                        (this.placeholder == "" ? "" : " " + this.placeholder)
-                  );
+                    ? obj.title
+                    : trans("Please fill in") +
+                    (this.placeholder == "" ? "" : " " + this.placeholder)
+                    );
                 } else if (
                   this.value != "" &&
                   obj.pattern &&
                   !obj.pattern.test(this.value)
-                ) {
+                  ) {
                   this.invalid(
                     obj.title !== "" ? obj.title : trans("Invalid data")
-                  );
+                    );
                 } else if (obj.required !== null || obj.pattern) {
                   this.reset();
                 }
@@ -107,7 +107,7 @@ window.$K = (function() {
               obj.type == "color" ||
               obj.type == "currency" ||
               obj.type == "time"
-            ) {
+              ) {
               var o = {
                 type: "text",
                 name: elem.name,
@@ -139,7 +139,7 @@ window.$K = (function() {
               text.initObj = true;
               elem.replace(text);
               if (obj.type == "color") {
-                new GDDColor(text, function(c) {
+                new GDDColor(text, function (c) {
                   this.input.style.backgroundColor = c;
                   this.input.style.color = this.invertColor(c);
                   this.input.value = c;
@@ -167,16 +167,16 @@ window.$K = (function() {
                     obj.type == "number" ||
                     obj.type == "tel" ||
                     obj.type == "currency"
-                  ) {
+                    ) {
                     obj.dataset["keyboard"] = "1234567890";
                   }
                 }
                 if (obj.dataset["keyboard"]) {
                   obj.pattern = new RegExp(
                     "^(?:[" + obj.dataset["keyboard"].preg_quote() + "]+)$"
-                  );
+                    );
                   if (obj.type == "currency") {
-                    new GInput(text, obj.dataset["keyboard"], function() {
+                    new GInput(text, obj.dataset["keyboard"], function () {
                       var val = floatval(this.value);
                       if (obj.min) {
                         val = Math.max(obj.min, val);
@@ -210,7 +210,7 @@ window.$K = (function() {
                 elem.style.zIndex = text.style.zIndex + 1;
                 elem.style.height = "100%";
                 elem.style.width = "100%";
-                elem.addEvent("change", function() {
+                elem.addEvent("change", function () {
                   if (this.files) {
                     display.value = this.value;
                     display.callEvent("change", {
@@ -221,12 +221,12 @@ window.$K = (function() {
                     if (preview) {
                       var input = this,
                         max = floatval(input.get("data-max"));
-                      forEach(input.files, function() {
+                      forEach(input.files, function () {
                         if (max > 0 && this.size > max) {
                           input.invalid(input.title);
                         } else if (window.FileReader) {
                           var r = new FileReader();
-                          r.onload = function(evt) {
+                          r.onload = function (evt) {
                             preview.src = evt.target.result;
                             input.valid();
                           };
@@ -243,7 +243,7 @@ window.$K = (function() {
             } else if (obj.type == "inputgroup") {
               new GInputGroup(elem);
             } else if (obj.pattern) {
-              new GMask(text, function() {
+              new GMask(text, function () {
                 return obj.pattern.test(this.value);
               });
             }
@@ -269,7 +269,7 @@ window.$K = (function() {
     }
   };
   if (typeof Array.prototype.indexOf != "function") {
-    Array.prototype.indexOf = function(t, i) {
+    Array.prototype.indexOf = function (t, i) {
       i || (i = 0);
       var l = this.length;
       if (i < 0) {
@@ -284,7 +284,7 @@ window.$K = (function() {
     };
   }
   if (typeof forEach != "function") {
-    window.forEach = function(a, f) {
+    window.forEach = function (a, f) {
       var i,
         l = a.length,
         x = [];
@@ -298,25 +298,25 @@ window.$K = (function() {
       }
     };
   }
-  window.floatval = function(val) {
+  window.floatval = function (val) {
     var n = parseFloat(val);
     return isNaN(n) ? 0 : n;
   };
-  window.round = function(val, digit) {
+  window.round = function (val, digit) {
     var value = Math.round(val * Math.pow(10, digit)) / Math.pow(10, digit);
     if (val - value > 0) {
       return (
         value +
         Math.floor(
           (2 * Math.round((val - value) * Math.pow(10, digit + 1))) / 10
-        ) /
-          Math.pow(10, digit)
-      );
+          ) /
+        Math.pow(10, digit)
+        );
     } else {
       return value;
     }
   };
-  window.copyToClipboard = function(text) {
+  window.copyToClipboard = function (text) {
     function selectElementText(element) {
       if (document.selection) {
         var range = document.body.createTextRange();
@@ -336,21 +336,21 @@ window.$K = (function() {
     document.execCommand("copy");
     element.remove();
   };
-  window.trans = function(val) {
+  window.trans = function (val) {
     try {
       var patt = /^[_]+|[_]+$/g;
       return eval(
         val
-          .replace(/[\s]/g, "_")
-          .replace("?", "")
-          .replace(patt, "")
-          .toUpperCase()
-      );
+        .replace(/[\s]/g, "_")
+        .replace("?", "")
+        .replace(patt, "")
+        .toUpperCase()
+        );
     } catch (e) {
       return val;
     }
   };
-  window.debug = function(val) {
+  window.debug = function (val) {
     var p = document.createElement("p"),
       div = $E("gdebug");
     if (!div) {
@@ -365,23 +365,23 @@ window.$K = (function() {
     div.appendChild(p);
     div.scrollTop = div.scrollHeight;
   };
-  Function.prototype.bind = function(o) {
+  Function.prototype.bind = function (o) {
     var __method = this;
-    return function() {
+    return function () {
       return __method.apply(o, arguments);
     };
   };
-  Date.prototype.fromTime = function(mktime) {
+  Date.prototype.fromTime = function (mktime) {
     return new Date(mktime * 1000);
   };
-  Date.prototype.format = function(fmt) {
+  Date.prototype.format = function (fmt) {
     var result = "";
     for (var i = 0; i < fmt.length; i++) {
       result += this.formatter(fmt.charAt(i));
     }
     return result;
   };
-  Date.prototype.formatter = function(c) {
+  Date.prototype.formatter = function (c) {
     switch (c) {
       case "d":
         return this.getDate()
@@ -425,31 +425,31 @@ window.$K = (function() {
         return c;
     }
   };
-  Date.prototype.tomktime = function() {
+  Date.prototype.tomktime = function () {
     return Math.floor(this.getTime() / 1000);
   };
-  Date.prototype.moveDate = function(value) {
+  Date.prototype.moveDate = function (value) {
     this.setDate(this.getDate() + value);
     return this;
   };
-  Date.prototype.moveMonth = function(value) {
+  Date.prototype.moveMonth = function (value) {
     this.setMonth(this.getMonth() + value);
     return this;
   };
-  Date.prototype.moveYear = function(value) {
+  Date.prototype.moveYear = function (value) {
     this.setFullYear(this.getFullYear() + value);
     return this;
   };
-  Date.prototype.isLeapYear = function() {
+  Date.prototype.isLeapYear = function () {
     var year = this.getFullYear();
     return (year & 3) == 0 && (year % 100 || (year % 400 == 0 && year));
   };
-  Date.prototype.daysInMonth = function() {
+  Date.prototype.daysInMonth = function () {
     var arr = Array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
     arr[1] = this.isLeapYear() ? 29 : 28;
     return arr[this.getMonth()];
   };
-  Date.prototype.dayOfWeek = function() {
+  Date.prototype.dayOfWeek = function () {
     var a = parseInt((14 - this.getMonth()) / 12);
     var y = this.getFullYear() - a;
     var m = this.getMonth() + 12 * a - 2;
@@ -463,7 +463,7 @@ window.$K = (function() {
       7;
     return d;
   };
-  Date.prototype.compare = function(d) {
+  Date.prototype.compare = function (d) {
     var date, month, year;
     if (Object.isString(d)) {
       var ds = d.split("-");
@@ -490,7 +490,7 @@ window.$K = (function() {
       monthStr == 7 ||
       monthStr == 9 ||
       monthStr == 11
-    ) {
+      ) {
       days = 31;
     }
     if (monthStr == 3 || monthStr == 5 || monthStr == 8 || monthStr == 10) {
@@ -570,7 +570,7 @@ window.$K = (function() {
   ];
   Date.dayNames = ["Su.", "Mo.", "We.", "Tu.", "Th.", "Fr.", "Sa."];
   Date.yearOffset = 0;
-  String.prototype.entityify = function() {
+  String.prototype.entityify = function () {
     return this.replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;")
@@ -580,7 +580,7 @@ window.$K = (function() {
       .replace(/\{/g, "&#x007B;")
       .replace(/\}/g, "&#x007D;");
   };
-  String.prototype.unentityify = function() {
+  String.prototype.unentityify = function () {
     return this.replace(/&lt;/g, "<")
       .replace(/&gt;/g, ">")
       .replace(/&quot;/g, '"')
@@ -590,28 +590,28 @@ window.$K = (function() {
       .replace(/&#x007B;/g, "{")
       .replace(/&#x007D;/g, "}");
   };
-  String.prototype.toJSON = function() {
+  String.prototype.toJSON = function () {
     try {
       return JSON.parse(this);
     } catch (e) {
       return false;
     }
   };
-  String.prototype.toInt = function() {
+  String.prototype.toInt = function () {
     return floatval(this);
   };
-  String.prototype.currFormat = function() {
+  String.prototype.currFormat = function () {
     return floatval(this).toFixed(2);
   };
-  String.prototype.preg_quote = function() {
+  String.prototype.preg_quote = function () {
     return this.replace(/([-.*+?^${}()|[\]\/\\])/g, "\\$1");
   };
-  String.prototype.capitalize = function() {
-    return this.replace(/\b[a-z]/g, function(m) {
+  String.prototype.capitalize = function () {
+    return this.replace(/\b[a-z]/g, function (m) {
       return m.toUpperCase();
     });
   };
-  String.prototype.evalScript = function() {
+  String.prototype.evalScript = function () {
     var regex = /<script.*?>(.*?)<\/script>/g;
     var t = this.replace(/[\r\n]/g, "")
       .replace(/\/\/<\!\[CDATA\[/g, "")
@@ -620,39 +620,40 @@ window.$K = (function() {
     while (m) {
       try {
         eval(m[1]);
-      } catch (e) {}
+      } catch (e) {
+      }
       m = regex.exec(t);
     }
     return this;
   };
-  String.prototype.leftPad = function(c, f) {
+  String.prototype.leftPad = function (c, f) {
     var r = "";
     for (var i = 0; i < c - this.length; i++) {
       r = r + f;
     }
     return r + this;
   };
-  String.prototype.trim = function() {
+  String.prototype.trim = function () {
     return this.replace(/^(\s|&nbsp;)+|(\s|&nbsp;)+$/g, "");
   };
-  String.prototype.ltrim = function() {
+  String.prototype.ltrim = function () {
     return this.replace(/^(\s|&nbsp;)+/, "");
   };
-  String.prototype.rtrim = function() {
+  String.prototype.rtrim = function () {
     return this.replace(/(\s|&nbsp;)+$/, "");
   };
-  String.prototype.strip_tags = function(allowed) {
+  String.prototype.strip_tags = function (allowed) {
     allowed = (
       ((allowed || "") + "").toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []
-    ).join("");
+      ).join("");
     var tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi;
     var php = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
-    return this.replace(php, "").replace(tags, function($0, $1) {
+    return this.replace(php, "").replace(tags, function ($0, $1) {
       return allowed.indexOf("<" + $1.toLowerCase() + ">") > -1 ? $0 : "";
     });
   };
-  String.prototype.toDOM = function() {
-    var s = function(a) {
+  String.prototype.toDOM = function () {
+    var s = function (a) {
       return a
         .replace(/&gt;/g, ">")
         .replace(/&lt;/g, "<")
@@ -662,10 +663,10 @@ window.$K = (function() {
         .replace(/&#92;/g, "\\")
         .replace(/&amp;/g, "&");
     };
-    var t = function(a) {
+    var t = function (a) {
       return a.replace(/ /g, "");
     };
-    var u = function(a) {
+    var u = function (a) {
       var b = document.createDocumentFragment();
       var c = a.indexOf(" ");
       if (c == -1) {
@@ -677,7 +678,8 @@ window.$K = (function() {
           try {
             b.appendChild(document.createElement("<" + a + "/>"));
             return b;
-          } catch (e) {}
+          } catch (e) {
+          }
         }
         a = a.substring(c + 1);
         b.appendChild(document.createElement(d));
@@ -704,7 +706,7 @@ window.$K = (function() {
       }
       return b;
     };
-    var v = function(a, b, c) {
+    var v = function (a, b, c) {
       var d = a;
       var e = b;
       c = c.toLowerCase();
@@ -721,7 +723,7 @@ window.$K = (function() {
       }
       return b.length - e.length;
     };
-    var w = function(a) {
+    var w = function (a) {
       var b = document.createDocumentFragment();
       while (a && a.length > 0) {
         var c = a.indexOf("<");
@@ -775,7 +777,7 @@ window.$K = (function() {
     };
     return w(this);
   };
-  String.prototype.toDate = function() {
+  String.prototype.toDate = function () {
     var patt = /(([0-9]{4,4})-([0-9]{1,2})-([0-9]{1,2})|today|tomorrow|yesterday)([\s]{0,}([+-])[\s]{0,}([0-9]+))?/,
       hs = patt.exec(this),
       d;
@@ -800,7 +802,7 @@ window.$K = (function() {
       return null;
     }
   };
-  Number.prototype.format = function(decimals, dec_point, thousands_sep) {
+  Number.prototype.format = function (decimals, dec_point, thousands_sep) {
     decimals = isNaN((decimals = Math.abs(decimals))) ? 2 : decimals;
     dec_point = dec_point == undefined ? "." : dec_point;
     thousands_sep = thousands_sep == undefined ? "," : thousands_sep;
@@ -814,43 +816,43 @@ window.$K = (function() {
       i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands_sep) +
       (decimals
         ? dec_point +
-          Math.abs(n - i)
-            .toFixed(decimals)
-            .slice(2)
+        Math.abs(n - i)
+        .toFixed(decimals)
+        .slice(2)
         : "")
-    );
+      );
   };
   document.viewport = {
-    getWidth: function() {
+    getWidth: function () {
       return (
         document.documentElement.clientWidth ||
         document.body.clientWidth ||
         self.innerWidth
-      );
+        );
     },
-    getHeight: function() {
+    getHeight: function () {
       return (
         document.documentElement.clientHeight ||
         document.body.clientHeight ||
         self.innerHeight
-      );
+        );
     },
-    getscrollTop: function() {
+    getscrollTop: function () {
       return (
         window.pageYOffset ||
         document.documentElement.scrollTop ||
         document.body.scrollTop
-      );
+        );
     },
-    getscrollLeft: function() {
+    getscrollLeft: function () {
       return (
         window.pageXOffset ||
         document.documentElement.scrollLeft ||
         document.body.scrollLeft
-      );
+        );
     }
   };
-  document.css = function(css, id) {
+  document.css = function (css, id) {
     var style = document.createElement("style");
     if (id) {
       style.id = "css_" + id;
@@ -867,34 +869,34 @@ window.$K = (function() {
       document.getElementsByTagName("head")[0].appendChild(style);
     }
   };
-  Object.extend = function(d, s) {
+  Object.extend = function (d, s) {
     for (var property in s) {
       d[property] = s[property];
     }
     return d;
   };
   Object.extend(Object, {
-    isObject: function(o) {
+    isObject: function (o) {
       return typeof o == "object";
     },
-    isFunction: function(o) {
+    isFunction: function (o) {
       return typeof o == "function";
     },
-    isString: function(o) {
+    isString: function (o) {
       return typeof o == "string";
     },
-    isNumber: function(o) {
+    isNumber: function (o) {
       return typeof o == "number";
     },
-    isNull: function(o) {
+    isNull: function (o) {
       return typeof o == "undefined";
     },
-    isGElement: function(o) {
+    isGElement: function (o) {
       return (
         o != null && typeof o == "object" && "Ready" in o && "element" in o
-      );
+        );
     },
-    toArray: function(o) {
+    toArray: function (o) {
       var prop,
         result = [];
       for (prop in o) {
@@ -904,20 +906,20 @@ window.$K = (function() {
     }
   });
   window.GClass = {
-    create: function() {
-      return function() {
+    create: function () {
+      return function () {
         this.initialize.apply(this, arguments);
       };
     }
   };
   window.GNative = GClass.create();
   GNative.prototype = {
-    initialize: function() {
+    initialize: function () {
       this.elem = null;
     },
-    Ready: function(f) {
+    Ready: function (f) {
       var s = this;
-      var p = function() {
+      var p = function () {
         if (domloaded && s.element()) {
           f.call($G(s.elem));
         } else {
@@ -926,7 +928,7 @@ window.$K = (function() {
       };
       p();
     },
-    after: function(e) {
+    after: function (e) {
       var p = this.parentNode;
       if (this.nextSibling == null) {
         p.appendChild(e);
@@ -935,7 +937,7 @@ window.$K = (function() {
       }
       return e;
     },
-    before: function(e) {
+    before: function (e) {
       var p = this.parentNode;
       if (p.firstChild == this) {
         p.appendChild(e);
@@ -944,27 +946,27 @@ window.$K = (function() {
       }
       return e;
     },
-    insert: function(e) {
+    insert: function (e) {
       e = $G(e);
       this.appendChild(e);
       return e;
     },
-    copy: function(o) {
+    copy: function (o) {
       return $G(this.cloneNode(o || true));
     },
-    replace: function(e) {
+    replace: function (e) {
       var p = this.parentNode;
       p.insertBefore(e, this.nextSibling);
       p.removeChild(this);
       return $G(e);
     },
-    remove: function() {
+    remove: function () {
       if (this.element()) {
         this.parentNode.removeChild(this);
       }
       return this;
     },
-    setHTML: function(o) {
+    setHTML: function (o) {
       try {
         this.innerHTML = o;
       } catch (e) {
@@ -975,33 +977,33 @@ window.$K = (function() {
       }
       return this;
     },
-    getTop: function() {
+    getTop: function () {
       return this.viewportOffset().top;
     },
-    getLeft: function() {
+    getLeft: function () {
       return this.viewportOffset().left;
     },
-    getWidth: function() {
+    getWidth: function () {
       return this.getDimensions().width;
     },
-    getHeight: function() {
+    getHeight: function () {
       return this.getDimensions().height;
     },
-    getClientWidth: function() {
+    getClientWidth: function () {
       return (
         this.clientWidth -
         parseInt(this.getStyle("paddingLeft")) -
         parseInt(this.getStyle("paddingRight"))
-      );
+        );
     },
-    getClientHeight: function() {
+    getClientHeight: function () {
       return (
         this.clientHeight -
         parseInt(this.getStyle("paddingTop")) -
         parseInt(this.getStyle("paddingBottom"))
-      );
+        );
     },
-    viewportOffset: function() {
+    viewportOffset: function () {
       var t = 0,
         l = 0,
         p = this;
@@ -1011,42 +1013,42 @@ window.$K = (function() {
         p = p.offsetParent;
       }
       if (this.getBoundingClientRect) {
-        return { top: t, left: this.getBoundingClientRect().left };
+        return {top: t, left: this.getBoundingClientRect().left};
       } else {
-        return { top: t, left: l };
+        return {top: t, left: l};
       }
     },
-    getDimensions: function() {
+    getDimensions: function () {
       var ow, oh;
       if (this == document) {
         ow = Math.max(
           Math.max(
             document.body.scrollWidth,
             document.documentElement.scrollWidth
-          ),
+            ),
           Math.max(
             document.body.offsetWidth,
             document.documentElement.offsetWidth
-          ),
+            ),
           Math.max(
             document.body.clientWidth,
             document.documentElement.clientWidth
-          )
-        );
+            )
+          );
         oh = Math.max(
           Math.max(
             document.body.scrollHeight,
             document.documentElement.scrollHeight
-          ),
+            ),
           Math.max(
             document.body.offsetHeight,
             document.documentElement.offsetHeight
-          ),
+            ),
           Math.max(
             document.body.clientHeight,
             document.documentElement.clientHeight
-          )
-        );
+            )
+          );
       } else {
         var d = this.getStyle("display");
         if (d != "none" && d !== null) {
@@ -1067,9 +1069,9 @@ window.$K = (function() {
           s.visibility = ov;
         }
       }
-      return { width: ow, height: oh };
+      return {width: ow, height: oh};
     },
-    getOffsetParent: function() {
+    getOffsetParent: function () {
       var e = this.offsetParent;
       if (!e) {
         e = this.parentNode;
@@ -1079,18 +1081,18 @@ window.$K = (function() {
       }
       return GElement(e);
     },
-    getCaretPosition: function() {
+    getCaretPosition: function () {
       if (document.selection) {
         var range = document.selection.createRange(),
           textLength = range.text.length;
         range.moveStart("character", -this.value.length);
         var caretAt = range.text.length;
-        return { start: caretAt, end: caretAt + textLength };
+        return {start: caretAt, end: caretAt + textLength};
       } else if (this.selectionStart || this.selectionStart == "0") {
-        return { start: this.selectionStart, end: this.selectionEnd };
+        return {start: this.selectionStart, end: this.selectionEnd};
       }
     },
-    setCaretPosition: function(start, length) {
+    setCaretPosition: function (start, length) {
       if (this.setSelectionRange) {
         this.focus();
         this.setSelectionRange(start, start + length);
@@ -1103,23 +1105,23 @@ window.$K = (function() {
       }
       return this;
     },
-    getStyle: function(s) {
+    getStyle: function (s) {
       s = s == "float" && this.currentStyle ? "styleFloat" : s;
       s = s == "borderColor" ? "borderBottomColor" : s;
       var v = this.currentStyle ? this.currentStyle[s] : null;
       v =
         !v && window.getComputedStyle
-          ? document.defaultView
-              .getComputedStyle(this, null)
-              .getPropertyValue(s.replace(/([A-Z])/g, "-$1").toLowerCase())
-          : v;
+        ? document.defaultView
+        .getComputedStyle(this, null)
+        .getPropertyValue(s.replace(/([A-Z])/g, "-$1").toLowerCase())
+        : v;
       if (s == "opacity") {
         return Object.isNull(v) ? 100 : floatval(v) * 100;
       } else {
         return v;
       }
     },
-    setStyle: function(p, v) {
+    setStyle: function (p, v) {
       if (p == "opacity") {
         if (window.ActiveXObject) {
           this.style.filter = "alpha(opacity=" + v * 100 + ")";
@@ -1134,7 +1136,7 @@ window.$K = (function() {
       } else if (
         p == "backgroundColor" &&
         this.tagName.toLowerCase() == "iframe"
-      ) {
+        ) {
         if (document.all) {
           this.contentWindow.document.bgColor = v;
         } else {
@@ -1150,7 +1152,7 @@ window.$K = (function() {
       }
       return this;
     },
-    center: function() {
+    center: function () {
       var size = this.getDimensions();
       if (this.getStyle("position") == "fixed") {
         this.style.top =
@@ -1169,20 +1171,21 @@ window.$K = (function() {
       }
       return this;
     },
-    get: function(p) {
+    get: function (p) {
       try {
         return this.getAttribute(p);
       } catch (e) {
         return null;
       }
     },
-    set: function(p, v) {
+    set: function (p, v) {
       try {
         this.setAttribute(p, v);
-      } catch (e) {}
+      } catch (e) {
+      }
       return this;
     },
-    hasClass: function(v) {
+    hasClass: function (v) {
       var vs = v.split(" ");
       var cs = this.className.split(" ");
       for (var c = 0; c < cs.length; c++) {
@@ -1194,13 +1197,13 @@ window.$K = (function() {
       }
       return false;
     },
-    addClass: function(v) {
+    addClass: function (v) {
       if (!v) {
         this.className = "";
       } else {
         var rm = v.split(" ");
         var cs = [];
-        forEach(this.className.split(" "), function(c) {
+        forEach(this.className.split(" "), function (c) {
           if (c !== "" && rm.indexOf(c) == -1) {
             cs.push(c);
           }
@@ -1210,11 +1213,11 @@ window.$K = (function() {
       }
       return this;
     },
-    removeClass: function(v) {
+    removeClass: function (v) {
       if (!Object.isNull(this.className)) {
         var rm = v.split(" ");
         var cs = [];
-        forEach(this.className.split(" "), function(c) {
+        forEach(this.className.split(" "), function (c) {
           if (c !== "" && rm.indexOf(c) == -1) {
             cs.push(c);
           }
@@ -1223,11 +1226,11 @@ window.$K = (function() {
       }
       return this;
     },
-    replaceClass: function(source, replace) {
+    replaceClass: function (source, replace) {
       if (!Object.isNull(this.className)) {
         var rm = (replace + " " + source).split(" ");
         var cs = [];
-        forEach(this.className.split(" "), function(c) {
+        forEach(this.className.split(" "), function (c) {
           if (c !== "" && rm.indexOf(c) == -1) {
             cs.push(c);
           }
@@ -1237,21 +1240,21 @@ window.$K = (function() {
       }
       return this;
     },
-    hide: function() {
+    hide: function () {
       this.display = this.getStyle("display");
       this.setStyle("display", "none");
       return this;
     },
-    show: function() {
+    show: function () {
       if (this.getStyle("display") == "none") {
         this.setStyle("display", "block");
       }
       return this;
     },
-    visible: function() {
+    visible: function () {
       return this.getStyle("display") != "none";
     },
-    toggle: function() {
+    toggle: function () {
       if (this.visible()) {
         this.hide();
       } else {
@@ -1259,34 +1262,34 @@ window.$K = (function() {
       }
       return this;
     },
-    nextNode: function() {
+    nextNode: function () {
       var n = this;
       do {
         n = n.nextSibling;
       } while (n && n.nodeType != 1);
       return n;
     },
-    previousNode: function() {
+    previousNode: function () {
       var p = this;
       do {
         p = p.previousSibling;
       } while (p && p.nodeType != 1);
       return p;
     },
-    firstNode: function() {
+    firstNode: function () {
       var p = this.firstChild;
       do {
         p = p.nextSibling;
       } while (p && p.nodeType != 1);
       return p;
     },
-    nextTab: function() {
+    nextTab: function () {
       var tag,
         result,
         self = this,
         check = null;
-      forEach(document.forms, function() {
-        return forEach(this.getElementsByTagName("*"), function() {
+      forEach(document.forms, function () {
+        return forEach(this.getElementsByTagName("*"), function () {
           if (this == self.elem) {
             check = this;
           } else if (check != null) {
@@ -1295,7 +1298,7 @@ window.$K = (function() {
               this.disabled != true &&
               this.style.display != "none" &&
               this.offsetParent != null
-            ) {
+              ) {
               result = this;
               return true;
             }
@@ -1304,10 +1307,10 @@ window.$K = (function() {
       });
       return result;
     },
-    sendKey: function(keyCode) {
-      return this.callEvent("keypress", { keyCode: keyCode });
+    sendKey: function (keyCode) {
+      return this.callEvent("keypress", {keyCode: keyCode});
     },
-    callEvent: function(t, params) {
+    callEvent: function (t, params) {
       var evt;
       if (document.createEvent) {
         evt = document.createEvent("Events");
@@ -1325,17 +1328,17 @@ window.$K = (function() {
       }
       return this;
     },
-    addEvent: function(t, f, c) {
+    addEvent: function (t, f, c) {
       var ts = t.split(" "),
         input = this;
-      forEach(ts, function(e) {
+      forEach(ts, function (e) {
         if (input.addEventListener) {
           c = !c ? false : c;
           input.addEventListener(e, f, c);
         } else if (input.attachEvent) {
           tmp = input;
           tmp["e" + e + f] = f;
-          tmp[e + f] = function() {
+          tmp[e + f] = function () {
             tmp["e" + e + f](window.event);
           };
           tmp.attachEvent("on" + e, tmp[e + f]);
@@ -1343,13 +1346,13 @@ window.$K = (function() {
       });
       return this;
     },
-    removeEvent: function(t, f) {
+    removeEvent: function (t, f) {
       if (this.removeEventListener) {
         this.removeEventListener(
           t == "mousewheel" && window.gecko ? "DOMMouseScroll" : t,
           f,
           false
-        );
+          );
       } else if (this.detachEvent) {
         var tmp = this;
         tmp.detachEvent("on" + t, tmp[t + f]);
@@ -1358,18 +1361,18 @@ window.$K = (function() {
       }
       return this;
     },
-    highlight: function(o) {
+    highlight: function (o) {
       this.addClass("highlight");
       var self = this;
-      window.setTimeout(function() {
+      window.setTimeout(function () {
         self.removeClass("highlight");
       }, 1);
       return this;
     },
-    fadeIn: function(oncomplete) {
+    fadeIn: function (oncomplete) {
       this.addClass("fadein");
       var self = this;
-      window.setTimeout(function() {
+      window.setTimeout(function () {
         self.removeClass("fadein");
         if (Object.isFunction(oncomplete)) {
           oncomplete.call(this);
@@ -1377,10 +1380,10 @@ window.$K = (function() {
       }, 1000);
       return this;
     },
-    fadeOut: function(oncomplete) {
+    fadeOut: function (oncomplete) {
       this.addClass("fadeout");
       var self = this;
-      window.setTimeout(function() {
+      window.setTimeout(function () {
         self.removeClass("fadeout");
         if (Object.isFunction(oncomplete)) {
           oncomplete.call(this);
@@ -1388,7 +1391,7 @@ window.$K = (function() {
       }, 1000);
       return this;
     },
-    setValue: function(v) {
+    setValue: function (v) {
       function _find(e, a) {
         var s = e.getElementsByTagName("option");
         for (var i = 0; i < s.length; i++) {
@@ -1417,7 +1420,7 @@ window.$K = (function() {
       }
       return this;
     },
-    getText: function() {
+    getText: function () {
       if (!Object.isNull(this.elem.selectedIndex)) {
         if (this.elem.selectedIndex == -1) {
           return null;
@@ -1428,7 +1431,7 @@ window.$K = (function() {
       }
       return this.elem.value;
     },
-    setOptions: function(json, value) {
+    setOptions: function (json, value) {
       if (this.tagName.toLowerCase() == "select") {
         for (var i = this.options.length; i > 0; i--) {
           this.removeChild(this.options[i - 1]);
@@ -1450,7 +1453,7 @@ window.$K = (function() {
         this.selectedIndex = selectedIndex;
       }
     },
-    getSelectedText: function() {
+    getSelectedText: function () {
       var text = "";
       if (this.selectionStart) {
         if (this.selectionStart != this.selectionEnd) {
@@ -1464,7 +1467,7 @@ window.$K = (function() {
       }
       return text;
     },
-    setSelectedText: function(value) {
+    setSelectedText: function (value) {
       if (this.selectionStart) {
         if (this.selectionStart != this.selectionEnd) {
           this.value =
@@ -1480,10 +1483,10 @@ window.$K = (function() {
       }
       return this;
     },
-    findLabel: function() {
+    findLabel: function () {
       var result = null,
         id = this.id;
-      forEach(document.getElementsByTagName("label"), function() {
+      forEach(document.getElementsByTagName("label"), function () {
         if (this.htmlFor != "" && this.htmlFor == id) {
           result = this;
           return true;
@@ -1491,15 +1494,15 @@ window.$K = (function() {
       });
       return result;
     },
-    element: function() {
+    element: function () {
       return Object.isString(this.elem)
         ? document.getElementById(this.elem)
         : this.elem;
     },
-    elems: function(tagname) {
+    elems: function (tagname) {
       return this.getElementsByTagName(tagname);
     },
-    create: function(tagname, o) {
+    create: function (tagname, o) {
       var v;
       if (tagname == "iframe" || tagname == "input") {
         var n = o.name || o.id || "";
@@ -1509,17 +1512,17 @@ window.$K = (function() {
             if (tagname == "iframe") {
               v = document.createElement(
                 '<iframe id="' + i + '" name="' + n + '" scrolling="no" />'
-              );
+                );
             } else {
               v = document.createElement(
                 '<input id="' +
-                  i +
-                  '" name="' +
-                  n +
-                  '" type="' +
-                  o.type +
-                  '" />'
-              );
+                i +
+                '" name="' +
+                n +
+                '" type="' +
+                o.type +
+                '" />'
+                );
             }
           } catch (e) {
             v = document.createElement(tagname);
@@ -1542,25 +1545,25 @@ window.$K = (function() {
       }
       return $G(v);
     },
-    hideTooltip: function() {
+    hideTooltip: function () {
       if (this.tooltip) {
         this.tooltip.hide();
         this.tooltipShow = false;
       }
       return this;
     },
-    showTooltip: function(value) {
+    showTooltip: function (value) {
       if (!this.tooltip) {
         this.tooltip = new GTooltip({
           id: "GElelment_Tooltip_" + this.id,
           autohide: false
         });
         var self = this;
-        this.addEvent("blur", function() {
+        this.addEvent("blur", function () {
           self.tooltip.hide();
           self.tooltipShow = true;
         });
-        this.addEvent("focus", function() {
+        this.addEvent("focus", function () {
           if (self.tooltipShow) {
             self.tooltip.show(this, self.tooltip.value);
           }
@@ -1569,7 +1572,7 @@ window.$K = (function() {
       this.tooltip.show(this, value);
       return this;
     },
-    msgBox: function(value, className, autohide) {
+    msgBox: function (value, className, autohide) {
       var parent,
         tag = this.tagName.toLowerCase();
       if (tag == "body") {
@@ -1599,21 +1602,21 @@ window.$K = (function() {
           innerDiv.innerHTML = value;
           parent.appendChild(div);
         }
-        forEach(parent.getElementsByClassName("closebtn"), function() {
+        forEach(parent.getElementsByClassName("closebtn"), function () {
           if (this.onclick === null) {
             var span = this;
-            span.onclick = function() {
+            span.onclick = function () {
               var parent = this.parentNode;
               parent.style.opacity = "0";
               if (this.timer) {
                 clearTimeout(this.timer);
               }
-              setTimeout(function() {
+              setTimeout(function () {
                 parent.remove();
               }, 600);
             };
             if (typeof autohide === "undefined" || autohide === true) {
-              span.timer = setTimeout(function() {
+              span.timer = setTimeout(function () {
                 span.click();
               }, 3000);
             }
@@ -1621,7 +1624,7 @@ window.$K = (function() {
         });
       }
     },
-    valid: function(className) {
+    valid: function (className) {
       if (this.ret) {
         if (this.ret.hasClass("validationResult")) {
           this.ret.remove();
@@ -1634,17 +1637,17 @@ window.$K = (function() {
       this.replaceClass(
         "invalid wait",
         "valid" + (className ? " " + className : "")
-      );
+        );
       return this;
     },
-    invalid: function(value, className) {
+    invalid: function (value, className) {
       if (!this.ret) {
         if (
           typeof this.dataset !== "undefined" &&
           typeof this.dataset.result === "string" &&
           this.dataset.result !== "" &&
           $E(this.dataset.result)
-        ) {
+          ) {
           this.ret = $G(this.dataset.result);
         } else {
           var id = this.id || this.name;
@@ -1663,12 +1666,12 @@ window.$K = (function() {
         this.ret.replaceClass(
           "valid",
           "invalid" + (className ? " " + className : "")
-        );
+          );
       }
       this.replaceClass("valid wait", "invalid");
       return this;
     },
-    reset: function() {
+    reset: function () {
       if (this.ret) {
         if (this.ret.hasClass("validationResult")) {
           this.ret.remove();
@@ -1681,7 +1684,7 @@ window.$K = (function() {
       this.replaceClass("invalid valid wait required", "");
       return this;
     },
-    init: function(e) {
+    init: function (e) {
       this.elem = e;
       var elem = this.element();
       if (!elem) {
@@ -1707,7 +1710,7 @@ window.$K = (function() {
   };
   window.GAjax = GClass.create();
   GAjax.prototype = {
-    initialize: function(options) {
+    initialize: function (options) {
       this.options = {
         method: "post",
         cache: false,
@@ -1727,7 +1730,7 @@ window.$K = (function() {
       this.options.method = this.options.method.toLowerCase();
       this.loader = null;
     },
-    xhr: function() {
+    xhr: function () {
       var xmlHttp = null;
       try {
         xmlHttp = new XMLHttpRequest();
@@ -1740,7 +1743,7 @@ window.$K = (function() {
       }
       return xmlHttp;
     },
-    send: function(url, parameters, callback) {
+    send: function (url, parameters, callback) {
       var self = this;
       this._xhr = this.xhr();
       this._abort = false;
@@ -1764,13 +1767,13 @@ window.$K = (function() {
             this._xhr.setRequestHeader(
               "Content-Type",
               option.contentType + "; charset=" + option.encoding
-            );
+              );
           }
         }
         if (option.timeout > 0) {
           this.calltimeout = window.setTimeout(_calltimeout, option.timeout);
         }
-        this._xhr.onreadystatechange = function() {
+        this._xhr.onreadystatechange = function () {
           if (self._xhr.readyState == 4) {
             self.hideLoading();
             window.clearTimeout(self.calltimeout);
@@ -1778,7 +1781,7 @@ window.$K = (function() {
               self._xhr.status == 200 &&
               !self._abort &&
               Object.isFunction(callback)
-            ) {
+              ) {
               self.responseText = self._xhr.responseText;
               self.responseXML = self._xhr.responseXML;
               callback(self);
@@ -1788,11 +1791,11 @@ window.$K = (function() {
           }
         };
         if (this._xhr.upload) {
-          $G(this._xhr.upload).addEvent("progress", function(e) {
+          $G(this._xhr.upload).addEvent("progress", function (e) {
             option.onProgress.call(e, Math.ceil((100 * e.loaded) / e.total));
           });
         }
-        var _calltimeout = function() {
+        var _calltimeout = function () {
           window.clearTimeout(self.calltimeout);
           self.hideLoading();
           option.onTimeout.bind(self);
@@ -1807,7 +1810,7 @@ window.$K = (function() {
       }
       return this;
     },
-    autoupdate: function(url, interval, getRequest, callback) {
+    autoupdate: function (url, interval, getRequest, callback) {
       this._xhr = this.xhr();
       this.interval = interval * 1000;
       if (!Object.isNull(this._xhr)) {
@@ -1819,7 +1822,7 @@ window.$K = (function() {
       }
       return this;
     },
-    _getupdate: function() {
+    _getupdate: function () {
       if (this._abort == false) {
         var parameters = null;
         var url = this.url;
@@ -1847,12 +1850,12 @@ window.$K = (function() {
             xhr.setRequestHeader(
               "Content-Type",
               option.contentType + "; charset=" + option.encoding
-            );
+              );
           }
         }
         temp.showLoading();
         xhr.send(parameters);
-        xhr.onreadystatechange = function() {
+        xhr.onreadystatechange = function () {
           if (xhr.readyState == 4 && xhr.status == 200) {
             temp.hideLoading();
             if (temp.callback) {
@@ -1862,30 +1865,30 @@ window.$K = (function() {
             _nextupdate();
           }
         };
-        var _nextupdate = function() {
+        var _nextupdate = function () {
           temp.timeinterval = window.setTimeout(
             temp._getupdate.bind(temp),
             temp.interval
-          );
+            );
         };
-        this.calltimeout = window.setTimeout(function() {
+        this.calltimeout = window.setTimeout(function () {
           window.clearTimeout(temp.timeinterval);
           xhr.abort();
           _nextupdate();
         }, this.interval);
       }
     },
-    getRequestBody: function(pForm) {
+    getRequestBody: function (pForm) {
       pForm = $E(pForm);
       var nParams = [];
-      forEach(pForm.getElementsByTagName("*"), function() {
+      forEach(pForm.getElementsByTagName("*"), function () {
         var t = this.tagName.toLowerCase();
         if (t == "input") {
           if (
             (this.checked == true && this.type == "radio") ||
             (this.checked == true && this.type == "checkbox") ||
             (this.type != "radio" && this.type != "checkbox")
-          ) {
+            ) {
             nParams.push(this.name + "=" + this.value);
           }
         } else if (t == "select") {
@@ -1896,7 +1899,7 @@ window.$K = (function() {
       });
       return nParams.join("&");
     },
-    showLoading: function() {
+    showLoading: function () {
       if (this.loading) {
         if (this.loading == "wait" && this.center == false) {
           if (this.loader == null) {
@@ -1913,7 +1916,7 @@ window.$K = (function() {
       }
       return this;
     },
-    hideLoading: function() {
+    hideLoading: function () {
       if (this.loading) {
         if (this.loader) {
           this.loader.hide();
@@ -1923,7 +1926,7 @@ window.$K = (function() {
       }
       return this;
     },
-    initLoading: function(loading, center, c) {
+    initLoading: function (loading, center, c) {
       this.loading = loading;
       this.center = center;
       if (c) {
@@ -1931,7 +1934,7 @@ window.$K = (function() {
       }
       return this;
     },
-    abort: function() {
+    abort: function () {
       clearTimeout(this.timeinterval);
       this._abort = true;
       return this;
@@ -1940,7 +1943,7 @@ window.$K = (function() {
   var gform_id = 0;
   window.GForm = GClass.create();
   GForm.prototype = {
-    initialize: function(frm, frmaction, loading, center, onbeforesubmit) {
+    initialize: function (frm, frmaction, loading, center, onbeforesubmit) {
       frm = $G(frm);
       if (frmaction) {
         frm.set("action", frmaction);
@@ -1953,11 +1956,11 @@ window.$K = (function() {
         ? onbeforesubmit
         : $K.resultFunction;
       var self = this;
-      frm.onsubmit = function() {
+      frm.onsubmit = function () {
         var loading = true;
         var ret = true;
         if (self.onbeforesubmit.call(this)) {
-          forEach(this.querySelectorAll("input,textarea"), function(elem) {
+          forEach(this.querySelectorAll("input,textarea"), function (elem) {
             if (elem.srcObj) {
               var title = elem.srcObj.title,
                 val = elem.value;
@@ -1965,9 +1968,9 @@ window.$K = (function() {
                 title = (title !== ""
                   ? trans("Please fill in") + " " + title
                   : elem.placeholder == ""
-                    ? ""
-                    : elem.placeholder
-                ).strip_tags();
+                  ? ""
+                  : elem.placeholder
+                  ).strip_tags();
                 alert(title);
                 elem
                   .addClass("required")
@@ -1979,13 +1982,13 @@ window.$K = (function() {
                 elem.srcObj.pattern &&
                 val !== "" &&
                 !elem.srcObj.pattern.test(val)
-              ) {
+                ) {
                 title = (title !== ""
                   ? trans("Invalid data") + " " + title
                   : elem.placeholder == ""
-                    ? ""
-                    : elem.placeholder
-                ).strip_tags();
+                  ? ""
+                  : elem.placeholder
+                  ).strip_tags();
                 elem.invalid(title);
                 alert(title);
                 elem.highlight().focus();
@@ -1999,7 +2002,7 @@ window.$K = (function() {
           });
           if (ret && Object.isFunction(self.callback)) {
             self.showLoading();
-            var uploadCallback = function() {
+            var uploadCallback = function () {
               if (!loading) {
                 try {
                   self.responseText = io.contentWindow.document.body
@@ -2008,7 +2011,8 @@ window.$K = (function() {
                   self.responseXML = io.contentWindow.document.XMLDocument
                     ? io.contentWindow.document.XMLDocument
                     : io.contentWindow.document;
-                } catch (e) {}
+                } catch (e) {
+                }
                 self.hideLoading();
                 self.form.method = old_method;
                 self.form.target = old_target;
@@ -2017,11 +2021,11 @@ window.$K = (function() {
                 } else {
                   self.form.enctype = old_enctype;
                 }
-                window.setTimeout(function() {
+                window.setTimeout(function () {
                   io.removeEvent("load", uploadCallback);
                   io.remove();
                 }, 1);
-                window.setTimeout(function() {
+                window.setTimeout(function () {
                   self.callback(self);
                 }, 1);
               }
@@ -2038,7 +2042,7 @@ window.$K = (function() {
             }
             this.target = io.id;
             this.method = "post";
-            window.setTimeout(function() {
+            window.setTimeout(function () {
               loading = false;
               frm.submit();
             }, 1);
@@ -2053,15 +2057,15 @@ window.$K = (function() {
       this.form = frm;
       $K.init(frm);
     },
-    onsubmit: function(callback) {
+    onsubmit: function (callback) {
       this.callback = callback;
       return this;
     },
-    submit: function(callback) {
+    submit: function (callback) {
       var loading = true;
       var self = this;
       this.showLoading();
-      var uploadCallback = function() {
+      var uploadCallback = function () {
         if (!loading) {
           self.hideLoading();
           try {
@@ -2071,14 +2075,15 @@ window.$K = (function() {
             self.responseXML = io.contentWindow.document.XMLDocument
               ? io.contentWindow.document.XMLDocument
               : io.contentWindow.document;
-          } catch (e) {}
+          } catch (e) {
+          }
           self.form.method = old_method;
           self.form.target = old_target;
-          window.setTimeout(function() {
+          window.setTimeout(function () {
             io.removeEvent("load", uploadCallback);
             io.remove();
           }, 1);
-          window.setTimeout(function() {
+          window.setTimeout(function () {
             callback(self);
           }, 1);
         }
@@ -2094,13 +2099,13 @@ window.$K = (function() {
       var old_method = this.form.method || "post";
       this.form.target = io.id;
       this.form.method = "post";
-      window.setTimeout(function() {
+      window.setTimeout(function () {
         loading = false;
         self.form.submit();
       }, 1);
       return this;
     },
-    createIframe: function() {
+    createIframe: function () {
       var frameId =
         "GForm_Submit_" + gform_id + "_" + (this.form.id || this.form.name);
       gform_id++;
@@ -2113,7 +2118,7 @@ window.$K = (function() {
       io.setStyle("left", "-1000px");
       return io;
     },
-    showLoading: function() {
+    showLoading: function () {
       if (this.submitButton) {
         this.submitButton.disabled = true;
       }
@@ -2126,7 +2131,7 @@ window.$K = (function() {
       }
       return this;
     },
-    hideLoading: function() {
+    hideLoading: function () {
       if (this.loading && $E(this.loading)) {
         this.loading.removeClass("show");
       } else if (this.loader) {
@@ -2137,7 +2142,7 @@ window.$K = (function() {
       }
       return this;
     },
-    initLoading: function(loading, center) {
+    initLoading: function (loading, center) {
       this.loading = loading;
       this.center = center;
       return this;
@@ -2145,7 +2150,7 @@ window.$K = (function() {
   };
   window.GModal = GClass.create();
   GModal.prototype = {
-    initialize: function(options) {
+    initialize: function (options) {
       this.id = "modaldiv";
       this.btnclose = "btnclose";
       this.backgroundClass = "modalbg";
@@ -2155,7 +2160,7 @@ window.$K = (function() {
         this[property] = options[property];
       }
       var self = this;
-      var checkESCkey = function(e) {
+      var checkESCkey = function (e) {
         if (GEvent.keyCode(e) == 27 || e.key == "Escape" || e.key == "Esc") {
           self.hide();
           GEvent.stop(e);
@@ -2175,17 +2180,17 @@ window.$K = (function() {
         div.appendChild(s);
         s.className = this.btnclose;
         s.title = trans("Close");
-        s.onclick = function() {
+        s.onclick = function () {
           self.hide();
         };
       }
       this.div = $G(container_div);
       this.body = $G(this.div.firstChild);
     },
-    content: function() {
+    content: function () {
       return this.body;
     },
-    show: function(value, className) {
+    show: function (value, className) {
       this.body.setHTML(value);
       this.overlay();
       if (className) {
@@ -2194,14 +2199,14 @@ window.$K = (function() {
         this.div.className = "show";
       }
       var self = this;
-      window.setTimeout(function() {
+      window.setTimeout(function () {
         var dm = self.body.getDimensions(),
           hOffset =
-            dm.height -
-            self.body.getClientHeight() +
-            parseInt(self.body.getStyle("marginTop")) +
-            parseInt(self.body.getStyle("marginBottom")) +
-            40,
+          dm.height -
+          self.body.getClientHeight() +
+          parseInt(self.body.getStyle("marginTop")) +
+          parseInt(self.body.getStyle("marginBottom")) +
+          40,
           h = document.viewport.getHeight() - hOffset;
         if (dm.height > h) {
           self.div.style.height = h + "px";
@@ -2210,18 +2215,18 @@ window.$K = (function() {
       }, 1);
       return this;
     },
-    hide: function() {
+    hide: function () {
       this.div.style.height = null;
       this.div.style.width = null;
       this.div.style.top = "-100%";
       this.div.className = "";
       var self = this;
-      this.iframe.fadeOut(function() {
+      this.iframe.fadeOut(function () {
         self._hide.call(self);
       });
       return this;
     },
-    overlay: function() {
+    overlay: function () {
       var frameId = "iframe_" + this.div.id,
         self = this;
       if (!$E(frameId)) {
@@ -2241,7 +2246,7 @@ window.$K = (function() {
         this.iframe.style.top = "0px";
         this.iframe.style.display = "block";
         this.iframe.fadeIn();
-        $G(self.iframe.contentWindow.document).addEvent("click", function(e) {
+        $G(self.iframe.contentWindow.document).addEvent("click", function (e) {
           self.hide();
         });
         var d = $G(document).getDimensions();
@@ -2250,7 +2255,7 @@ window.$K = (function() {
       }
       return this;
     },
-    _hide: function() {
+    _hide: function () {
       this.iframe.style.display = "none";
       this.body.innerHTML = "";
       if (Object.isFunction(this.onclose)) {
@@ -2260,18 +2265,18 @@ window.$K = (function() {
   };
   window.GFx = $K.emptyFunction;
   GFx.prototype = {
-    _run: function() {
+    _run: function () {
       this.playing = true;
       this.step();
     },
-    stop: function() {
+    stop: function () {
       this.playing = false;
       this.options.onComplete.call(this.Element);
     }
   };
   window.GScroll = GClass.create();
   GScroll.prototype = Object.extend(new GFx(), {
-    initialize: function(container, scroller) {
+    initialize: function (container, scroller) {
       this.options = {
         speed: 20,
         duration: 1,
@@ -2280,16 +2285,16 @@ window.$K = (function() {
       };
       this.container = $G(container);
       this.scroller = $G(scroller);
-      this.container.addEvent("mouseover", function() {
+      this.container.addEvent("mouseover", function () {
         this.rel = "pause";
       });
-      this.container.addEvent("mouseout", function() {
+      this.container.addEvent("mouseout", function () {
         this.rel = "play";
       });
       this.container.rel = "play";
       this.playing = false;
     },
-    play: function(options) {
+    play: function (options) {
       for (var property in options) {
         this.options[property] = options[property];
       }
@@ -2298,32 +2303,32 @@ window.$K = (function() {
       this._run();
       return this;
     },
-    step: function() {
+    step: function () {
       if (this.container.rel == "play" || this.options.pauseit != 1) {
         var size = this.container.getDimensions();
         if (this.options.scrollto == "bottom") {
           this.scrollerTop =
             this.scrollerTop > size.height
-              ? 0 - this.scroller.getHeight()
-              : this.scrollerTop + this.options.duration;
+            ? 0 - this.scroller.getHeight()
+            : this.scrollerTop + this.options.duration;
           this.scroller.style.top = this.scrollerTop + "px";
         } else if (this.options.scrollto == "left") {
           this.scrollerLeft =
             this.scrollerLeft + this.scroller.getWidth() < 0
-              ? size.width
-              : this.scrollerLeft - this.options.duration;
+            ? size.width
+            : this.scrollerLeft - this.options.duration;
           this.scroller.style.left = this.scrollerLeft + "px";
         } else if (this.options.scrollto == "right") {
           this.scrollerLeft =
             this.scrollerLeft > size.width
-              ? 0 - this.scroller.getWidth()
-              : this.scrollerLeft + this.options.duration;
+            ? 0 - this.scroller.getWidth()
+            : this.scrollerLeft + this.options.duration;
           this.scroller.style.left = this.scrollerLeft + "px";
         } else {
           this.scrollerTop =
             this.scrollerTop + this.scroller.getHeight() < 0
-              ? size.height
-              : this.scrollerTop - this.options.duration;
+            ? size.height
+            : this.scrollerTop - this.options.duration;
           this.scroller.style.top = this.scrollerTop + "px";
         }
       }
@@ -2332,7 +2337,7 @@ window.$K = (function() {
   });
   window.preload = GClass.create();
   preload.prototype = {
-    initialize: function(img, onComplete) {
+    initialize: function (img, onComplete) {
       var temp = new Image();
       if (img.src) {
         temp.src = img.src;
@@ -2340,7 +2345,7 @@ window.$K = (function() {
       } else {
         temp.src = img;
       }
-      var _preload = function() {
+      var _preload = function () {
         if (temp.complete) {
           onComplete.call(temp);
         } else {
@@ -2351,7 +2356,7 @@ window.$K = (function() {
     }
   };
   window.GEvent = {
-    isButton: function(e, code) {
+    isButton: function (e, code) {
       var button;
       e = window.event || e;
       if (e.which == null) {
@@ -2361,34 +2366,34 @@ window.$K = (function() {
       }
       return button === code;
     },
-    isLeftClick: function(e) {
+    isLeftClick: function (e) {
       return GEvent.isButton(e, 0);
     },
-    isMiddleClick: function(e) {
+    isMiddleClick: function (e) {
       return GEvent.isButton(e, 1);
     },
-    isRightClick: function(e) {
+    isRightClick: function (e) {
       return GEvent.isButton(e, 2);
     },
-    isCtrlKey: function(e) {
+    isCtrlKey: function (e) {
       return window.event ? window.event.ctrlKey : e.ctrlKey;
     },
-    isShiftKey: function(e) {
+    isShiftKey: function (e) {
       return window.event ? window.event.shiftKey : e.shiftKey;
     },
-    isAltKey: function(e) {
+    isAltKey: function (e) {
       return window.event ? window.event.altKey : e.altKey;
     },
-    element: function(e) {
+    element: function (e) {
       e = window.event || e;
       var node = e.target ? e.target : e.srcElement;
       return e.nodeType == 3 ? node.parentNode : node;
     },
-    keyCode: function(e) {
+    keyCode: function (e) {
       e = window.event || e;
       return e.which || e.keyCode;
     },
-    stop: function(e) {
+    stop: function (e) {
       e = window.event || e;
       if (e.stopPropagation) {
         e.stopPropagation();
@@ -2399,34 +2404,34 @@ window.$K = (function() {
       }
       e.returnValue = false;
     },
-    pointer: function(e) {
+    pointer: function (e) {
       e = window.event || e;
       return {
         x:
           e.pageX ||
           e.clientX +
-            (document.documentElement.scrollLeft || document.body.scrollLeft),
+          (document.documentElement.scrollLeft || document.body.scrollLeft),
         y:
           e.pageY ||
           e.clientY +
-            (document.documentElement.scrollTop || document.body.scrollTop)
+          (document.documentElement.scrollTop || document.body.scrollTop)
       };
     },
-    pointerX: function(e) {
+    pointerX: function (e) {
       return GEvent.pointer(e).x;
     },
-    pointerY: function(e) {
+    pointerY: function (e) {
       return GEvent.pointer(e).y;
     }
   };
   window.Cookie = {
-    get: function(k) {
+    get: function (k) {
       var v = document.cookie.match(
         "(?:^|;)\\s*" + k.preg_quote() + "=([^;]*)"
-      );
+        );
       return v ? decodeURIComponent(v[1]) : null;
     },
-    set: function(k, v, options) {
+    set: function (k, v, options) {
       var _options = {
         path: false,
         domain: false,
@@ -2454,7 +2459,7 @@ window.$K = (function() {
       document.cookie = k + "=" + v;
       return this;
     },
-    remove: function(k) {
+    remove: function (k) {
       Cookie.set(k, "", {
         duration: -1
       });
@@ -2463,11 +2468,11 @@ window.$K = (function() {
   };
   window.GLoading = GClass.create();
   GLoading.prototype = {
-    initialize: function() {
+    initialize: function () {
       this.waittime = 0;
       this.loading = null;
     },
-    show: function() {
+    show: function () {
       window.clearTimeout(this.waittime);
       if (this.loading == null && !$E("wait")) {
         var div = document.createElement("dl");
@@ -2479,11 +2484,11 @@ window.$K = (function() {
       this.loading.addClass("show");
       return this;
     },
-    hide: function() {
+    hide: function () {
       if (this.loading) {
         this.loading.replaceClass("show", "complete");
         var self = this;
-        this.waittime = window.setTimeout(function() {
+        this.waittime = window.setTimeout(function () {
           self.loading.removeClass("wait show complete");
         }, 500);
       }
@@ -2492,7 +2497,7 @@ window.$K = (function() {
   };
   window.GValidator = GClass.create();
   GValidator.prototype = {
-    initialize: function(input, events, validtor, action, callback, form) {
+    initialize: function (input, events, validtor, action, callback, form) {
       this.timer = 0;
       this.req = new GAjax();
       this.interval = 1000;
@@ -2506,15 +2511,15 @@ window.$K = (function() {
       var temp = this;
       if (form && form !== "") {
         form = $G(form);
-        form.addEvent("submit", function() {
+        form.addEvent("submit", function () {
           temp.abort();
         });
       }
-      forEach(events.split(","), function() {
+      forEach(events.split(","), function () {
         temp.input.addEvent(this, temp.validate.bind(temp));
       });
     },
-    validate: function() {
+    validate: function () {
       this.abort();
       var ret = Object.isFunction(this.validtor)
         ? this.validtor.call(this.input)
@@ -2522,8 +2527,8 @@ window.$K = (function() {
       if (this.form && ret && this.action && ret !== "" && this.action !== "") {
         this.input.addClass("wait");
         var temp = this;
-        this.timer = window.setTimeout(function() {
-          temp.req.send(temp.action, ret, function(xhr) {
+        this.timer = window.setTimeout(function () {
+          temp.req.send(temp.action, ret, function (xhr) {
             temp.input.removeClass("wait");
             if (temp.callback) {
               ret = temp.callback.call(temp, xhr);
@@ -2535,37 +2540,38 @@ window.$K = (function() {
             } else {
               try {
                 ret = eval(ret);
-              } catch (e) {}
+              } catch (e) {
+              }
               temp.invalid(ret);
             }
           });
         }, this.interval);
       }
     },
-    abort: function() {
+    abort: function () {
       window.clearTimeout(this.timer);
       this.req.abort();
       this.input.reset();
       return this;
     },
-    interval: function(value) {
+    interval: function (value) {
       this.interval = value;
       return this;
     },
-    valid: function(className) {
+    valid: function (className) {
       this.input.valid(className);
     },
-    invalid: function(value, className) {
+    invalid: function (value, className) {
       this.input.invalid(value, className);
     },
-    reset: function() {
+    reset: function () {
       this.input.set("title", this.title);
       this.input.reset();
     }
   };
   window.GDrag = GClass.create();
   GDrag.prototype = {
-    initialize: function(src, move, options) {
+    initialize: function (src, move, options) {
       this.options = {
         beginDrag: $K.emptyFunction,
         moveDrag: $K.emptyFunction,
@@ -2612,7 +2618,7 @@ window.$K = (function() {
           if (this.setCapture) {
             this.setCapture();
           }
-          delay = window.setTimeout(function() {
+          delay = window.setTimeout(function () {
             document.addEvent("mouseup", _mouseup);
             document.addEvent("mousemove", _mousemove);
             document.addEvent("selectstart", _selectstart);
@@ -2657,7 +2663,7 @@ window.$K = (function() {
           false,
           0,
           null
-        );
+          );
         first.target.dispatchEvent(simulatedEvent);
         event.preventDefault();
       }
@@ -2668,7 +2674,7 @@ window.$K = (function() {
   };
   window.GDragMove = GClass.create();
   GDragMove.prototype = {
-    initialize: function(move_id, drag_id, options) {
+    initialize: function (move_id, drag_id, options) {
       this.options = {
         beginDrag: $K.resultFunction,
         moveDrag: $K.resultFunction,
@@ -2687,7 +2693,7 @@ window.$K = (function() {
             mousePos: this.mousePos,
             mouseOffset: Hinstance.mouseOffset
           })
-        ) {
+          ) {
           Hinstance.mouseOffset = {
             x: this.mousePos.x - Hinstance.moveObj.getStyle("left").toInt(),
             y: this.mousePos.y - Hinstance.moveObj.getStyle("top").toInt()
@@ -2700,7 +2706,7 @@ window.$K = (function() {
             mousePos: this.mousePos,
             mouseOffset: Hinstance.mouseOffset
           })
-        ) {
+          ) {
           Hinstance.moveObj.style.top =
             this.mousePos.y - Hinstance.mouseOffset.y + "px";
           Hinstance.moveObj.style.left =
@@ -2723,7 +2729,7 @@ window.$K = (function() {
   };
   window.GTime = GClass.create();
   GTime.prototype = {
-    initialize: function(id, onchanged) {
+    initialize: function (id, onchanged) {
       this.input = $G(id);
       this.input.addClass("gtime ginput");
       this.onchanged = onchanged || $K.emptyFunction;
@@ -2745,7 +2751,7 @@ window.$K = (function() {
           "0",
           "&crarr;",
           "&lArr;"
-        );
+          );
         if (!$E("ginput_div")) {
           var div = document.createElement("div");
           document.body.appendChild(div);
@@ -2756,7 +2762,7 @@ window.$K = (function() {
         this.panel.style.position = "absolute";
         this.panel.style.display = "none";
         this.panel.style.zIndex = 1001;
-        $G(document.body).addEvent("click", function(e) {
+        $G(document.body).addEvent("click", function (e) {
           if (!$G(GEvent.element(e)).hasClass("ginput")) {
             self.panel.style.display = "none";
           }
@@ -2764,7 +2770,7 @@ window.$K = (function() {
       }
       this.onchanged.call(this);
       var self = this;
-      var doSetCaret = function() {
+      var doSetCaret = function () {
         if (self.input.readOnly) {
           self._draw();
         }
@@ -2772,17 +2778,17 @@ window.$K = (function() {
         self._setCaret(caret.start);
         self.firstKey = null;
       };
-      this.input.addEvent("focus", function() {
+      this.input.addEvent("focus", function () {
         if (self.mouse_click === false) {
           window.setTimeout(doSetCaret, 1);
         }
         self.mouse_click = false;
       });
       this.input.addEvent("click", doSetCaret);
-      this.input.addEvent("paste", function(e) {
+      this.input.addEvent("paste", function (e) {
         GEvent.stop(e);
       });
-      this.input.addEvent("keydown", function(e) {
+      this.input.addEvent("keydown", function (e) {
         var key = GEvent.keyCode(e);
         var stop = false;
         if (key == 8) {
@@ -2848,7 +2854,7 @@ window.$K = (function() {
           return false;
         }
       });
-      new GMask(this.input, function(e) {
+      new GMask(this.input, function (e) {
         if (/[0-9]/.test(e.key)) {
           self._set(floatval(e.key));
           return true;
@@ -2857,7 +2863,7 @@ window.$K = (function() {
       });
       this.input.value = this._toTime(this.input.value);
     },
-    _set: function(c) {
+    _set: function (c) {
       var times = this.input.value.split(":");
       var caret = 0;
       if (this.highlight == "hour") {
@@ -2891,15 +2897,15 @@ window.$K = (function() {
         (times[0] == "" ? "--" : times[0]) + ":" + (times[1] || "--");
       this._setCaret(caret);
     },
-    getTime: function() {
+    getTime: function () {
       return this.input.value == "--:--" ? "" : this.input.value + ":00";
     },
-    setTime: function(time) {
+    setTime: function (time) {
       this.input.value = this._toTime(time);
       this.onchanged.call(this);
       return this;
     },
-    _toTime: function(time) {
+    _toTime: function (time) {
       time = /([0-9]{1,2})(:([0-9]{1,2}))?(:([0-9]{1,2}))?/.exec(time);
       if (time) {
         var h = Math.min(23, floatval(time[1]));
@@ -2908,7 +2914,7 @@ window.$K = (function() {
       }
       return "--:--";
     },
-    _setCaret: function(pos) {
+    _setCaret: function (pos) {
       if (pos < 3) {
         this.input.setCaretPosition(0, 2);
         this.highlight = "hour";
@@ -2917,11 +2923,11 @@ window.$K = (function() {
         this.highlight = "minute";
       }
     },
-    _draw: function() {
+    _draw: function () {
       var panel = this.panel,
         self = this;
       panel.innerHTML = "";
-      forEach(this.keyboard, function() {
+      forEach(this.keyboard, function () {
         var a = document.createElement("a");
         a.innerHTML = this;
         if (this == "&crarr;") {
@@ -2930,7 +2936,7 @@ window.$K = (function() {
           a.className = "backspace";
         }
         panel.appendChild(a);
-        $G(a).addEvent("click", function(e) {
+        $G(a).addEvent("click", function (e) {
           var elem = GEvent.element(e);
           if (elem.className == "enter") {
             self.panel.style.display = "none";
@@ -2953,24 +2959,24 @@ window.$K = (function() {
       if (
         t + dm.height + 5 >=
         document.viewport.getHeight() + document.viewport.getscrollTop()
-      ) {
+        ) {
         this.panel.style.top = vpo.top - dm.height - 5 + "px";
       } else {
         this.panel.style.top = t + "px";
       }
       var l = Math.max(
         vpo.left + dm.width > document.viewport.getWidth()
-          ? vpo.left + this.input.getWidth() - dm.width
-          : vpo.left,
+        ? vpo.left + this.input.getWidth() - dm.width
+        : vpo.left,
         document.viewport.getscrollLeft() + 5
-      );
+        );
       this.panel.style.left = l + "px";
       this.panel.style.display = "block";
     }
   };
   window.GMask = GClass.create();
   GMask.prototype = {
-    initialize: function(id, onkeypress) {
+    initialize: function (id, onkeypress) {
       var input = $G(id),
         tmp = this;
       this.maxlength = floatval(input.maxlength);
@@ -2990,7 +2996,7 @@ window.$K = (function() {
         if (e.key) {
           return /^(Backspace|(Arrow)?Left|(Arrow)?Right|Enter|Tab|Delete)$/.test(
             e.key
-          );
+            );
         } else {
           var key = GEvent.keyCode(e);
           if (
@@ -3000,20 +3006,20 @@ window.$K = (function() {
             key == 13 ||
             key == 9 ||
             key == 46
-          ) {
+            ) {
             return true;
           } else {
             return false;
           }
         }
       }
-      var doActive = function(e) {
+      var doActive = function (e) {
         var el = e.target;
         tmp.oldCursor = el.getCaretPosition();
         tmp.key = false;
         tmp.oldValue = el.value;
       };
-      var doKeydown = function(e) {
+      var doKeydown = function (e) {
         var el = e.target;
         tmp.oldCursor = el.getCaretPosition();
         tmp.key = checkKey(e);
@@ -3023,14 +3029,14 @@ window.$K = (function() {
           !tmp.key &&
           !GEvent.isCtrlKey(e) &&
           tmp.oldCursor.start == tmp.oldCursor.end
-        ) {
+          ) {
           if (el.value.length >= tmp.maxlength) {
             GEvent.stop(e);
             return false;
           }
         }
       };
-      var doInput = function(e) {
+      var doInput = function (e) {
         var ret = true,
           el = e.target,
           value = el.value;
@@ -3057,7 +3063,7 @@ window.$K = (function() {
   };
   window.GInput = GClass.create();
   GInput.prototype = {
-    initialize: function(id, inputchar, onchanged) {
+    initialize: function (id, inputchar, onchanged) {
       this.input = $G(id);
       this.input.addClass("ginput");
       this.keyboard = inputchar.split("");
@@ -3078,13 +3084,13 @@ window.$K = (function() {
         this.panel.style.display = "none";
         this.panel.style.zIndex = 1001;
         this.input.readOnly = true;
-        this.input.addEvent("click", function(e) {
+        this.input.addEvent("click", function (e) {
           self.input.select();
           self._draw();
           GEvent.stop(e);
           return false;
         });
-        $G(document.body).addEvent("click", function(e) {
+        $G(document.body).addEvent("click", function (e) {
           if (!$G(GEvent.element(e)).hasClass("ginput")) {
             self.panel.style.display = "none";
             self._dochanged();
@@ -3097,26 +3103,26 @@ window.$K = (function() {
           }
         });
       } else {
-        this.input.addEvent("focus", function() {
+        this.input.addEvent("focus", function () {
           self.input.select();
         });
       }
-      new GMask(this.input, function(e) {
+      new GMask(this.input, function (e) {
         return self.keyboard.indexOf(e.key) > -1;
       });
-      this.input.addEvent("change", function() {
+      this.input.addEvent("change", function () {
         self._dochanged();
       });
       this._dochanged();
     },
-    _dochanged: function() {
+    _dochanged: function () {
       this.onchanged.call(this.input);
     },
-    _draw: function() {
+    _draw: function () {
       var panel = this.panel,
         self = this;
       panel.innerHTML = "";
-      forEach(this.keyboard, function() {
+      forEach(this.keyboard, function () {
         var a = document.createElement("a");
         a.innerHTML = this;
         if (this == "&crarr;") {
@@ -3125,7 +3131,7 @@ window.$K = (function() {
           a.className = "backspace";
         }
         panel.appendChild(a);
-        $G(a).addEvent("click", function(e) {
+        $G(a).addEvent("click", function (e) {
           var elem = GEvent.element(e);
           if (elem.className == "backspace") {
             if (document.selection) {
@@ -3153,13 +3159,13 @@ window.$K = (function() {
             } else if (
               self.input.selectionStart ||
               self.input.selectionStart === 0
-            ) {
+              ) {
               var startPos = self.input.selectionStart,
                 endPos = self.input.selectionEnd,
                 value =
-                  self.input.value.substring(0, startPos) +
-                  text +
-                  self.input.value.substring(endPos, self.input.value.length);
+                self.input.value.substring(0, startPos) +
+                text +
+                self.input.value.substring(endPos, self.input.value.length);
               if (self.maxlength == 0 || value.length <= self.maxlength) {
                 self.input.value = value;
                 self.input.selectionStart = startPos + text.length;
@@ -3184,17 +3190,17 @@ window.$K = (function() {
       if (
         t + dm.height + 5 >=
         document.viewport.getHeight() + document.viewport.getscrollTop()
-      ) {
+        ) {
         this.panel.style.top = vpo.top - dm.height - 5 + "px";
       } else {
         this.panel.style.top = t + "px";
       }
       var l = Math.max(
         vpo.left + dm.width > document.viewport.getWidth()
-          ? vpo.left + this.input.getWidth() - dm.width
-          : vpo.left,
+        ? vpo.left + this.input.getWidth() - dm.width
+        : vpo.left,
         document.viewport.getscrollLeft() + 5
-      );
+        );
       this.panel.style.left = l + "px";
       this.panel.style.display = "block";
       this.panel.input = this.input;
@@ -3203,7 +3209,7 @@ window.$K = (function() {
   };
   window.GCalendar = GClass.create();
   GCalendar.prototype = {
-    initialize: function(id) {
+    initialize: function (id) {
       this.hidden = $E(id);
       this.input = $G(document.createElement("div"));
       this.hidden.parentNode.insertBefore(this.input, this.hidden);
@@ -3233,14 +3239,14 @@ window.$K = (function() {
       this.calendar.style.display = "none";
       this.calendar.style.zIndex = 1001;
       var self = this;
-      this.input.addEvent("click", function(e) {
+      this.input.addEvent("click", function (e) {
         self.mode = 0;
         self.cdate.setTime(self.date ? self.date.valueOf() : new Date());
         self._draw();
         GEvent.stop(e);
         return false;
       });
-      this.input.addEvent("keydown", function(e) {
+      this.input.addEvent("keydown", function (e) {
         var key = GEvent.keyCode(e);
         if (key == 9) {
           self.calendar.style.display = "none";
@@ -3267,13 +3273,13 @@ window.$K = (function() {
           GEvent.stop(e);
         }
       });
-      $G(document.body).addEvent("click", function(e) {
+      $G(document.body).addEvent("click", function (e) {
         if (
           !(
             $G(GEvent.element(e)).hasClass("input-gcalendar") ||
             $G(GEvent.element(e).parentNode).hasClass("input-gcalendar")
-          )
-        ) {
+            )
+          ) {
           self.calendar.style.display = "none";
         }
       });
@@ -3285,7 +3291,7 @@ window.$K = (function() {
       if (this.hidden.max) {
         this.maxDate(this.hidden.max);
       }
-      this.timer = window.setInterval(function() {
+      this.timer = window.setInterval(function () {
         if ($E(self.hidden)) {
           if (self.hidden.value != self.hidden_value) {
             self.hidden_value = self.hidden.value;
@@ -3313,7 +3319,7 @@ window.$K = (function() {
         }
       }, 100);
     },
-    _dochanged: function() {
+    _dochanged: function () {
       if (this.xdate && this.date && this.date > this.xdate) {
         this.date.setTime(this.xdate.valueOf());
       } else if (this.mdate && this.date && this.date < this.mdate) {
@@ -3333,7 +3339,7 @@ window.$K = (function() {
       this.hidden.value = this.hidden_value;
       this.hidden.callEvent("change");
     },
-    _toogle: function(e) {
+    _toogle: function (e) {
       if (this.calendar.style.display == "block") {
         this.calendar.style.display = "none";
       } else {
@@ -3347,7 +3353,7 @@ window.$K = (function() {
       }
       GEvent.stop(e);
     },
-    _draw: function() {
+    _draw: function () {
       if (this.hidden.readOnly == false) {
         var self = this;
         this.calendar.innerHTML = "";
@@ -3360,7 +3366,7 @@ window.$K = (function() {
         p.appendChild(a);
         a.innerHTML = "&larr;";
         a.style.cursor = "pointer";
-        $G(a).addEvent("click", function(e) {
+        $G(a).addEvent("click", function (e) {
           self._move(e, -1);
           GEvent.stop(e);
           return false;
@@ -3368,7 +3374,7 @@ window.$K = (function() {
         if (this.mode < 2) {
           a = document.createElement("a");
           a.innerHTML = this.cdate.format(this.mode == 1 ? "Y" : "M Y");
-          $G(a).addEvent("click", function(e) {
+          $G(a).addEvent("click", function (e) {
             self.mode++;
             self._draw();
             GEvent.stop(e);
@@ -3380,11 +3386,11 @@ window.$K = (function() {
           a.appendChild(
             document.createTextNode(
               start_year +
-                Date.yearOffset +
-                "-" +
-                (start_year + 11 + Date.yearOffset)
-            )
-          );
+              Date.yearOffset +
+              "-" +
+              (start_year + 11 + Date.yearOffset)
+              )
+            );
         }
         p.appendChild(a);
         a.style.cursor = "pointer";
@@ -3392,7 +3398,7 @@ window.$K = (function() {
         p.appendChild(a);
         a.innerHTML = "&rarr;";
         a.style.cursor = "pointer";
-        $G(a).addEvent("click", function(e) {
+        $G(a).addEvent("click", function (e) {
           self._move(e, 1);
           GEvent.stop(e);
           return false;
@@ -3436,7 +3442,7 @@ window.$K = (function() {
             cell.className = cls;
             cell.appendChild(document.createTextNode(i + Date.yearOffset));
             cell.oDate = new Date(i, 1, 1, 12, 0, 0, 0);
-            $G(cell).addEvent("click", function(e) {
+            $G(cell).addEvent("click", function (e) {
               self.cdate.setTime(this.oDate.valueOf());
               self.mode--;
               self._draw();
@@ -3445,7 +3451,7 @@ window.$K = (function() {
             });
           }
         } else if (this.mode == 1) {
-          forEach(Date.monthNames, function(month, i) {
+          forEach(Date.monthNames, function (month, i) {
             c = i % 4;
             if (c == 0) {
               row = tbody.insertRow(r);
@@ -3464,7 +3470,7 @@ window.$K = (function() {
             cell.className = cls;
             cell.appendChild(document.createTextNode(month));
             cell.oDate = new Date(intyear, i, 1, 0, 0, 0, 0);
-            $G(cell).addEvent("click", function(e) {
+            $G(cell).addEvent("click", function (e) {
               self.cdate.setTime(this.oDate.valueOf());
               self.mode--;
               self._draw();
@@ -3474,7 +3480,7 @@ window.$K = (function() {
           });
         } else {
           row = thead.insertRow(0);
-          forEach(Date.dayNames, function(item, i) {
+          forEach(Date.dayNames, function (item, i) {
             cell = document.createElement("th");
             row.appendChild(cell);
             cell.appendChild(document.createTextNode(item));
@@ -3501,7 +3507,7 @@ window.$K = (function() {
             0,
             0,
             0
-          ).daysInMonth();
+            ).daysInMonth();
           var max_this = new Date(
             intyear,
             intmonth,
@@ -3510,7 +3516,7 @@ window.$K = (function() {
             0,
             0,
             0
-          ).daysInMonth();
+            ).daysInMonth();
           if (tmp_init !== 0) {
             initial_day = max_prev - (tmp_init - 1);
           }
@@ -3588,7 +3594,7 @@ window.$K = (function() {
                   pointer <= max_date);
             }
             if (canclick) {
-              $G(cell).addEvent("click", function(e) {
+              $G(cell).addEvent("click", function (e) {
                 if (self.date === null) {
                   self.date = new Date();
                 }
@@ -3605,14 +3611,14 @@ window.$K = (function() {
               tmp_year == sel_year &&
               tmp_month == sel_month &&
               pointer == sel_date
-            ) {
+              ) {
               cls = cls + " select";
             }
             if (
               tmp_year == today_year &&
               tmp_month == today_month &&
               pointer == today_date
-            ) {
+              ) {
               cls = cls + " today";
             }
             cell.className = cls;
@@ -3625,22 +3631,22 @@ window.$K = (function() {
         if (
           t + dm.height + 5 >=
           document.viewport.getHeight() + document.viewport.getscrollTop()
-        ) {
+          ) {
           this.calendar.style.top = Math.max(vpo.top - dm.height - 5, 0) + "px";
         } else {
           this.calendar.style.top = t + "px";
         }
         var l = Math.max(
           vpo.left + dm.width > document.viewport.getWidth()
-            ? vpo.left + this.input.getWidth() - dm.width
-            : vpo.left,
+          ? vpo.left + this.input.getWidth() - dm.width
+          : vpo.left,
           document.viewport.getscrollLeft() + 5
-        );
+          );
         this.calendar.style.left = l + "px";
         this.calendar.style.display = "block";
       }
     },
-    _move: function(e, value) {
+    _move: function (e, value) {
       if (this.mode == 2) {
         this.cdate.setFullYear(this.cdate.getFullYear() + value * 12);
       } else if (this.mode == 1) {
@@ -3651,7 +3657,7 @@ window.$K = (function() {
       this._draw();
       GEvent.stop(e);
     },
-    moveDate: function(day) {
+    moveDate: function (day) {
       if (this.date === null) {
         this.date = new Date();
       }
@@ -3659,7 +3665,7 @@ window.$K = (function() {
       this._dochanged();
       return this;
     },
-    moveMonth: function(month) {
+    moveMonth: function (month) {
       if (this.date === null) {
         this.date = new Date();
       }
@@ -3667,7 +3673,7 @@ window.$K = (function() {
       this._dochanged();
       return this;
     },
-    moveYear: function(year) {
+    moveYear: function (year) {
       if (this.date === null) {
         this.date = new Date();
       }
@@ -3675,12 +3681,12 @@ window.$K = (function() {
       this._dochanged();
       return this;
     },
-    setFormat: function(value) {
+    setFormat: function (value) {
       this.format = value;
       this._dochanged();
       return this;
     },
-    setDate: function(date) {
+    setDate: function (date) {
       if (date === null || !/[0-9]{2,4}\-[0-9]{1,2}\-[0-9]{1,2}/.test(date)) {
         this.date = null;
       } else {
@@ -3689,7 +3695,7 @@ window.$K = (function() {
       this._dochanged();
       return this;
     },
-    getDate: function() {
+    getDate: function () {
       if (this.date) {
         var d = new Date();
         d.setTime(this.date.valueOf());
@@ -3697,14 +3703,14 @@ window.$K = (function() {
       }
       return null;
     },
-    getDateFormat: function(format) {
+    getDateFormat: function (format) {
       if (this.date) {
         format = format || this.format;
         return this.getDate().format(format);
       }
       return null;
     },
-    minDate: function(date) {
+    minDate: function (date) {
       if (Object.isNull(date)) {
         if (this.mdate == null) {
           this.mdate = new Date();
@@ -3715,7 +3721,7 @@ window.$K = (function() {
       }
       return this;
     },
-    maxDate: function(date) {
+    maxDate: function (date) {
       if (Object.isNull(date)) {
         if (this.xdate == null) {
           this.xdate = new Date();
@@ -3726,10 +3732,10 @@ window.$K = (function() {
       }
       return this;
     },
-    setText: function(value) {
+    setText: function (value) {
       this.display.innerHTML = value;
     },
-    _toDate: function(date) {
+    _toDate: function (date) {
       var d = null;
       if (Object.isString(date)) {
         d = date.toDate();
@@ -3745,7 +3751,7 @@ window.$K = (function() {
   };
   window.GFxZoom = GClass.create();
   GFxZoom.prototype = Object.extend(new GFx(), {
-    initialize: function(elem, options) {
+    initialize: function (elem, options) {
       this.options = {
         duration: 2,
         speed: 1,
@@ -3769,7 +3775,7 @@ window.$K = (function() {
       this.w = tmp.width;
       this.h = tmp.height;
     },
-    play: function(dw, dh, dl, dt) {
+    play: function (dw, dh, dl, dt) {
       var cw = document.viewport.getWidth();
       var ch = document.viewport.getHeight();
       if (this.options.fitdoc) {
@@ -3799,7 +3805,7 @@ window.$K = (function() {
       this.timer = window.setInterval(this.step.bind(this), this.options.speed);
       this.options.onResize.call(this);
     },
-    step: function() {
+    step: function () {
       if (this.w != this.dw || this.h != this.dh) {
         this.l += this.lStep;
         this.t += this.tStep;
@@ -3814,14 +3820,14 @@ window.$K = (function() {
         this.stop();
       }
     },
-    stop: function() {
+    stop: function () {
       window.clearInterval(this.timer);
       this.options.onComplete.call(this);
     }
   });
   window.Color = GClass.create();
   Color.prototype = {
-    initialize: function(value) {
+    initialize: function (value) {
       if (Array.isArray(value)) {
         this.r = value[0];
         this.g = value[1];
@@ -3830,26 +3836,26 @@ window.$K = (function() {
       } else {
         var rgb = /#?([a-zA-Z0-9]{1,2})([a-zA-Z0-9]{1,2})([a-zA-Z0-9]{1,2})([a-zA-Z0-9]{0,2})$/.exec(
           value
-        );
+          );
         if (rgb) {
           this.r =
             rgb[1].length == 2
-              ? parseInt(rgb[1], 16)
-              : parseInt(rgb[1] + rgb[1], 16);
+            ? parseInt(rgb[1], 16)
+            : parseInt(rgb[1] + rgb[1], 16);
           this.g =
             rgb[2].length == 2
-              ? parseInt(rgb[2], 16)
-              : parseInt(rgb[2] + rgb[2], 16);
+            ? parseInt(rgb[2], 16)
+            : parseInt(rgb[2] + rgb[2], 16);
           this.b =
             rgb[3].length == 2
-              ? parseInt(rgb[3], 16)
-              : parseInt(rgb[3] + rgb[3], 16);
+            ? parseInt(rgb[3], 16)
+            : parseInt(rgb[3] + rgb[3], 16);
           this.a =
             rgb[4] == ""
-              ? null
-              : rgb[4].length == 2
-                ? parseInt(rgb[4], 16)
-                : parseInt(rgb[4] + rgb[4], 16);
+            ? null
+            : rgb[4].length == 2
+            ? parseInt(rgb[4], 16)
+            : parseInt(rgb[4] + rgb[4], 16);
         } else {
           this.r = 0;
           this.g = 0;
@@ -3858,7 +3864,7 @@ window.$K = (function() {
         }
       }
     },
-    darken: function(amount) {
+    darken: function (amount) {
       return new Color([
         Math.max(0, Math.round(this.r - amount)),
         Math.max(0, Math.round(this.g - amount)),
@@ -3866,7 +3872,7 @@ window.$K = (function() {
         this.a
       ]);
     },
-    lighten: function(amount) {
+    lighten: function (amount) {
       return new Color([
         Math.min(255, Math.round(this.r + amount)),
         Math.min(255, Math.round(this.g + amount)),
@@ -3874,7 +3880,7 @@ window.$K = (function() {
         this.a
       ]);
     },
-    invert: function() {
+    invert: function () {
       return new Color([
         this.r > 128 ? 0 : 255,
         this.g > 128 ? 0 : 255,
@@ -3882,41 +3888,41 @@ window.$K = (function() {
         this.a
       ]);
     },
-    toString: function() {
+    toString: function () {
       return (
         "#" +
         this.r
-          .toString(16)
-          .toUpperCase()
-          .leftPad(2, "0") +
+        .toString(16)
+        .toUpperCase()
+        .leftPad(2, "0") +
         this.g
-          .toString(16)
-          .toUpperCase()
-          .leftPad(2, "0") +
+        .toString(16)
+        .toUpperCase()
+        .leftPad(2, "0") +
         this.b
-          .toString(16)
-          .toUpperCase()
-          .leftPad(2, "0") +
+        .toString(16)
+        .toUpperCase()
+        .leftPad(2, "0") +
         (this.a !== null && this.a !== 1
           ? this.a
-              .toString(16)
-              .toUpperCase()
-              .leftPad(2, "0")
+          .toString(16)
+          .toUpperCase()
+          .leftPad(2, "0")
           : "")
-      );
+        );
     },
-    toRGB: function() {
+    toRGB: function () {
       return this.a !== null && this.a !== 1
         ? "rgba(" + this.r + ", " + this.g + ", " + this.b + ", " + this.a + ")"
         : "rgb(" + this.r + ", " + this.g + ", " + this.b + ")";
     },
-    toArray: function() {
+    toArray: function () {
       return [this.r, this.g, this.b, this.a];
     }
   };
   window.GDDColor = GClass.create();
   GDDColor.prototype = {
-    initialize: function(id, onchanged) {
+    initialize: function (id, onchanged) {
       this.Colors = Array(
         "B71C1C",
         "880E4F",
@@ -3942,7 +3948,7 @@ window.$K = (function() {
         "000000",
         "T",
         "C"
-      );
+        );
       this.cols = 6;
       this.input = $G(id);
       this.input.addClass("gddcolor");
@@ -3963,7 +3969,7 @@ window.$K = (function() {
       this.ddcolor.style.zIndex = 1001;
       this.ddcolor.className = "gddcolor";
       var self = this;
-      this.input.addEvent("click", function(e) {
+      this.input.addEvent("click", function (e) {
         self.createColors();
         self._draw();
         self.showDemo(self.color);
@@ -3971,10 +3977,10 @@ window.$K = (function() {
         GEvent.stop(e);
         return false;
       });
-      new GMask(this.input, function(e) {
+      new GMask(this.input, function (e) {
         return /[0-9a-fA-F]/.test(e.key);
       });
-      this.input.addEvent("keydown", function(e) {
+      this.input.addEvent("keydown", function (e) {
         var key = GEvent.keyCode(e);
         if (key == 38 || key == 40 || /^(Arrow)?(Up|Down)$/.test(e.key)) {
           self.createColors();
@@ -3985,7 +3991,7 @@ window.$K = (function() {
         }
       });
       if (this.input.type == "text") {
-        this.input.addEvent("keyup", function() {
+        this.input.addEvent("keyup", function () {
           var value = this.value.toUpperCase();
           if (value != "TRANSPARENT") {
             var c = value.replace("#", "").replace(/[^0-9A-F]+/, "");
@@ -3998,13 +4004,13 @@ window.$K = (function() {
         this.input.style.cursor = "pointer";
         self.input.tabIndex = 0;
       }
-      $G(document.body).addEvent("click", function(e) {
+      $G(document.body).addEvent("click", function (e) {
         if (!$G(GEvent.element(e)).hasClass("gddcolor")) {
           self.ddcolor.style.display = "none";
         }
       });
       if (self.input.value) {
-        self.timer = window.setInterval(function() {
+        self.timer = window.setInterval(function () {
           if (!$E(self.input)) {
             window.clearInterval(self.timer);
           } else if (self.input.value !== self.color) {
@@ -4026,34 +4032,34 @@ window.$K = (function() {
         }, 50);
       }
     },
-    _draw: function() {
+    _draw: function () {
       var vpo = this.input.viewportOffset(),
         t = vpo.top + this.input.getHeight() + 5,
         dm = this.ddcolor.getDimensions();
       if (
         t + dm.height + 5 >=
         document.viewport.getHeight() + document.viewport.getscrollTop()
-      ) {
+        ) {
         this.ddcolor.style.top = vpo.top - dm.height - 5 + "px";
       } else {
         this.ddcolor.style.top = t + "px";
       }
       var l = Math.max(
         vpo.left + dm.width > document.viewport.getWidth()
-          ? vpo.left + this.input.getWidth() - dm.width
-          : vpo.left,
+        ? vpo.left + this.input.getWidth() - dm.width
+        : vpo.left,
         document.viewport.getscrollLeft() + 5
-      );
+        );
       this.ddcolor.style.left = l + "px";
       this.ddcolor.style.display = "block";
     },
-    createColors: function() {
+    createColors: function () {
       var r = this.Colors.length / this.cols,
         t = this.input.tabIndex + 1,
         self = this,
         patt = /((color_)([0-9]+)_)([0-9]+)/;
       this.ddcolor.innerHTML = "";
-      var _dokeydown = function(e) {
+      var _dokeydown = function (e) {
         var key = GEvent.keyCode(e),
           hs = patt.exec(this.id),
           z = floatval(hs[3]),
@@ -4098,7 +4104,7 @@ window.$K = (function() {
         a,
         p,
         z;
-      forEach(this.Colors, function(color, n) {
+      forEach(this.Colors, function (color, n) {
         if (n % self.cols == 0) {
           p = document.createElement("p");
           self.ddcolor.appendChild(p);
@@ -4124,12 +4130,12 @@ window.$K = (function() {
           a.title = z;
           a.className = color == "#FFFFFF" ? "item dark" : "item";
         }
-        a.addEvent("click", function(e) {
+        a.addEvent("click", function (e) {
           if (
             this.title == "Clear" ||
             this.title == "Transparent" ||
             this.title == "#FFFFFF"
-          ) {
+            ) {
             self.doClick(this.title);
           } else {
             self.pickColor(this.title);
@@ -4137,7 +4143,7 @@ window.$K = (function() {
           GEvent.stop(e);
           return false;
         });
-        a.addEvent("mouseover", function() {
+        a.addEvent("mouseover", function () {
           self.showDemo(this.title);
         });
         a.addEvent("keydown", _dokeydown);
@@ -4152,16 +4158,16 @@ window.$K = (function() {
         a.id = "color_" + c + "_" + r;
         a.tabIndex = t;
         a.className = "item";
-        a.addEvent("click", function() {
+        a.addEvent("click", function () {
           self.doClick(this.title);
         });
-        a.addEvent("mouseover", function() {
+        a.addEvent("mouseover", function () {
           self.showDemo(this.title);
         });
         a.addEvent("keydown", _dokeydown);
       }
     },
-    doClick: function(c) {
+    doClick: function (c) {
       this.ddcolor.style.display = "none";
       if (c == "Clear") {
         c = "";
@@ -4170,14 +4176,14 @@ window.$K = (function() {
       this.onchanged.call(this, c);
       this.input.focus();
     },
-    pickColor: function(c) {
+    pickColor: function (c) {
       if (this.customColor) {
         var n,
           c = new Color(c),
           rgb = c.toArray(),
           m = Math.min(rgb[0], rgb[1], rgb[2]),
           o = Math.floor((255 - m) / this.cols);
-        forEach(this.customColor.elems("a"), function(item, index) {
+        forEach(this.customColor.elems("a"), function (item, index) {
           n = c.lighten(o * index);
           item.title = n.toString();
           item.style.backgroundColor = n.toString();
@@ -4185,7 +4191,7 @@ window.$K = (function() {
         });
       }
     },
-    showDemo: function(c) {
+    showDemo: function (c) {
       if (this.demoColor) {
         var a;
         if (c == "Transparent") {
@@ -4202,15 +4208,15 @@ window.$K = (function() {
         this.demoColor.style.color = this.invertColor(c);
       }
     },
-    setColor: function(c) {
+    setColor: function (c) {
       if (c != "" && c != this.color && this.color_format.test(c)) {
         this.doClick(c.toUpperCase());
       }
     },
-    getColor: function() {
+    getColor: function () {
       return this.color;
     },
-    invertColor: function(c) {
+    invertColor: function (c) {
       if (c.toLowerCase() == "transparent") {
         return this.ddcolor.style.color;
       } else {
@@ -4220,7 +4226,7 @@ window.$K = (function() {
   };
   window.GLightbox = GClass.create();
   GLightbox.prototype = {
-    initialize: function(options) {
+    initialize: function (options) {
       this.id = "gslide_div";
       this.btnclose = "btnclose";
       this.backgroundClass = "modalbg";
@@ -4233,7 +4239,7 @@ window.$K = (function() {
         this[property] = options[property];
       }
       var self = this;
-      var checkESCkey = function(e) {
+      var checkESCkey = function (e) {
         var k = GEvent.keyCode(e);
         if (k == 27) {
           self.hide(e);
@@ -4271,13 +4277,13 @@ window.$K = (function() {
         div.appendChild(s);
         s.className = this.btnclose;
         s.title = trans("Close");
-        callClick(s, function() {
+        callClick(s, function () {
           self.hide();
         });
         var a = doc.createElement("a");
         div.appendChild(a);
         a.id = "GLightbox_zoom";
-        callClick(a, function(e) {
+        callClick(a, function (e) {
           self._fullScreen(e);
         });
         this.zoom = a;
@@ -4285,14 +4291,14 @@ window.$K = (function() {
         div.appendChild(this.prev);
         this.prev.className = "hidden";
         this.prev.title = trans("Prev");
-        callClick(this.prev, function() {
+        callClick(this.prev, function () {
           self.showPrev();
         });
         this.next = doc.createElement("a");
         div.appendChild(this.next);
         this.next.className = "hidden";
         this.next.title = trans("Next");
-        callClick(this.next, function() {
+        callClick(this.next, function () {
           self.showNext();
         });
       }
@@ -4307,22 +4313,22 @@ window.$K = (function() {
       this.currentId = 0;
       this.imgs = [];
     },
-    clear: function() {
+    clear: function () {
       this.currentId = 0;
       this.imgs.length = 0;
     },
-    add: function(a) {
+    add: function (a) {
       var img = $E(a);
       img.id = this.imgs.length;
       this.imgs.push(img);
       var self = this;
-      callClick(img, function() {
+      callClick(img, function () {
         self.currentId = floatval(this.id);
         self.show(this, false);
         return false;
       });
     },
-    showNext: function() {
+    showNext: function () {
       if (this.div.style.display == "block" && this.imgs.length > 0) {
         this.currentId++;
         if (this.currentId >= this.imgs.length) {
@@ -4332,7 +4338,7 @@ window.$K = (function() {
         this.show(img, false);
       }
     },
-    showPrev: function() {
+    showPrev: function () {
       if (this.div.style.display == "block" && this.imgs.length > 0) {
         this.currentId--;
         if (this.currentId < 0) {
@@ -4342,13 +4348,13 @@ window.$K = (function() {
         this.show(img, false);
       }
     },
-    _fullScreen: function() {
+    _fullScreen: function () {
       if (this.div.style.display == "block" && this.imgs.length > 0) {
         var img = this.imgs[this.currentId];
         this.show(img, this.zoom.className == "btnnav zoomout");
       }
     },
-    show: function(obj, fullscreen) {
+    show: function (obj, fullscreen) {
       var img,
         title,
         self = this;
@@ -4362,7 +4368,7 @@ window.$K = (function() {
         img = obj.style.backgroundImage.substr(
           5,
           obj.style.backgroundImage.length - 7
-        );
+          );
         title = obj.title;
       }
       this.overlay();
@@ -4372,7 +4378,7 @@ window.$K = (function() {
       this.prev.className = this.currentId == 0 ? "hidden" : "btnnav prev";
       this.next.className =
         this.currentId == this.imgs.length - 1 ? "hidden" : "btnnav next";
-      new preload(img, function() {
+      new preload(img, function () {
         self.loading.className = self.loadingClass;
         self.img.src = this.src;
         if (!fullscreen) {
@@ -4425,24 +4431,24 @@ window.$K = (function() {
         self.div.style.display = "block";
         self.div.center();
         self.div.style.zIndex = 1000;
-        self.div.fadeIn(function() {
+        self.div.fadeIn(function () {
           self._show.call(self);
         });
       });
       return this;
     },
-    hide: function() {
+    hide: function () {
       if (Object.isFunction(this.onhide)) {
         this.onhide.call(this);
       }
       var self = this;
       this.div.fadeOut();
-      this.iframe.fadeOut(function() {
+      this.iframe.fadeOut(function () {
         self._hide.call(self);
       });
       return this;
     },
-    overlay: function() {
+    overlay: function () {
       var frameId = "iframe_" + this.div.id,
         self = this;
       if (!$E(frameId)) {
@@ -4462,7 +4468,7 @@ window.$K = (function() {
         this.iframe.style.top = "0px";
         this.iframe.style.display = "block";
         this.iframe.fadeIn();
-        $G(self.iframe.contentWindow.document).addEvent("click", function(e) {
+        $G(self.iframe.contentWindow.document).addEvent("click", function (e) {
           self.hide();
         });
         var d = $G(document).getDimensions();
@@ -4471,12 +4477,12 @@ window.$K = (function() {
       }
       return this;
     },
-    _show: function() {
+    _show: function () {
       if (Object.isFunction(this.onshow)) {
         this.onshow.call(this);
       }
     },
-    _hide: function() {
+    _hide: function () {
       this.iframe.style.display = "none";
       this.div.style.display = "none";
       if (Object.isFunction(this.onclose)) {
@@ -4484,8 +4490,8 @@ window.$K = (function() {
       }
     }
   };
-  window.callClick = function(input, func) {
-    var doKeyDown = function(e) {
+  window.callClick = function (input, func) {
+    var doKeyDown = function (e) {
       if (GEvent.keyCode(e) == 13 || e.key == "Enter") {
         if (func.call(this, e) !== true) {
           GEvent.stop(e);
@@ -4502,14 +4508,14 @@ window.$K = (function() {
     }
   };
   var GElement = new GNative();
-  window.$G = function(e) {
+  window.$G = function (e) {
     return Object.isGElement(e) ? e : GElement.init(e);
   };
-  window.$E = function(e) {
+  window.$E = function (e) {
     e = Object.isString(e) ? document.getElementById(e) : e;
     return Object.isObject(e) ? e : null;
   };
-  var loadCompleted = function() {
+  var loadCompleted = function () {
     domloaded = true;
     if (document.addEventListener) {
       document.removeEventListener("DOMContentLoaded", loadCompleted, false);

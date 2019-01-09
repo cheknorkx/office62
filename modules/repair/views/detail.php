@@ -24,113 +24,113 @@ use Kotchasan\Template;
  */
 class View extends \Gcms\View
 {
-    /**
-     * @var mixed
-     */
-    private $statuses;
+  /**
+   * @var mixed
+   */
+  private $statuses;
 
-    /**
-     * module=repair-detail.
-     *
-     * @param object $index
-     * @param array  $login
-     *
-     * @return string
-     */
-    public function render($index, $login)
-    {
-        // สถานะการซ่อม
-        $this->statuses = \Repair\Status\Model::create();
-        // อ่านสถานะการทำรายการทั้งหมด
-        $statuses = \Repair\Detail\Model::getAllStatus($index->id);
-        // URL สำหรับส่งให้ตาราง
-        $uri = self::$request->createUriWithGlobals(WEB_URL.'index.php');
-        // ตาราง
-        $table = new DataTable(array(
-            /* Uri */
-            'uri' => $uri,
-            /* array datas */
-            'datas' => $statuses,
-            'onRow' => array($this, 'onRow'),
-            /* คอลัมน์ที่ไม่ต้องแสดงผล */
-            'hideColumns' => array('id'),
-            /* ตั้งค่าการกระทำของของตัวเลือกต่างๆ ด้านล่างตาราง ซึ่งจะใช้ร่วมกับการขีดถูกเลือกแถว */
-            'action' => 'index.php/repair/model/detail/action?repair_id='.$index->id,
-            'actionCallback' => 'dataTableActionCallback',
-            /* ส่วนหัวของตาราง และการเรียงลำดับ (thead) */
-            'headers' => array(
-                'name' => array(
-                    'text' => '{LNG_Operator}',
-                ),
-                'status' => array(
-                    'text' => '{LNG_Repair status}',
-                    'class' => 'center',
-                ),
-                'create_date' => array(
-                    'text' => '{LNG_Transaction date}',
-                    'class' => 'center',
-                ),
-                'comment' => array(
-                    'text' => '{LNG_Comment}',
-                ),
-            ),
-            /* รูปแบบการแสดงผลของคอลัมน์ (tbody) */
-            'cols' => array(
-                'status' => array(
-                    'class' => 'center',
-                ),
-                'create_date' => array(
-                    'class' => 'center',
-                ),
-            ),
-        ));
-        if (Login::checkPermission($login, array('can_manage_repair', 'can_repair'))) {
-            // ปุ่มแสดงในแต่ละแถว
-            $table->buttons = array(
-                'delete' => array(
-                    'class' => 'icon-delete button red notext',
-                    'id' => ':id',
-                    'title' => '{LNG_Delete}',
-                ),
-            );
-            // สามารถลบไฟล์แนบได้
-            $canDelete = true;
-        } else {
-            // สามารถลบไฟล์แนบได้
-            $canDelete = $index->status == self::$cfg->repair_first_status;
-        }
-        // template
-        $template = Template::createFromFile(ROOT_PATH.'modules/repair/views/detail.html');
-        $template->add(array(
-            '/%NAME%/' => $index->name,
-            '/%PHONE%/' => $index->phone,
-            '/%EQUIPMENT%/' => $index->equipment,
-            '/%SERIAL%/' => $index->serial,
-            '/%JOB_DESCRIPTION%/' => nl2br($index->job_description),
-            '/%CREATE_DATE%/' => Date::format($index->create_date, 'd M Y'),
-            '/%COMMENT%/' => $index->comment,
-            '/%DETAILS%/' => $table->render(),
-            '/%FILES%/' => \Repair\Download\Controller::files($index->id, $canDelete),
-        ));
-
-        return $template->render();
+  /**
+   * module=repair-detail.
+   *
+   * @param object $index
+   * @param array  $login
+   *
+   * @return string
+   */
+  public function render($index, $login)
+  {
+    // สถานะการซ่อม
+    $this->statuses = \Repair\Status\Model::create();
+    // อ่านสถานะการทำรายการทั้งหมด
+    $statuses = \Repair\Detail\Model::getAllStatus($index->id);
+    // URL สำหรับส่งให้ตาราง
+    $uri = self::$request->createUriWithGlobals(WEB_URL.'index.php');
+    // ตาราง
+    $table = new DataTable(array(
+      /* Uri */
+      'uri' => $uri,
+      /* array datas */
+      'datas' => $statuses,
+      'onRow' => array($this, 'onRow'),
+      /* คอลัมน์ที่ไม่ต้องแสดงผล */
+      'hideColumns' => array('id'),
+      /* ตั้งค่าการกระทำของของตัวเลือกต่างๆ ด้านล่างตาราง ซึ่งจะใช้ร่วมกับการขีดถูกเลือกแถว */
+      'action' => 'index.php/repair/model/detail/action?repair_id='.$index->id,
+      'actionCallback' => 'dataTableActionCallback',
+      /* ส่วนหัวของตาราง และการเรียงลำดับ (thead) */
+      'headers' => array(
+        'name' => array(
+          'text' => '{LNG_Operator}',
+        ),
+        'status' => array(
+          'text' => '{LNG_Repair status}',
+          'class' => 'center',
+        ),
+        'create_date' => array(
+          'text' => '{LNG_Transaction date}',
+          'class' => 'center',
+        ),
+        'comment' => array(
+          'text' => '{LNG_Comment}',
+        ),
+      ),
+      /* รูปแบบการแสดงผลของคอลัมน์ (tbody) */
+      'cols' => array(
+        'status' => array(
+          'class' => 'center',
+        ),
+        'create_date' => array(
+          'class' => 'center',
+        ),
+      ),
+    ));
+    if (Login::checkPermission($login, array('can_manage_repair', 'can_repair'))) {
+      // ปุ่มแสดงในแต่ละแถว
+      $table->buttons = array(
+        'delete' => array(
+          'class' => 'icon-delete button red notext',
+          'id' => ':id',
+          'title' => '{LNG_Delete}',
+        ),
+      );
+      // สามารถลบไฟล์แนบได้
+      $canDelete = true;
+    } else {
+      // สามารถลบไฟล์แนบได้
+      $canDelete = $index->status == self::$cfg->repair_first_status;
     }
+    // template
+    $template = Template::createFromFile(ROOT_PATH.'modules/repair/views/detail.html');
+    $template->add(array(
+      '/%NAME%/' => $index->name,
+      '/%PHONE%/' => $index->phone,
+      '/%EQUIPMENT%/' => $index->equipment,
+      '/%SERIAL%/' => $index->serial,
+      '/%JOB_DESCRIPTION%/' => nl2br($index->job_description),
+      '/%CREATE_DATE%/' => Date::format($index->create_date, 'd M Y'),
+      '/%COMMENT%/' => $index->comment,
+      '/%DETAILS%/' => $table->render(),
+      '/%FILES%/' => \Repair\Download\Controller::files($index->id, $canDelete),
+    ));
 
-    /**
-     * จัดรูปแบบการแสดงผลในแต่ละแถว.
-     *
-     * @param array  $item ข้อมูลแถว
-     * @param int    $o    ID ของข้อมูล
-     * @param object $prop กำหนด properties ของ TR
-     *
-     * @return array คืนค่า $item กลับไป
-     */
-    public function onRow($item, $o, $prop)
-    {
-        $item['comment'] = nl2br($item['comment']);
-        $item['create_date'] = Date::format($item['create_date'], 'd M Y H:i');
-        $item['status'] = '<mark class=term style="background-color:'.$this->statuses->getColor($item['status']).'">'.$this->statuses->get($item['status']).'</mark>';
+    return $template->render();
+  }
 
-        return $item;
-    }
+  /**
+   * จัดรูปแบบการแสดงผลในแต่ละแถว.
+   *
+   * @param array  $item ข้อมูลแถว
+   * @param int    $o    ID ของข้อมูล
+   * @param object $prop กำหนด properties ของ TR
+   *
+   * @return array คืนค่า $item กลับไป
+   */
+  public function onRow($item, $o, $prop)
+  {
+    $item['comment'] = nl2br($item['comment']);
+    $item['create_date'] = Date::format($item['create_date'], 'd M Y H:i');
+    $item['status'] = '<mark class=term style="background-color:'.$this->statuses->getColor($item['status']).'">'.$this->statuses->get($item['status']).'</mark>';
+
+    return $item;
+  }
 }

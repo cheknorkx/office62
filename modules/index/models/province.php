@@ -21,20 +21,21 @@ use Kotchasan\Http\Request;
  */
 class Model extends \Kotchasan\Model
 {
-    /**
-     * คืนค่ารายชื่อจังหวัด.
-     *
-     * @param Request $request
-     *
-     * @return JSON
-     */
-    public function toJSON(Request $request)
-    {
-        // referer, ajax
-        if ($request->isReferer() && $request->isAjax()) {
-            echo json_encode(array(
-                'provinceID' => \Kotchasan\Province::all($request->post('country')->filter('A-Z')),
-            ));
-        }
+
+  /**
+   * คืนค่ารายชื่อจังหวัด.
+   *
+   * @param Request $request
+   *
+   * @return JSON
+   */
+  public function toJSON(Request $request)
+  {
+    // referer, ajax
+    if ($request->isReferer() && $request->isAjax()) {
+      echo json_encode(array(
+        'provinceID' => \Kotchasan\Province::all($request->post('country')->filter('A-Z')),
+      ));
     }
+  }
 }

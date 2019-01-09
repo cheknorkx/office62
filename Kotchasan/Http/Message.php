@@ -19,4 +19,5 @@ namespace Kotchasan\Http;
  */
 class Message extends AbstractMessage
 {
+
 }

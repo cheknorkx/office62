@@ -343,7 +343,7 @@ class SMTP
    * @return bool True if successfully authenticated.* @access public
    */
   public function authenticate(
-  $username, $password, $authtype = null, $realm = '', $workstation = '', $OAuth = null
+    $username, $password, $authtype = null, $realm = '', $workstation = '', $OAuth = null
   )
   {
     if (!$this->server_caps) {

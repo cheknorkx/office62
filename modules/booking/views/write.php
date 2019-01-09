@@ -22,96 +22,97 @@ use Kotchasan\Language;
  */
 class View extends \Gcms\View
 {
-    /**
-     * ฟอร์มสร้าง/แก้ไข เอกสาร.
-     *
-     * @param object $index
-     * @param array  $login
-     *
-     * @return string
-     */
-    public function render($index, $login)
-    {
-        // form
-        $form = Html::create('form', array(
-            'id' => 'setup_frm',
-            'class' => 'setup_frm',
-            'autocomplete' => 'off',
-            'action' => 'index.php/booking/model/write/submit',
-            'onsubmit' => 'doFormSubmit',
-            'ajax' => true,
-            'token' => true,
-        ));
-        $fieldset = $form->add('fieldset', array(
-            'title' => '{LNG_Details of} {LNG_Room}',
-        ));
-        // name
-        $fieldset->add('text', array(
-            'id' => 'name',
-            'labelClass' => 'g-input icon-edit',
-            'itemClass' => 'item',
-            'label' => '{LNG_Room name}',
-            'maxlength' => 64,
-            'value' => isset($index->name) ? $index->name : '',
-        ));
-        // color
-        $fieldset->add('color', array(
-            'id' => 'color',
-            'labelClass' => 'g-input icon-color',
-            'itemClass' => 'item',
-            'label' => '{LNG_Color}',
-            'value' => isset($index->color) ? $index->color : '',
-        ));
-        // detail
-        $fieldset->add('textarea', array(
-            'id' => 'detail',
-            'labelClass' => 'g-input icon-file',
-            'itemClass' => 'item',
-            'label' => '{LNG_Detail}',
-            'rows' => 3,
-            'value' => isset($index->detail) ? $index->detail : '',
-        ));
-        foreach (Language::get('ROOM_CUSTOM_TEXT') as $key => $label) {
-            $fieldset->add('text', array(
-                'id' => $key,
-                'labelClass' => 'g-input icon-edit',
-                'itemClass' => 'item',
-                'label' => $label,
-                'value' => isset($index->{$key}) ? $index->{$key} : '',
-            ));
-        }
-        // picture
-        if (is_file(ROOT_PATH.DATA_FOLDER.'booking/'.$index->id.'.jpg')) {
-            $img = WEB_URL.DATA_FOLDER.'booking/'.$index->id.'.jpg';
-        } else {
-            $img = WEB_URL.'modules/booking/img/noimage.png';
-        }
-        $fieldset->add('file', array(
-            'id' => 'picture',
-            'labelClass' => 'g-input icon-upload',
-            'itemClass' => 'item',
-            'label' => '{LNG_Image}',
-            'comment' => '{LNG_Browse image uploaded, type :type} ({LNG_resized automatically})',
-            'dataPreview' => 'imgPicture',
-            'previewSrc' => $img,
-        ));
-        $fieldset = $form->add('fieldset', array(
-            'class' => 'submit',
-        ));
-        // submit
-        $fieldset->add('submit', array(
-            'class' => 'button ok large icon-save',
-            'value' => '{LNG_Save}',
-        ));
-        // id
-        $fieldset->add('hidden', array(
-            'id' => 'id',
-            'value' => $index->id,
-        ));
-        \Gcms\Controller::$view->setContentsAfter(array(
-            '/:type/' => 'jpg, jpeg, png',
-        ));
 
-        return $form->render();
+  /**
+   * ฟอร์มสร้าง/แก้ไข เอกสาร.
+   *
+   * @param object $index
+   * @param array  $login
+   *
+   * @return string
+   */
+  public function render($index, $login)
+  {
+    // form
+    $form = Html::create('form', array(
+        'id' => 'setup_frm',
+        'class' => 'setup_frm',
+        'autocomplete' => 'off',
+        'action' => 'index.php/booking/model/write/submit',
+        'onsubmit' => 'doFormSubmit',
+        'ajax' => true,
+        'token' => true,
+    ));
+    $fieldset = $form->add('fieldset', array(
+      'title' => '{LNG_Details of} {LNG_Room}',
+    ));
+    // name
+    $fieldset->add('text', array(
+      'id' => 'name',
+      'labelClass' => 'g-input icon-edit',
+      'itemClass' => 'item',
+      'label' => '{LNG_Room name}',
+      'maxlength' => 64,
+      'value' => isset($index->name) ? $index->name : '',
+    ));
+    // color
+    $fieldset->add('color', array(
+      'id' => 'color',
+      'labelClass' => 'g-input icon-color',
+      'itemClass' => 'item',
+      'label' => '{LNG_Color}',
+      'value' => isset($index->color) ? $index->color : '',
+    ));
+    // detail
+    $fieldset->add('textarea', array(
+      'id' => 'detail',
+      'labelClass' => 'g-input icon-file',
+      'itemClass' => 'item',
+      'label' => '{LNG_Detail}',
+      'rows' => 3,
+      'value' => isset($index->detail) ? $index->detail : '',
+    ));
+    foreach (Language::get('ROOM_CUSTOM_TEXT') as $key => $label) {
+      $fieldset->add('text', array(
+        'id' => $key,
+        'labelClass' => 'g-input icon-edit',
+        'itemClass' => 'item',
+        'label' => $label,
+        'value' => isset($index->{$key}) ? $index->{$key} : '',
+      ));
     }
+    // picture
+    if (is_file(ROOT_PATH.DATA_FOLDER.'booking/'.$index->id.'.jpg')) {
+      $img = WEB_URL.DATA_FOLDER.'booking/'.$index->id.'.jpg';
+    } else {
+      $img = WEB_URL.'modules/booking/img/noimage.png';
+    }
+    $fieldset->add('file', array(
+      'id' => 'picture',
+      'labelClass' => 'g-input icon-upload',
+      'itemClass' => 'item',
+      'label' => '{LNG_Image}',
+      'comment' => '{LNG_Browse image uploaded, type :type} ({LNG_resized automatically})',
+      'dataPreview' => 'imgPicture',
+      'previewSrc' => $img,
+    ));
+    $fieldset = $form->add('fieldset', array(
+      'class' => 'submit',
+    ));
+    // submit
+    $fieldset->add('submit', array(
+      'class' => 'button ok large icon-save',
+      'value' => '{LNG_Save}',
+    ));
+    // id
+    $fieldset->add('hidden', array(
+      'id' => 'id',
+      'value' => $index->id,
+    ));
+    \Gcms\Controller::$view->setContentsAfter(array(
+      '/:type/' => 'jpg, jpeg, png',
+    ));
+
+    return $form->render();
+  }
 }

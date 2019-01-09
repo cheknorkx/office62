@@ -7,12 +7,12 @@
  * @copyright 2016 Goragod.com
  * @license http://www.kotchasan.com/license/
  */
-(function() {
+(function () {
   "use strict";
   var GTooltips = new Array();
   window.GTooltip = GClass.create();
   GTooltip.prototype = {
-    initialize: function(o) {
+    initialize: function (o) {
       this.options = {
         id: "",
         delayin: 200,
@@ -53,7 +53,7 @@
       this.tooltip.onmouseout = this.delayHide.bind(this);
       this.id = GTooltips.length;
       GTooltips[this.id] = this;
-      $G(document.body).addEvent("click", function() {
+      $G(document.body).addEvent("click", function () {
         for (var i = 0; i < GTooltips.length; i++) {
           if (GTooltips[i].options.autohide) {
             GTooltips[i].hide();
@@ -64,19 +64,19 @@
         cache: this.options.cache
       });
     },
-    showAjax: function(elem, url, query, onload) {
+    showAjax: function (elem, url, query, onload) {
       if (this.ajax_elem != elem) {
         this.ajax_elem = elem;
         this.req.abort();
         var temp = this;
-        this.req.send(url, query, function(xhr) {
+        this.req.send(url, query, function (xhr) {
           var data = xhr.responseText;
           if (data !== "") {
             if (temp.iframe.style.display != "none") {
               temp.show(elem, data);
               onload.call(temp, xhr);
             } else {
-              temp.delayin = window.setTimeout(function() {
+              temp.delayin = window.setTimeout(function () {
                 temp.show(elem, data);
                 onload.call(temp, xhr);
               }, temp.options.delayin);
@@ -86,20 +86,20 @@
         var el = $E(elem);
         var old_onmouseout = el.onmouseout;
         var req = this.req;
-        el.onmouseout = function() {
+        el.onmouseout = function () {
           req.abort();
           window.clearTimeout(temp.delayin);
           window.clearTimeout(temp.delayout);
           window.clearTimeout(temp.timeautohidedelay);
           el.onmouseout = old_onmouseout;
-          temp.delayout = window.setTimeout(function() {
+          temp.delayout = window.setTimeout(function () {
             temp.hide.call(temp);
           }, temp.options.delayout);
         };
       }
       return this;
     },
-    show: function(s, v) {
+    show: function (s, v) {
       s = $G(s);
       var sPos = s.viewportOffset();
       var sHeight = s.getHeight();
@@ -117,7 +117,7 @@
       var l, t, w;
       var p = s.hasClass(
         "tooltip-bottom tooltip-top tooltip-left tooltip-right"
-      );
+        );
       if (p == "tooltip-bottom") {
         t = sPos.top + sHeight + 6;
         if (t + this.tooltip.getHeight() > cTop + cHeight) {
@@ -173,20 +173,20 @@
           GTooltips[i].hide();
         }
       }
-      this.tooltip.fadeIn(function() {
+      this.tooltip.fadeIn(function () {
         temp.timeautohidedelay = window.setTimeout(
           temp.hide.bind(temp),
           temp.options.autohidedelay
-        );
+          );
       });
     },
-    delayHide: function() {
+    delayHide: function () {
       this.timedelayhide = window.setTimeout(
         this.hide.bind(this),
         this.options.autohidedelay
-      );
+        );
     },
-    cancelHideDelay: function() {
+    cancelHideDelay: function () {
       if (this.req) {
         this.req.abort();
       }
@@ -194,9 +194,9 @@
       window.clearTimeout(this.timedelayhide);
       window.clearTimeout(this.delayout);
     },
-    hide: function() {
+    hide: function () {
       var self = this;
-      this.tooltip.fadeOut(function() {
+      this.tooltip.fadeOut(function () {
         self.tooltip.setStyle("display", "none");
         self.iframe.setStyle("display", "none");
       });

@@ -19,4 +19,5 @@ namespace Kotchasan\Database;
  */
 class Exception extends \Exception
 {
+
 }

@@ -21,26 +21,27 @@ use Kotchasan\Database\Sql;
  */
 class Model extends \Kotchasan\Model
 {
-    /**
-     * อ่านรายการจองวันนี้.
-     *
-     * @return object
-     */
-    public static function getNew($login)
-    {
-        $search = static::createQuery()
-            ->selectCount()
-            ->from('reservation')
-            ->where(array(
-                array('status', 1),
-                Sql::BETWEEN(date('Y-m-d'), Sql::DATE('begin'), Sql::DATE('end')),
-            ))
-            ->toArray()
-            ->execute();
-        if (!empty($search)) {
-            return $search[0]['count'];
-        }
 
-        return 0;
+  /**
+   * อ่านรายการจองวันนี้.
+   *
+   * @return object
+   */
+  public static function getNew($login)
+  {
+    $search = static::createQuery()
+      ->selectCount()
+      ->from('reservation')
+      ->where(array(
+        array('status', 1),
+        Sql::BETWEEN(date('Y-m-d'), Sql::DATE('begin'), Sql::DATE('end')),
+      ))
+      ->toArray()
+      ->execute();
+    if (!empty($search)) {
+      return $search[0]['count'];
     }
+
+    return 0;
+  }
 }

@@ -19,21 +19,22 @@ namespace Edocument\View;
  */
 class Model extends \Kotchasan\Model
 {
-    /**
-     * อ่านเอกสารที่ $id
-     * ไม่พบ คืนค่า null.
-     *
-     * @param int   $id
-     * @param array $login
-     *
-     * @return object
-     */
-    public static function get($id, $login)
-    {
-        return static::createQuery()
-            ->from('edocument A')
-            ->join('edocument_download E', 'INNER', array(array('E.id', 'A.id'), array('E.member_id', $login['id'])))
-            ->where(array('A.id', $id))
-            ->first('A.id', 'A.document_no', 'E.downloads', 'A.topic', 'A.ext', 'A.sender_id', 'A.size', 'A.last_update', 'A.detail');
-    }
+
+  /**
+   * อ่านเอกสารที่ $id
+   * ไม่พบ คืนค่า null.
+   *
+   * @param int   $id
+   * @param array $login
+   *
+   * @return object
+   */
+  public static function get($id, $login)
+  {
+    return static::createQuery()
+        ->from('edocument A')
+        ->join('edocument_download E', 'INNER', array(array('E.id', 'A.id'), array('E.member_id', $login['id'])))
+        ->where(array('A.id', $id))
+        ->first('A.id', 'A.document_no', 'E.downloads', 'A.topic', 'A.ext', 'A.sender_id', 'A.size', 'A.last_update', 'A.detail');
+  }
 }

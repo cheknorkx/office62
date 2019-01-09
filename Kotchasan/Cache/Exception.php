@@ -19,4 +19,5 @@ namespace Kotchasan\Cache;
  */
 class Exception extends \Exception
 {
+
 }

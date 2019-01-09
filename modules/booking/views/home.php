@@ -22,30 +22,31 @@ use Kotchasan\Html;
  */
 class View extends \Gcms\View
 {
-    /**
-     * หน้า Home.
-     *
-     * @param object $index
-     * @param array  $login
-     *
-     * @return string
-     */
-    public function render($index, $login)
-    {
-        $section = Html::create('section');
-        $section->add('h3', array(
-            'innerHTML' => '<span class="icon-calendar">{LNG_Booking calendar}</span>',
-        ));
-        $div = $section->add('div', array(
-            'class' => 'setup_frm',
-        ));
-        $div->add('div', array(
-            'id' => 'booking-calendar',
-            'class' => 'margin-left-right-bottom-top',
-        ));
-        /* Javascript */
-        $div->script('initBookingCalendar();');
 
-        return $section->render();
-    }
+  /**
+   * หน้า Home.
+   *
+   * @param object $index
+   * @param array  $login
+   *
+   * @return string
+   */
+  public function render($index, $login)
+  {
+    $section = Html::create('section');
+    $section->add('h3', array(
+      'innerHTML' => '<span class="icon-calendar">{LNG_Booking calendar}</span>',
+    ));
+    $div = $section->add('div', array(
+      'class' => 'setup_frm',
+    ));
+    $div->add('div', array(
+      'id' => 'booking-calendar',
+      'class' => 'margin-left-right-bottom-top',
+    ));
+    /* Javascript */
+    $div->script('initBookingCalendar();');
+
+    return $section->render();
+  }
 }

@@ -21,20 +21,21 @@ use Kotchasan\Language;
  */
 class Model extends \Kotchasan\Model
 {
-    /**
-     * ฟังก์ชั่นตรวจสอบความถูกต้องของ username และตรวจสอบ username ซ้ำ.
-     */
-    public function username()
-    {
-        // referer
-        if (self::$request->isReferer()) {
-            $id = self::$request->post('id')->toInt();
-            $value = self::$request->post('value')->url();
-            // ตรวจสอบ username ซ้ำ
-            $search = $this->db()->first($this->getTableName('user'), array('username', $value));
-            if ($search && ($id == 0 || $id != $search->id)) {
-                echo Language::replace('This :name already exist', array(':name' => Language::get('Email')));
-            }
-        }
+
+  /**
+   * ฟังก์ชั่นตรวจสอบความถูกต้องของ username และตรวจสอบ username ซ้ำ.
+   */
+  public function username()
+  {
+    // referer
+    if (self::$request->isReferer()) {
+      $id = self::$request->post('id')->toInt();
+      $value = self::$request->post('value')->url();
+      // ตรวจสอบ username ซ้ำ
+      $search = $this->db()->first($this->getTableName('user'), array('username', $value));
+      if ($search && ($id == 0 || $id != $search->id)) {
+        echo Language::replace('This :name already exist', array(':name' => Language::get('Email')));
+      }
     }
+  }
 }

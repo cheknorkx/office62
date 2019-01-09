@@ -1980,11 +1980,15 @@ html .sidemenu ul,
   overflow: visible;
 }
 .menubutton > ul > li > a,
+.menubutton > ul > li > a:hover,
 .topmenu li > a > span,
 .topmenu li > a,
+.topmenu li > a:hover,
 .sidemenu li > a > span,
 .sidemenu li > a,
-.group-button li > a {
+.sidemenu li > a:hover,
+.group-button li > a,
+.group-button li > a:hover {
   display: block;
   cursor: pointer;
   color: inherit;

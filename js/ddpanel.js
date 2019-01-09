@@ -7,20 +7,20 @@
  * @copyright 2016 Goragod.com
  * @license http://www.kotchasan.com/license/
  */
-(function() {
+(function () {
   "use strict";
   var GDPanels = [];
   var gdpanels_len = 0;
   window.GDPanel = GClass.create();
   GDPanel.prototype = {
-    initialize: function(a, div, prefix) {
+    initialize: function (a, div, prefix) {
       this.prefix = prefix || "gdpanel";
       var self = this;
       $E(div).className = this.prefix + " " + this.prefix + gdpanels_len;
       $E(a).className = this.prefix + "-arrow " + this.prefix + gdpanels_len;
       gdpanels_len++;
       GDPanels[a] = div;
-      callClick(a, function() {
+      callClick(a, function () {
         self.show(this);
         return false;
       });
@@ -45,13 +45,13 @@
         }
         return null;
       }
-      $G(document.body).addEvent("click", function(e) {
+      $G(document.body).addEvent("click", function (e) {
         if (_isPanel(GEvent.element(e)) === null) {
           self.show(null);
         }
       });
     },
-    show: function(src) {
+    show: function (src) {
       var c = "",
         a,
         div;
@@ -71,7 +71,7 @@
         }
       }
     },
-    hide: function() {
+    hide: function () {
       this.show(null);
     }
   };

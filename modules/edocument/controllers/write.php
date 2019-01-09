@@ -24,48 +24,49 @@ use Kotchasan\Language;
  */
 class Controller extends \Gcms\Controller
 {
-    /**
-     * ฟอร์มสร้าง/แก้ไข เอกสาร.
-     *
-     * @param Request $request
-     *
-     * @return string
-     */
-    public function render(Request $request)
-    {
-        // สมาชิก
-        $login = Login::isMember();
-        // ตรวจสอบรายการที่เลือก
-        $index = \Edocument\Write\Model::get($request->request('id')->toInt(), $login);
-        // ข้อความ title bar
-        $title = '{LNG_'.(empty($index->id) ? 'Send Document' : 'Edit').'}';
-        $this->title = Language::trans($title.' {LNG_E-Document}');
-        // เลือกเมนู
-        $this->menu = 'edocument';
-        // สามารถจัดการรายชื่อบุคลากรได้
-        if ($index && Login::checkPermission($login, 'can_upload_edocument')) {
-            // แสดงผล
-            $section = Html::create('section', array(
-                'class' => 'content_bg',
-            ));
-            // breadcrumbs
-            $breadcrumbs = $section->add('div', array(
-                'class' => 'breadcrumbs',
-            ));
-            $ul = $breadcrumbs->add('ul');
-            $ul->appendChild('<li><span class="icon-edocument">{LNG_Module}</span></li>');
-            $ul->appendChild('<li><a href="{BACKURL?module=edocument-sent}">{LNG_E-Document}</a></li>');
-            $ul->appendChild('<li><span>'.$title.'</span></li>');
-            $section->add('header', array(
-                'innerHTML' => '<h2 class="icon-write">'.$this->title.'</h2>',
-            ));
-            // แสดงฟอร์ม
-            $section->appendChild(createClass('Edocument\Write\View')->render($index, $login));
 
-            return $section->render();
-        }
-        // 404
+  /**
+   * ฟอร์มสร้าง/แก้ไข เอกสาร.
+   *
+   * @param Request $request
+   *
+   * @return string
+   */
+  public function render(Request $request)
+  {
+    // สมาชิก
+    $login = Login::isMember();
+    // ตรวจสอบรายการที่เลือก
+    $index = \Edocument\Write\Model::get($request->request('id')->toInt(), $login);
+    // ข้อความ title bar
+    $title = '{LNG_'.(empty($index->id) ? 'Send Document' : 'Edit').'}';
+    $this->title = Language::trans($title.' {LNG_E-Document}');
+    // เลือกเมนู
+    $this->menu = 'edocument';
+    // สามารถจัดการรายชื่อบุคลากรได้
+    if ($index && Login::checkPermission($login, 'can_upload_edocument')) {
+      // แสดงผล
+      $section = Html::create('section', array(
+          'class' => 'content_bg',
+      ));
+      // breadcrumbs
+      $breadcrumbs = $section->add('div', array(
+        'class' => 'breadcrumbs',
+      ));
+      $ul = $breadcrumbs->add('ul');
+      $ul->appendChild('<li><span class="icon-edocument">{LNG_Module}</span></li>');
+      $ul->appendChild('<li><a href="{BACKURL?module=edocument-sent}">{LNG_E-Document}</a></li>');
+      $ul->appendChild('<li><span>'.$title.'</span></li>');
+      $section->add('header', array(
+        'innerHTML' => '<h2 class="icon-write">'.$this->title.'</h2>',
+      ));
+      // แสดงฟอร์ม
+      $section->appendChild(createClass('Edocument\Write\View')->render($index, $login));
 
-        return \Index\Error\Controller::execute($this);
+      return $section->render();
     }
+    // 404
+
+    return \Index\Error\Controller::execute($this);
+  }
 }

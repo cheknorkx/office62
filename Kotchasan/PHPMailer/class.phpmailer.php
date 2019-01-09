@@ -1473,7 +1473,7 @@ class PHPMailer
         $errstr .= $bad['to'].': '.$bad['error'];
       }
       throw new phpmailerException(
-      $this->lang('recipients_failed').$errstr, self::STOP_CONTINUE
+        $this->lang('recipients_failed').$errstr, self::STOP_CONTINUE
       );
     }
     return true;
@@ -2780,8 +2780,8 @@ class PHPMailer
    * @deprecated Use encodeQP instead.
    */
   public function encodeQPphp(
-  $string, $line_max = 76,
-  /** @noinspection PhpUnusedParameterInspection */ $space_conv = false
+    $string, $line_max = 76,
+    /** @noinspection PhpUnusedParameterInspection */ $space_conv = false
   )
   {
     return $this->encodeQP($string, $line_max);
@@ -2847,7 +2847,7 @@ class PHPMailer
    * @return void
    */
   public function addStringAttachment(
-  $string, $filename, $encoding = 'base64', $type = '', $disposition = 'attachment'
+    $string, $filename, $encoding = 'base64', $type = '', $disposition = 'attachment'
   )
   {
     // If a MIME type is not specified, try to work it out from the file name
@@ -2929,7 +2929,7 @@ class PHPMailer
    * @return boolean True on successfully adding an attachment
    */
   public function addStringEmbeddedImage(
-  $string, $cid, $name = '', $encoding = 'base64', $type = '', $disposition = 'inline'
+    $string, $cid, $name = '', $encoding = 'base64', $type = '', $disposition = 'inline'
   )
   {
     // If a MIME type is not specified, try to work it out from the name

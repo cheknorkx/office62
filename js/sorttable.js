@@ -7,11 +7,11 @@
  * @copyright 2016 Goragod.com
  * @license http://www.kotchasan.com/license/
  */
-(function() {
+(function () {
   "use strict";
   window.GSortTable = GClass.create();
   GSortTable.prototype = {
-    initialize: function(id, options) {
+    initialize: function (id, options) {
       this.options = {
         sortClass: "icon-move",
         itemClass: "sort",
@@ -33,7 +33,7 @@
           mouseover &&
           mousePos.x < elemPos.left + elemSize.width &&
           mousePos.y < elemPos.top + elemSize.height
-        );
+          );
       }
       function doBeginDrag() {
         self.changed = false;
@@ -43,7 +43,7 @@
       }
       function doMoveDrag() {
         var temp = this;
-        forEach(dropitems, function() {
+        forEach(dropitems, function () {
           if (checkMouseOver(this, temp.mousePos)) {
             if (this != hoverItem) {
               self.changed = true;
@@ -81,7 +81,7 @@
         moveDrag: doMoveDrag,
         endDrag: doEndDrag
       };
-      forEach($E(id).getElementsByTagName("*"), function() {
+      forEach($E(id).getElementsByTagName("*"), function () {
         if ($G(this).hasClass(self.options.itemClass)) {
           new GDrag(_find(this), this, o);
           dropitems.push(this);

@@ -22,27 +22,28 @@ use Kotchasan\Http\Request;
  */
 class Controller extends \Gcms\Controller
 {
-    /**
-     * หน้าสำหรับพิมพ์ (print.html).
-     *
-     * @param Request $request
-     */
-    public function index(Request $request)
-    {
-        // session, member
-        if ($request->initSession() && $login = Login::isMember()) {
-            // อ่านข้อมูลการทำรายการ
-            $index = \Repair\Export\Model::get($request->get('id')->toInt());
-            if ($index && ($login['id'] == $index->customer_id || Login::checkPermission($login, array('can_manage_repair', 'can_repair')))) {
-                $detail = createClass('Repair\Export\View')->render($index);
-            }
-        }
-        if (empty($detail)) {
-            // ไม่พบโมดูลหรือไม่มีสิทธิ
-            new \Kotchasan\Http\NotFound();
-        } else {
-            // แสดงผล
-            echo $detail;
-        }
+
+  /**
+   * หน้าสำหรับพิมพ์ (print.html).
+   *
+   * @param Request $request
+   */
+  public function index(Request $request)
+  {
+    // session, member
+    if ($request->initSession() && $login = Login::isMember()) {
+      // อ่านข้อมูลการทำรายการ
+      $index = \Repair\Export\Model::get($request->get('id')->toInt());
+      if ($index && ($login['id'] == $index->customer_id || Login::checkPermission($login, array('can_manage_repair', 'can_repair')))) {
+        $detail = createClass('Repair\Export\View')->render($index);
+      }
     }
+    if (empty($detail)) {
+      // ไม่พบโมดูลหรือไม่มีสิทธิ
+      new \Kotchasan\Http\NotFound();
+    } else {
+      // แสดงผล
+      echo $detail;
+    }
+  }
 }
