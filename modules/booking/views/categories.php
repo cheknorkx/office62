@@ -85,7 +85,6 @@ class View extends \Gcms\View
       'value' => $index->type,
     ));
     // คืนค่าฟอร์ม
-
     return $form->render();
   }
 
@@ -114,7 +113,6 @@ class View extends \Gcms\View
           'style' => 'background-image:url(../language/'.$lng.'.gif)',
         ))->render();
     }
-
     return $item;
   }
 }

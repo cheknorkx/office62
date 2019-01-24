@@ -50,7 +50,7 @@ class Controller extends \Gcms\Controller
       '/{TOPIC}/' => $this->title,
       '/{DETAIL}/' => $this->title,
     ));
-
+    // คืนค่า HTML
     return $template->render();
   }
 
@@ -74,7 +74,7 @@ class Controller extends \Gcms\Controller
     $controller->title = strip_tags($message);
     $controller->menu = $controller->menu;
     $controller->status = $status;
-
+    // คืนค่า HTML
     return $template->render();
   }
 

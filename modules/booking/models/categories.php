@@ -62,7 +62,6 @@ class Model extends \Kotchasan\Model
         $result[0][$lng] = '';
       }
     }
-
     return $result;
   }
 

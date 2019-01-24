@@ -59,6 +59,7 @@ class Controller extends \Gcms\Controller
       $config = Config::load(ROOT_PATH.'settings/config.php');
       // แสดงฟอร์ม
       $section->appendChild(createClass('Index\Mailserver\View')->render($config));
+      // คืนค่า HTML
       return $section->render();
     }
     // 404

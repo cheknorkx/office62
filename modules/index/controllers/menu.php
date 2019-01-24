@@ -40,7 +40,6 @@ class Controller
     $obj = new static();
     // โหลดเมนู
     $obj->menus = \Index\Menu\Model::getMenus($login);
-
     return $obj;
   }
 
@@ -70,7 +69,6 @@ class Controller
     if (empty($this->menus['report']['submenus'])) {
       unset($this->menus['report']);
     }
-
     return \Kotchasan\Menu::render($this->menus, $select);
   }
 
@@ -82,7 +80,6 @@ class Controller
   public function home()
   {
     $keys = array_keys($this->menus);
-
     return reset($keys);
   }
 
