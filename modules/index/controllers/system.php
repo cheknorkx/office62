@@ -61,11 +61,9 @@ class Controller extends \Gcms\Controller
       $config = Config::load(ROOT_PATH.'settings/config.php');
       // แสดงฟอร์ม
       $section->appendChild(createClass('Index\System\View')->render($config, $login));
-
       return $section->render();
     }
     // 404
-
     return \Index\Error\Controller::execute($this);
   }
 }

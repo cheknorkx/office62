@@ -57,7 +57,6 @@ class View extends \Kotchasan\View
         }
       }
     }
-
     return WEB_URL.'index.php?'.implode('&amp;', $query_url);
   }
 
@@ -79,7 +78,6 @@ class View extends \Kotchasan\View
       /* ภาษา ที่ใช้งานอยู่ */
       '/{LANGUAGE}/' => Language::name(),
     ));
-
     return parent::renderHTML($template);
   }
 
@@ -96,7 +94,6 @@ class View extends \Kotchasan\View
     foreach (explode(',', $phone_number) as $phone) {
       $result[] = '<a href="tel:'.$phone.'">'.$phone.'</a>';
     }
-
     return empty($result) ? '' : implode(', ', $result);
   }
 }

@@ -46,7 +46,6 @@ class Controller extends \Gcms\Controller
     // ไตเติลจากและเนื้อหาจาก View
     $this->title = $page->title;
     $this->detail = $page->detail;
-
     return $this;
   }
 }

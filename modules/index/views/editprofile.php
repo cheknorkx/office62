@@ -214,7 +214,7 @@ class View extends \Gcms\View
     ));
     // Javascript
     $form->script('initEditProfile("register", '.json_encode(Province::countries()).');');
-
+    // คืนค่า HTML
     return $form->render();
   }
 }

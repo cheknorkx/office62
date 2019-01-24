@@ -66,7 +66,6 @@ class Login extends \Kotchasan\Login
         ->where((int)$login_result['id'])
         ->execute();
     }
-
     return $login_result;
   }
 
@@ -116,7 +115,6 @@ class Login extends \Kotchasan\Login
 
       return isset($item) ? Language::replace('Incorrect :name', array(':name' => Language::get('Password'))) : Language::get('not a registered user');
     }
-
     return $login_result;
   }
 
@@ -151,7 +149,6 @@ class Login extends \Kotchasan\Login
       }
     }
     // ไม่มีสิทธิ
-
     return null;
   }
 

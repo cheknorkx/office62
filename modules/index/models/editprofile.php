@@ -48,7 +48,6 @@ class Model extends \Kotchasan\Model
         return $user;
       }
     }
-
     return false;
   }
 

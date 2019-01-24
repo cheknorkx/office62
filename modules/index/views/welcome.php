@@ -47,7 +47,6 @@ class View extends \Kotchasan\View
       '/{URL}/' => $request->getUri()->withoutParams('action'),
       '/{LOGINMENU}/' => self::menus('login'),
     ));
-
     return (object)array(
         'detail' => $template->render(),
         'title' => Language::get('Login with an existing account'),
@@ -72,7 +71,6 @@ class View extends \Kotchasan\View
       '/{CLASS}/' => empty(Login::$login_message) ? 'hidden' : (empty(Login::$login_input) ? 'message' : 'error'),
       '/{LOGINMENU}/' => self::menus('forgot'),
     ));
-
     return (object)array(
         'detail' => $template->render(),
         'title' => Language::get('Get new password'),
@@ -96,7 +94,6 @@ class View extends \Kotchasan\View
       '/{TOKEN}/' => $request->createToken(),
       '/{LOGINMENU}/' => self::menus('register'),
     ));
-
     return (object)array(
         'detail' => $template->render(),
         'title' => Language::get('Register'),
@@ -122,7 +119,6 @@ class View extends \Kotchasan\View
     if (in_array($from, array('register', 'login')) && !empty(self::$cfg->user_forgot)) {
       $menus[] = '<a href="index.php?action=forgot">{LNG_Forgot}</a>';
     }
-
     return empty($menus) ? '' : implode('&nbsp;/&nbsp;', $menus);
   }
 }

@@ -106,7 +106,7 @@ class Model extends \Kotchasan\Model
           // เพิ่มข้อมูลใหม่
           foreach ($save as $item) {
             if (isset($item['topic'])) {
-              $item['topic'] = json_encode($item['topic'], JSON_UNESCAPED_UNICODE);
+              $item['topic'] = json_encode($item['topic']);
               $item['type'] = $type;
               $db->insert($table_name, $item);
             }

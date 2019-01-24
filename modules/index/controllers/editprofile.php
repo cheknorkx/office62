@@ -60,12 +60,11 @@ class Controller extends \Gcms\Controller
         ));
         // แสดงฟอร์ม
         $section->appendChild(createClass('Index\Editprofile\View')->render($user, $login));
-
+        // คืนค่า HTML
         return $section->render();
       }
     }
     // 404
-
     return \Index\Error\Controller::execute($this);
   }
 }

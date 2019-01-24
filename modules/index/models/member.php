@@ -47,7 +47,6 @@ class Model extends \Kotchasan\Model
       ->selectCount()
       ->from('user')
       ->execute();
-
     return $query[0]->count;
   }
 
