@@ -7,18 +7,18 @@
  * @copyright 2016 Goragod.com
  * @license http://www.kotchasan.com/license/
  */
-(function () {
+(function() {
   "use strict";
   window.EditInPlace = GClass.create();
   EditInPlace.prototype = {
-    initialize: function (e, o) {
+    initialize: function(e, o) {
       this.className = "editinplace";
-      this.editing = function () {
+      this.editing = function() {
         return (
           '<input type="text" value="' +
           (this.value ? this.value : this.innerHTML) +
           '" />'
-          );
+        );
       };
       for (var p in o) {
         this[p] = o[p];
@@ -29,7 +29,7 @@
       this.src.addClass(this.className);
       this.src.addEvent("click", this.Edit.bind(this));
       var self = this;
-      this.src.addEvent("keydown", function (e) {
+      this.src.addEvent("keydown", function(e) {
         var key = GEvent.keyCode(e);
         if (key == 13 || key == 32) {
           self.Edit.call(self);
@@ -39,7 +39,7 @@
         return true;
       });
     },
-    Edit: function () {
+    Edit: function() {
       var e = this.editing.call(this.src);
       if (e !== "" && e !== null) {
         e = e.toDOM().firstChild;
@@ -57,10 +57,10 @@
       }
       return this;
     },
-    select: function () {
+    select: function() {
       this.editor.select();
     },
-    cancelEdit: function () {
+    cancelEdit: function() {
       this.src.style.display = this.oldDisplay;
       this.editor.removeEvent("blur", this._saveEdit.bind(this));
       this.editor.removeEvent("keypress", this._checkKey.bind(this));
@@ -69,7 +69,7 @@
       this.src.focus();
       return this;
     },
-    _saveEdit: function () {
+    _saveEdit: function() {
       var ret = true,
         v = this.editor.value ? this.editor.value : this.editor.innerHTML;
       if (Object.isFunction(this.onSave)) {
@@ -81,7 +81,7 @@
         this.cancelEdit();
       }
     },
-    _checkKey: function (e) {
+    _checkKey: function(e) {
       var key = GEvent.keyCode(e);
       if (key == 27) {
         this.cancelEdit();

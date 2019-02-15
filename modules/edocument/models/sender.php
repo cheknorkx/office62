@@ -19,61 +19,62 @@ namespace Edocument\Sender;
  */
 class Model extends \Kotchasan\Model
 {
-  /**
-   * @var array
-   */
-  private $datas = array();
+    /**
+     * @var array
+     */
+    private $datas = array();
 
-  /**
-   * query รายชื่อผู้ส่ง.
-   *
-   * @param int $id (default) คืนค่าทุกคน, > คืนค่ารายการที่เลือก
-   *
-   * @return \static
-   */
-  public static function init($id = 0)
-  {
-    $model = new static();
-    if ($id == 0) {
-      $sql1 = $model->db()->createQuery()
-        ->select('sender_id')
-        ->from('edocument');
-    } else {
-      $sql1 = array($id);
+    /**
+     * query รายชื่อผู้ส่ง.
+     *
+     * @param int $id (default) คืนค่าทุกคน, > คืนค่ารายการที่เลือก
+     *
+     * @return \static
+     */
+    public static function init($id = 0)
+    {
+        $model = new static();
+        if ($id == 0) {
+            $sql1 = $model->db()->createQuery()
+                ->select('sender_id')
+                ->from('edocument');
+        } else {
+            $sql1 = array($id);
+        }
+        $query = $model->db()->createQuery()
+            ->select('id', 'name')
+            ->from('user U')
+            ->where(array('id', 'IN', $sql1))
+            ->order('U.name')
+            ->cacheOn();
+        foreach ($query->execute() as $item) {
+            $model->datas[$item->id] = $item->name;
+        }
+
+        return $model;
     }
-    $query = $model->db()->createQuery()
-      ->select('id', 'name')
-      ->from('user U')
-      ->where(array('id', 'IN', $sql1))
-      ->order('U.name');
-    foreach ($query->execute() as $item) {
-      $model->datas[$item->id] = $item->name;
+
+    /**
+     * ลิสต์รายชื่อผู้ส่ง
+     * สำหรับใส่ลงใน select.
+     *
+     * @return array
+     */
+    public function toSelect()
+    {
+        return $this->datas;
     }
 
-    return $model;
-  }
-
-  /**
-   * ลิสต์รายชื่อผู้ส่ง
-   * สำหรับใส่ลงใน select.
-   *
-   * @return array
-   */
-  public function toSelect()
-  {
-    return $this->datas;
-  }
-
-  /**
-   * อ่านชื่อผู้ส่งที่ $id
-   * ไม่พบ คืนค่าว่าง.
-   *
-   * @param int $id
-   *
-   * @return string
-   */
-  public function get($id)
-  {
-    return isset($this->datas[$id]) ? $this->datas[$id] : '';
-  }
+    /**
+     * อ่านชื่อผู้ส่งที่ $id
+     * ไม่พบ คืนค่าว่าง.
+     *
+     * @param int $id
+     *
+     * @return string
+     */
+    public function get($id)
+    {
+        return isset($this->datas[$id]) ? $this->datas[$id] : '';
+    }
 }

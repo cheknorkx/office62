@@ -21,79 +21,79 @@ use Kotchasan\Language;
  */
 class Model
 {
-  /**
-   * @var array
-   */
-  private $datas = array();
+    /**
+     * @var array
+     */
+    private $datas = array();
 
-  /**
-   * @return static
-   */
-  public static function init()
-  {
-    $obj = new static();
-    // Query ข้อมูลหมวดหมู่จากตาราง category
-    $query = \Kotchasan\Model::createQuery()
-      ->select('category_id', 'topic', 'type')
-      ->from('category')
-      ->where(array('type', array('department', 'position')))
-      ->order('category_id')
-      ->cacheOn();
-    // ภาษาที่ใช้งานอยู่
-    $lng = Language::name();
-    foreach ($query->execute() as $item) {
-      $topic = json_decode($item->topic, true);
-      if (isset($topic[$lng])) {
-        $obj->datas[$item->type][$item->category_id] = $topic[$lng];
-      }
+    /**
+     * @return static
+     */
+    public static function init()
+    {
+        $obj = new static();
+        // Query ข้อมูลหมวดหมู่จากตาราง category
+        $query = \Kotchasan\Model::createQuery()
+            ->select('category_id', 'topic', 'type')
+            ->from('category')
+            ->where(array('type', array('department', 'position')))
+            ->order('category_id')
+            ->cacheOn();
+        // ภาษาที่ใช้งานอยู่
+        $lng = Language::name();
+        foreach ($query->execute() as $item) {
+            $topic = json_decode($item->topic, true);
+            if (isset($topic[$lng])) {
+                $obj->datas[$item->type][$item->category_id] = $topic[$lng];
+            }
+        }
+
+        return $obj;
     }
 
-    return $obj;
-  }
+    /**
+     * ลิสต์รายการหมวดหมู่
+     * สำหรับใส่ลงใน select.
+     *
+     * @param string $type
+     *
+     * @return array
+     */
+    private function toSelect($type)
+    {
+        return empty($this->datas[$type]) ? array() : $this->datas[$type];
+    }
 
-  /**
-   * ลิสต์รายการหมวดหมู่
-   * สำหรับใส่ลงใน select.
-   *
-   * @param string $type
-   *
-   * @return array
-   */
-  private function toSelect($type)
-  {
-    return empty($this->datas[$type]) ? array() : $this->datas[$type];
-  }
+    /**
+     * ลิสต์รายแผนก
+     * สำหรับใส่ลงใน select.
+     *
+     * @return array
+     */
+    public function department()
+    {
+        return $this->toSelect('department');
+    }
 
-  /**
-   * ลิสต์รายแผนก
-   * สำหรับใส่ลงใน select.
-   *
-   * @return array
-   */
-  public function department()
-  {
-    return $this->toSelect('department');
-  }
+    /**
+     * ลิสต์รายการตำแหน่ง
+     * สำหรับใส่ลงใน select.
+     *
+     * @return array
+     */
+    public function position()
+    {
+        return $this->toSelect('position');
+    }
 
-  /**
-   * ลิสต์รายการตำแหน่ง
-   * สำหรับใส่ลงใน select.
-   *
-   * @return array
-   */
-  public function position()
-  {
-    return $this->toSelect('position');
-  }
-
-  /**
-   * คืนค่ารายการที่ต้องการ.
-   *
-   * @param string $type
-   * @param int    $category_id
-   */
-  public function get($type, $category_id)
-  {
-    return empty($this->datas[$type][$category_id]) ? '' : $this->datas[$type][$category_id];
-  }
+    /**
+     * คืนค่ารายการที่ต้องการ.
+     *
+     * @param string $type
+     * @param int    $category_id
+     */
+    public function get($type, $category_id)
+    {
+        return empty($this->datas[$type][$category_id]) ? '' : $this->datas[$type][$category_id];
+    }
 }

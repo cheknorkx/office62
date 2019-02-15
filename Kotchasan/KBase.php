@@ -21,16 +21,16 @@ use Kotchasan\Http\Request;
  */
 class KBase
 {
-  /**
-   * Config class.
-   *
-   * @var Config
-   */
-  protected static $cfg;
-  /**
-   * Server request class.
-   *
-   * @var Request
-   */
-  protected static $request;
+    /**
+     * Config class.
+     *
+     * @var Config
+     */
+    protected static $cfg;
+    /**
+     * Server request class.
+     *
+     * @var Request
+     */
+    protected static $request;
 }

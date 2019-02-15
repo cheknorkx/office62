@@ -21,52 +21,52 @@ use Kotchasan\Database\Query;
  */
 class Model extends Query
 {
-  /**
-   * ชื่อของการเชื่อมต่อ ใช้สำหรับโหลด config จาก settings/database.php.
-   *
-   * @var string
-   */
-  protected $conn = 'mysql';
+    /**
+     * ชื่อของการเชื่อมต่อ ใช้สำหรับโหลด config จาก settings/database.php.
+     *
+     * @var string
+     */
+    protected $conn = 'mysql';
 
-  /**
-   * Class constructor.
-   */
-  public function __construct()
-  {
-    parent::__construct($this->conn);
-  }
+    /**
+     * Class constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct($this->conn);
+    }
 
-  /**
-   * create Model.
-   *
-   * @return \static
-   */
-  public static function create()
-  {
-    return new static();
-  }
+    /**
+     * create Model.
+     *
+     * @return \static
+     */
+    public static function create()
+    {
+        return new static();
+    }
 
-  /**
-   * create Database connection.
-   *
-   * @return \Kotchasan\Database\Driver
-   */
-  public static function createDb()
-  {
-    $model = new static();
+    /**
+     * create Database connection.
+     *
+     * @return \Kotchasan\Database\Driver
+     */
+    public static function createDb()
+    {
+        $model = new static();
 
-    return $model->db();
-  }
+        return $model->db();
+    }
 
-  /**
-   * create QueryBuilder.
-   *
-   * @return \Kotchasan\Database\QueryBuilder
-   */
-  public static function createQuery()
-  {
-    $model = new static();
+    /**
+     * create QueryBuilder.
+     *
+     * @return \Kotchasan\Database\QueryBuilder
+     */
+    public static function createQuery()
+    {
+        $model = new static();
 
-    return $model->db()->createQuery();
-  }
+        return $model->db()->createQuery();
+    }
 }

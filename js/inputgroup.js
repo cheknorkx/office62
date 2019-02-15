@@ -7,21 +7,21 @@
  * @copyright 2018 Goragod.com
  * @license http://www.kotchasan.com/license/
  */
-(function () {
+(function() {
   "use strict";
   window.GInputGroup = GClass.create();
   GInputGroup.prototype = {
-    initialize: function (id, o) {
+    initialize: function(id, o) {
       this.input = $G(id);
       this.id = this.input.id;
       this.ul = this.input.parentNode.parentNode;
       var self = this;
-      forEach(this.ul.getElementsByTagName("button"), function () {
-        callClick(this, function () {
+      forEach(this.ul.getElementsByTagName("button"), function() {
+        callClick(this, function() {
           self.removeItem(this);
         });
       });
-      this.input.addEvent("keydown", function (e) {
+      this.input.addEvent("keydown", function(e) {
         if (GEvent.keyCode(e) == 8 && this.value == "") {
           var btns = self.ul.getElementsByTagName("button");
           if (btns.length > 0) {
@@ -30,19 +30,19 @@
           GEvent.stop(e);
         }
       });
-      this.input.addEvent("keypress", function (e) {
+      this.input.addEvent("keypress", function(e) {
         if (GEvent.keyCode(e) == 13) {
           self.addItem(this.value, this.value);
           this.value = "";
           GEvent.stop(e);
         }
       });
-      $G(this.ul).addEvent("click", function () {
+      $G(this.ul).addEvent("click", function() {
         self.input.focus();
       });
       this.input.inputGroup = this;
     },
-    addItem: function (text, value) {
+    addItem: function(text, value) {
       var li = document.createElement("li"),
         span = document.createElement("span"),
         button = document.createElement("button"),
@@ -58,11 +58,11 @@
       hidden.value = value;
       li.appendChild(hidden);
       this.ul.insertBefore(li, this.input.parentNode);
-      callClick(button, function () {
+      callClick(button, function() {
         self.removeItem(this);
       });
     },
-    removeItem: function (button) {
+    removeItem: function(button) {
       this.ul.removeChild(button.parentNode);
     }
   };

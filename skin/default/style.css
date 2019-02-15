@@ -109,7 +109,7 @@ a:hover {
   box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.07);
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
-.language-menu li > a {
+.language-menu li>a {
   display: block;
   width: 2em;
   height: 2em;
@@ -146,15 +146,15 @@ header.header li {
   transition: all 0.5s ease;
 }
 header.header .td,
-.topmenu > ul > li {
+.topmenu>ul>li {
   color: #ddd;
 }
 header.header .td,
-.topmenu > ul > li > span,
-.topmenu > ul > li > a {
+.topmenu>ul>li>span,
+.topmenu>ul>li>a {
   text-shadow: -1px -1px rgba(0, 0, 0, 0.4);
 }
-.topmenu > ul ul,
+.topmenu>ul ul,
 .gdpanel a {
   text-shadow: none;
 }
@@ -164,22 +164,22 @@ header.header .td,
 .menu_wrapper {
   background-color: #1276b9;
 }
-.topmenu ul > li:hover {
+.topmenu ul>li:hover {
   color: #fff;
 }
-.topmenu > ul > li.select,
-.topmenu > ul > li.hover {
+.topmenu>ul>li.select,
+.topmenu>ul>li.hover {
   background-color: rgba(0, 0, 0, 0.07);
 }
-.topmenu > ul ul {
+.topmenu>ul ul {
   color: #666;
   -webkit-box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.07);
   -moz-box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.07);
   box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.07);
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
-.language-menu li > a:hover,
-.topmenu > ul ul > li.hover > a,
+.language-menu li>a:hover,
+.topmenu>ul ul>li.hover>a,
 .gdpanel a:hover {
   color: #fff;
   background-color: #1e88e5;
@@ -242,7 +242,7 @@ fieldset.search input[type="submit"],
   overflow: hidden;
   text-shadow: 1px 1px 0 #fff;
 }
-.breadcrumbs > li {
+.breadcrumbs>li {
   float: left;
 }
 .breadcrumbs li:before {
@@ -256,7 +256,7 @@ fieldset.search input[type="submit"],
   padding-bottom: 10px;
   clear: both;
 }
-section > header {
+section>header {
   padding: 10px;
   position: relative;
   background-color: #ececec;
@@ -266,7 +266,9 @@ section > header {
   box-shadow: 0 -2px 1px rgba(0, 0, 0, 0.1) inset;
   text-shadow: 1px 1px 1px #fff;
 }
+
 /* table */
+
 .tablebody table td:first-child,
 .tablebody table th:first-child {
   padding-left: 0;
@@ -302,7 +304,7 @@ section > header {
   width: 16px;
   text-align: center;
 }
-.tablebody td.thumb > img {
+.tablebody td.thumb>img {
   max-width: 48px;
   max-height: 48px;
 }
@@ -343,7 +345,9 @@ table.database th {
 table.database td:last-child {
   border-right-style: solid;
 }
+
 /* form */
+
 div.dashboard,
 .setup_frm {
   margin: 10px auto;
@@ -363,7 +367,7 @@ div.dashboard,
   line-height: 2em;
   padding: 10px;
 }
-.setup_frm .datatable > .tablebody {
+.setup_frm .datatable>.tablebody {
   overflow: visible;
 }
 .subtitle,
@@ -383,7 +387,7 @@ form .subitem {
 form .submit {
   margin: 0 10px 10px;
 }
-form .submit > * {
+form .submit>* {
   margin: 0 5px 5px 0;
 }
 fieldset {
@@ -393,8 +397,8 @@ fieldset fieldset,
 fieldset.item {
   padding-bottom: 0;
 }
-.setup_frm > form > fieldset > legend > span,
-.setup_frm > fieldset > legend > span,
+.setup_frm>form>fieldset>legend>span,
+.setup_frm>fieldset>legend>span,
 main h3 {
   display: block;
   padding: 10px;
@@ -455,24 +459,26 @@ td.icons a.icon-minus:before {
 .icon-minus:before {
   color: #ff5722;
 }
+
 /* tab */
+
 header .inline {
   position: absolute;
   bottom: -6px;
   right: 10px;
 }
-.writetab > ul {
+.writetab>ul {
   list-style-type: none;
   position: relative;
   right: 0;
   padding: 0;
   display: inline-block;
 }
-.writetab > ul > li {
+.writetab>ul>li {
   float: left;
   margin-bottom: -3px;
 }
-.writetab > ul > li > a {
+.writetab>ul>li>a {
   color: inherit;
   display: block;
   padding: 0.5em 1em;
@@ -488,7 +494,7 @@ header .inline {
   white-space: nowrap;
   background-color: rgba(255, 255, 255, 0.1);
 }
-.writetab > ul > li > .select {
+.writetab>ul>li>.select {
   text-shadow: 1px 1px 0 #fff;
   background-color: #f5f5f5;
   border-bottom-color: #f5f5f5;
@@ -502,8 +508,8 @@ header .inline {
   width: 100%;
   height: 200px;
 }
-#GModal_modaldiv > .modaldiv > article,
-#GModal_modaldiv > .modaldiv > form {
+#GModal_modaldiv>.modaldiv>article,
+#GModal_modaldiv>.modaldiv>form {
   padding: 10px;
   margin: 0;
   background-color: #fff;
@@ -515,7 +521,9 @@ header .inline {
 .modaldiv form .submit {
   padding-bottom: 0;
 }
+
 /* dashboard */
+
 .dashboard h3 {
   text-shadow: 1px 1px 0 #fff;
   color: rgba(0, 0, 0, 0.4);
@@ -570,12 +578,9 @@ header .inline {
 }
 .qmenu a,
 .card {
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12),
-    0 3px 1px -2px rgba(0, 0, 0, 0.2);
-  -moz-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
-    0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
-  -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
-    0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
 }
 .qmenu [class*="icon"]:before {
   color: inherit;
@@ -584,16 +589,18 @@ header .inline {
   background-color: #333;
   color: #fff;
 }
+
 /* edit inplace */
+
 .editinplace_list {
   list-style-type: none;
   display: table;
   width: 100%;
 }
-.editinplace_list > li {
+.editinplace_list>li {
   display: table-row;
 }
-.editinplace_list > li > div {
+.editinplace_list>li>div {
   display: table-cell;
   vertical-align: middle;
   border-bottom: 1px solid #eee;
@@ -681,7 +688,9 @@ header .inline {
 .room_detail table tbody th {
   font-weight: bold;
 }
+
 /* tablet, small device */
+
 @media only screen and (max-width: 960px) {
   .setup_frm {
     border-bottom: 1px solid #dbdbdb;
@@ -694,7 +703,7 @@ header .inline {
     margin: 10px 10px 0 10px;
     width: auto;
   }
-  .writetab > ul > li > .select {
+  .writetab>ul>li>.select {
     background-color: #fff;
     border-bottom-color: #fff;
   }
@@ -709,7 +718,9 @@ header .inline {
     padding-bottom: 5px;
   }
 }
+
 /* tablet, desktop  */
+
 @media only screen and (min-width: 600px) {
   #login_div form {
     color: #fff;
@@ -719,14 +730,18 @@ header .inline {
     background-color: rgba(0, 0, 0, 0.2);
   }
 }
+
 /* small device */
+
 @media only screen and (max-width: 601px) {
   #login_div form {
     color: #fff;
     text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.2);
   }
 }
+
 /* tablet, small device */
+
 @media only screen and (max-width: 768px) {
   /* tab */
   .writetab:after {
@@ -740,11 +755,11 @@ header .inline {
     border-style: solid solid none solid;
     border-color: #000 transparent #000 transparent;
   }
-  .writetab > ul > li {
+  .writetab>ul>li {
     float: none;
     line-height: 2em;
   }
-  .writetab > ul > li > a {
+  .writetab>ul>li>a {
     color: inherit;
     text-shadow: 1px 1px 0 #ffffff;
     background-color: #fff;
@@ -755,12 +770,12 @@ header .inline {
     margin-left: 0;
     padding-right: 2em;
   }
-  .writetab > ul > li > a:hover {
+  .writetab>ul>li>a:hover {
     background-color: #1976d2;
     color: #fff;
     text-shadow: 1px 1px 0 #333;
   }
-  .writetab > ul {
+  .writetab>ul {
     visibility: hidden;
     opacity: 0;
     height: 0;
@@ -789,12 +804,12 @@ header .inline {
     top: 0;
     height: auto;
   }
-  header .inline:hover > .writetab > ul {
+  header .inline:hover>.writetab>ul {
     visibility: visible;
     opacity: 1;
     height: auto;
   }
-  .inline > .writetab {
+  .inline>.writetab {
     min-width: 30px;
   }
   header.header .table,

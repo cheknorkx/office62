@@ -25,46 +25,47 @@ use Kotchasan\Language;
  */
 class Controller extends \Gcms\Controller
 {
+    /**
+     * ตั้งค่าเว็บไซต์.
+     *
+     * @param Request $request
+     *
+     * @return string
+     */
+    public function render(Request $request)
+    {
+        // ข้อความ title bar
+        $this->title = Language::get('General site settings');
+        // เลือกเมนู
+        $this->menu = 'settings';
+        // สมาชิก
+        $login = Login::isMember();
+        // สามารถตั้งค่าระบบได้
+        if (Login::checkPermission($login, 'can_config')) {
+            // แสดงผล
+            $section = Html::create('section', array(
+                'class' => 'content_bg',
+            ));
+            // breadcrumbs
+            $breadcrumbs = $section->add('div', array(
+                'class' => 'breadcrumbs',
+            ));
+            $ul = $breadcrumbs->add('ul');
+            $ul->appendChild('<li><span class="icon-settings">{LNG_Settings}</span></li>');
+            $ul->appendChild('<li><span>{LNG_Site settings}</span></li>');
+            $section->add('header', array(
+                'innerHTML' => '<h2 class="icon-index">'.$this->title.'</h2>',
+            ));
+            // โหลด config
+            $config = Config::load(ROOT_PATH.'settings/config.php');
+            // แสดงฟอร์ม
+            $section->appendChild(createClass('Index\System\View')->render($config, $login));
+            // คืนค่า HTML
 
-  /**
-   * ตั้งค่าเว็บไซต์.
-   *
-   * @param Request $request
-   *
-   * @return string
-   */
-  public function render(Request $request)
-  {
-    // ข้อความ title bar
-    $this->title = Language::get('General site settings');
-    // เลือกเมนู
-    $this->menu = 'settings';
-    // สมาชิก
-    $login = Login::isMember();
-    // สามารถตั้งค่าระบบได้
-    if (Login::checkPermission($login, 'can_config')) {
-      // แสดงผล
-      $section = Html::create('section', array(
-          'class' => 'content_bg',
-      ));
-      // breadcrumbs
-      $breadcrumbs = $section->add('div', array(
-        'class' => 'breadcrumbs',
-      ));
-      $ul = $breadcrumbs->add('ul');
-      $ul->appendChild('<li><span class="icon-settings">{LNG_Settings}</span></li>');
-      $ul->appendChild('<li><span>{LNG_Site settings}</span></li>');
-      $section->add('header', array(
-        'innerHTML' => '<h2 class="icon-index">'.$this->title.'</h2>',
-      ));
-      // โหลด config
-      $config = Config::load(ROOT_PATH.'settings/config.php');
-      // แสดงฟอร์ม
-      $section->appendChild(createClass('Index\System\View')->render($config, $login));
-      // คืนค่า HTML
-      return $section->render();
+            return $section->render();
+        }
+        // 404
+
+        return \Index\Error\Controller::execute($this);
     }
-    // 404
-    return \Index\Error\Controller::execute($this);
-  }
 }

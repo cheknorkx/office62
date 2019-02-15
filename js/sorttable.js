@@ -7,11 +7,11 @@
  * @copyright 2016 Goragod.com
  * @license http://www.kotchasan.com/license/
  */
-(function () {
+(function() {
   "use strict";
   window.GSortTable = GClass.create();
   GSortTable.prototype = {
-    initialize: function (id, options) {
+    initialize: function(id, options) {
       this.options = {
         sortClass: "icon-move",
         itemClass: "sort",
@@ -25,6 +25,7 @@
         dropitems = new Array(),
         hoverItem = null,
         position = 0;
+
       function checkMouseOver(item, mousePos) {
         var elemPos = item.viewportOffset();
         var elemSize = item.getDimensions();
@@ -33,17 +34,19 @@
           mouseover &&
           mousePos.x < elemPos.left + elemSize.width &&
           mousePos.y < elemPos.top + elemSize.height
-          );
+        );
       }
+
       function doBeginDrag() {
         self.changed = false;
         self.dragItem = this;
         hoverItem = this;
         position = this.mousePos.y;
       }
+
       function doMoveDrag() {
         var temp = this;
-        forEach(dropitems, function () {
+        forEach(dropitems, function() {
           if (checkMouseOver(this, temp.mousePos)) {
             if (this != hoverItem) {
               self.changed = true;
@@ -59,11 +62,13 @@
         });
         position = this.mousePos.y;
       }
+
       function doEndDrag() {
         if (self.changed) {
           self.options.endDrag.call(this);
         }
       }
+
       function _find(tr) {
         if (tr.hasClass(self.options.sortClass)) {
           return tr;
@@ -81,7 +86,7 @@
         moveDrag: doMoveDrag,
         endDrag: doEndDrag
       };
-      forEach($E(id).getElementsByTagName("*"), function () {
+      forEach($E(id).getElementsByTagName("*"), function() {
         if ($G(this).hasClass(self.options.itemClass)) {
           new GDrag(_find(this), this, o);
           dropitems.push(this);

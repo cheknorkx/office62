@@ -6,11 +6,11 @@
  * @copyright 2016 Goragod.com
  * @license http://www.kotchasan.com/license/
  */
-(function () {
+(function() {
   "use strict";
   window.GAutoComplete = GClass.create();
   GAutoComplete.prototype = {
-    initialize: function (id, o) {
+    initialize: function(id, o) {
       var options = {
         className: "gautocomplete",
         itemClass: "item",
@@ -45,11 +45,12 @@
       display.style.position = "absolute";
       display.style.display = "block";
       display.style.zIndex = 9999;
+
       function _movehighlight(id) {
         listindex = Math.max(0, id);
         listindex = Math.min(list.length - 1, listindex);
         var selItem = null;
-        forEach(list, function () {
+        forEach(list, function() {
           if (listindex == this.itemindex) {
             this.addClass("select");
             selItem = this;
@@ -59,6 +60,7 @@
         });
         return selItem;
       }
+
       function onSelect() {
         if (showing) {
           _hide();
@@ -66,19 +68,19 @@
             self.input.datas = this.datas;
             options.callBack.call(this.datas);
             self.text = self.input.value;
-          } catch (e) {
-          }
+          } catch (e) {}
         }
       }
-      var _mouseclick = function () {
+      var _mouseclick = function() {
         onSelect.call(this);
         if (Object.isFunction(options.onSuccess)) {
           options.onSuccess.call(self.input);
         }
       };
-      var _mousemove = function () {
+      var _mousemove = function() {
         _movehighlight(this.itemindex);
       };
+
       function _populateitems(datas) {
         display.innerHTML = "";
         var f, i, r, p;
@@ -99,12 +101,13 @@
         }
         _movehighlight(0);
       }
+
       function _hide() {
         self.input.removeClass(options.loadingClass);
         display.style.left = "-100000px";
         showing = false;
       }
-      var _search = function () {
+      var _search = function() {
         window.clearTimeout(self.timer);
         req.abort();
         if (self.text != self.input.value) {
@@ -114,8 +117,8 @@
           var q = options.get.call(this);
           if (q && q != "") {
             self.input.addClass(options.loadingClass);
-            self.timer = window.setTimeout(function () {
-              req.send(options.url, q, function (xhr) {
+            self.timer = window.setTimeout(function() {
+              req.send(options.url, q, function(xhr) {
                 self.input.removeClass(options.loadingClass);
                 if (xhr.responseText !== "") {
                   var datas = xhr.responseText.toJSON();
@@ -153,6 +156,7 @@
         }
         cancelEvent = false;
       };
+
       function _showitem(item) {
         if (item) {
           var top = item.getTop() - display.getTop();
@@ -164,6 +168,7 @@
           }
         }
       }
+
       function _dokeydown(evt) {
         var key = GEvent.keyCode(evt);
         if (key == 40) {
@@ -175,7 +180,7 @@
         } else if (key == 13) {
           cancelEvent = true;
           this.removeClass(options.loadingClass);
-          forEach(list, function () {
+          forEach(list, function() {
             if (this.itemindex == listindex) {
               onSelect.call(this);
             }
@@ -196,34 +201,36 @@
       self.input.addEvent("click", _search);
       self.input.addEvent("keyup", _search);
       self.input.addEvent("keydown", _dokeydown);
-      self.input.addEvent("blur", function () {
+      self.input.addEvent("blur", function() {
         _hide();
       });
-      $G(document.body).addEvent("click", function () {
+      $G(document.body).addEvent("click", function() {
         _hide();
       });
     },
-    setText: function (value) {
+    setText: function(value) {
       this.input.value = value;
       this.text = value;
     },
-    valid: function () {
+    valid: function() {
       this.input.valid();
       this.text = this.input.value;
     },
-    invalid: function () {
+    invalid: function() {
       this.input.invalid();
       this.text = this.input.value;
     },
-    reset: function () {
+    reset: function() {
       this.input.reset();
       this.text = this.input.value;
     }
   };
 })();
+
 function initAutoComplete(id, link, displayFields, icon, options) {
   var obj,
     df = displayFields.split(",");
+
   function doGetQuery() {
     var q = null,
       value = $E(id).value;
@@ -232,12 +239,14 @@ function initAutoComplete(id, link, displayFields, icon, options) {
     }
     return q;
   }
+
   function doCallBack() {
     for (var prop in this) {
       $G(prop).setValue(this[prop] === null ? "" : this[prop]);
     }
     obj.valid();
   }
+
   function doPopulate() {
     if ($E(id)) {
       var datas = new Array();
@@ -247,7 +256,7 @@ function initAutoComplete(id, link, displayFields, icon, options) {
         }
       }
       var row = datas.join(" ").unentityify();
-      forEach($E(id).value.replace(/[\s]+/, " ").split(" "), function () {
+      forEach($E(id).value.replace(/[\s]+/, " ").split(" "), function() {
         if (this.length > 0) {
           var patt = new RegExp("(" + this.preg_quote() + ")", "gi");
           row = row.replace(patt, "<em>$1</em>");

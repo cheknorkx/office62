@@ -22,39 +22,38 @@ use Kotchasan\Http\Request;
  */
 class Controller extends \Kotchasan\KBase
 {
-
-  /**
-   * ฟังก์ชั่นเริ่มต้นการทำงานของโมดูลที่ติดตั้ง
-   * และจัดการเมนูของโมดูล.
-   *
-   * @param Request                $request
-   * @param \Index\Menu\Controller $menu
-   * @param array                  $login
-   */
-  public static function execute(Request $request, $menu, $login)
-  {
-    $menu->addTopLvlMenu('personnel', '{LNG_Personnel}', 'index.php?module=personnel-setup', null, 'module');
-    if (Login::checkPermission($login, 'can_manage_personnel')) {
-      $menu->add('settings', '{LNG_Personnel}', null, array(
-        array(
-          'text' => '{LNG_Settings}',
-          'url' => 'index.php?module=personnel-settings',
-        ),
-      ));
+    /**
+     * ฟังก์ชั่นเริ่มต้นการทำงานของโมดูลที่ติดตั้ง
+     * และจัดการเมนูของโมดูล.
+     *
+     * @param Request                $request
+     * @param \Index\Menu\Controller $menu
+     * @param array                  $login
+     */
+    public static function execute(Request $request, $menu, $login)
+    {
+        $menu->addTopLvlMenu('personnel', '{LNG_Personnel}', 'index.php?module=personnel-setup', null, 'module');
+        if (Login::checkPermission($login, 'can_manage_personnel')) {
+            $menu->add('settings', '{LNG_Personnel}', null, array(
+                array(
+                    'text' => '{LNG_Settings}',
+                    'url' => 'index.php?module=personnel-settings',
+                ),
+            ));
+        }
     }
-  }
 
-  /**
-   * รายการ permission ของโมดูล.
-   *
-   * @param array $permissions
-   *
-   * @return array
-   */
-  public static function updatePermissions($permissions)
-  {
-    $permissions['can_manage_personnel'] = '{LNG_Can manage personnel}';
+    /**
+     * รายการ permission ของโมดูล.
+     *
+     * @param array $permissions
+     *
+     * @return array
+     */
+    public static function updatePermissions($permissions)
+    {
+        $permissions['can_manage_personnel'] = '{LNG_Can manage personnel}';
 
-    return $permissions;
-  }
+        return $permissions;
+    }
 }

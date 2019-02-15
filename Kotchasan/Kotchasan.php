@@ -20,91 +20,91 @@ use Kotchasan\Http\Request;
  */
 class Kotchasan extends Kotchasan\KBase
 {
-  /**
-   * default charset (แนะนำ utf-8).
-   *
-   * @var string
-   */
-  public $char_set = 'utf-8';
-  /**
-   * Controller หลัก
-   *
-   * @var string
-   */
-  public $defaultController = 'Index\Index\Controller';
-  /**
-   * Router หลัก
-   *
-   * @var string
-   */
-  public $defaultRouter = 'Kotchasan\Router';
-  /**
-   * @var Singleton สำหรับเรียกใช้ class นี้เพียงครั้งเดียวเท่านั้น
-   */
-  private static $instance = null;
+    /**
+     * default charset (แนะนำ utf-8).
+     *
+     * @var string
+     */
+    public $char_set = 'utf-8';
+    /**
+     * Controller หลัก
+     *
+     * @var string
+     */
+    public $defaultController = 'Index\Index\Controller';
+    /**
+     * Router หลัก
+     *
+     * @var string
+     */
+    public $defaultRouter = 'Kotchasan\Router';
+    /**
+     * @var Singleton สำหรับเรียกใช้ class นี้เพียงครั้งเดียวเท่านั้น
+     */
+    private static $instance = null;
 
-  /**
-   * สร้าง Application สามารถเรียกใช้ได้ครั้งเดียวเท่านั้น.
-   *
-   * @param Config|string|null $cfg ถ้าไม่กำหนดมาจะใช้ค่าเริ่มต้นของคชสาร
-   *
-   * @return \static
-   */
-  public static function createWebApplication($cfg = null)
-  {
-    if (null === self::$instance) {
-      self::$instance = new static($cfg);
+    /**
+     * สร้าง Application สามารถเรียกใช้ได้ครั้งเดียวเท่านั้น.
+     *
+     * @param Config|string|null $cfg ถ้าไม่กำหนดมาจะใช้ค่าเริ่มต้นของคชสาร
+     *
+     * @return \static
+     */
+    public static function createWebApplication($cfg = null)
+    {
+        if (null === self::$instance) {
+            self::$instance = new static($cfg);
+        }
+
+        return self::$instance;
     }
 
-    return self::$instance;
-  }
-
-  /**
-   * แสดงข้อมูลตัวแปรออกทางหน้าจอ (debug).
-   *
-   * @param mix $expression
-   */
-  public static function debug($expression)
-  {
-    echo '<pre>'.stripslashes(var_export($expression, true)).'</pre>';
-  }
-
-  /**
-   * แสดงผลหน้าเว็บไซต์.
-   */
-  public function run()
-  {
-    $router = new $this->defaultRouter();
-    $router->init($this->defaultController);
-  }
-
-  /**
-   * create Singleton.
-   *
-   * @param Config|string|null $cfg
-   */
-  private function __construct($cfg)
-  {
-    /* Request Class */
-    self::$request = new Request();
-    /* config */
-    if (empty($cfg)) {
-      self::$cfg = Config::create();
-    } elseif (is_string($cfg)) {
-      self::$cfg = $cfg::create();
-    } else {
-      self::$cfg = $cfg;
+    /**
+     * แสดงข้อมูลตัวแปรออกทางหน้าจอ (debug).
+     *
+     * @param mix $expression
+     */
+    public static function debug($expression)
+    {
+        echo '<pre>'.stripslashes(var_export($expression, true)).'</pre>';
     }
-    /* charset */
-    ini_set('default_charset', $this->char_set);
-    if (extension_loaded('mbstring')) {
-      mb_internal_encoding($this->char_set);
+
+    /**
+     * แสดงผลหน้าเว็บไซต์.
+     */
+    public function run()
+    {
+        $router = new $this->defaultRouter();
+        $router->init($this->defaultController);
     }
-    /* time zone */
-    @date_default_timezone_set(self::$cfg->timezone);
-    /* custom init site */
-    if (is_string($cfg) && method_exists($cfg, 'init')) {
-      $cfg::init(self::$cfg);
+
+    /**
+     * create Singleton.
+     *
+     * @param Config|string|null $cfg
+     */
+    private function __construct($cfg)
+    {
+        /* Request Class */
+        self::$request = new Request();
+        /* config */
+        if (empty($cfg)) {
+            self::$cfg = Config::create();
+        } elseif (is_string($cfg)) {
+            self::$cfg = $cfg::create();
+        } else {
+            self::$cfg = $cfg;
+        }
+        /* charset */
+        ini_set('default_charset', $this->char_set);
+        if (extension_loaded('mbstring')) {
+            mb_internal_encoding($this->char_set);
+        }
+        /* time zone */
+        @date_default_timezone_set(self::$cfg->timezone);
+        /* custom init site */
+        if (is_string($cfg) && method_exists($cfg, 'init')) {
+            $cfg::init(self::$cfg);
+        }
     }
-  }
 }

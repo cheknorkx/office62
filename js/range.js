@@ -7,11 +7,11 @@
  * @copyright 2018 Goragod.com
  * @license http://www.kotchasan.com/license/
  */
-(function () {
+(function() {
   "use strict";
   window.GRange = GClass.create();
   GRange.prototype = {
-    initialize: function (id, o) {
+    initialize: function(id, o) {
       if (!$E(id)) {
         console.log("Cannot find target element");
       } else {
@@ -65,7 +65,7 @@
         this.pointerL.tabIndex = 0;
         this.slider.appendChild(this.pointerL);
         var HInstant = this;
-        this.slider.addEvent("mousedown", function (e) {
+        this.slider.addEvent("mousedown", function(e) {
           var elem = GEvent.element(e);
           if (elem == HInstant.slider || elem == HInstant.range) {
             var pos =
@@ -97,16 +97,16 @@
             }
           }
         });
-        this.slider.addEvent("click", function (e) {
+        this.slider.addEvent("click", function(e) {
           var elem = GEvent.element(e);
           if (
             elem &&
             (elem == HInstant.pointerL || elem == HInstant.pointerR)
-            ) {
+          ) {
             elem.focus();
           }
         });
-        this.slider.addEvent("keydown", function (e) {
+        this.slider.addEvent("keydown", function(e) {
           var key = GEvent.keyCode(e);
           if (key == 37 || key == 39) {
             var value = HInstant.getValue(),
@@ -151,12 +151,12 @@
           }
         });
         var o = {
-          moveDrag: function (e) {
+          moveDrag: function(e) {
             var cw = HInstant.getWidth(),
               pos = Math.min(cw, Math.max(0, e.mousePos.x - e.mouseOffset.x));
             HInstant.setX(this, pos);
           },
-          endDrag: function (e) {
+          endDrag: function(e) {
             HInstant.input.callEvent("change");
           }
         };
@@ -172,7 +172,7 @@
           this.pointerR = null;
           this.setValue(values[0], null);
         }
-        this.timer = window.setInterval(function () {
+        this.timer = window.setInterval(function() {
           if (!$E(HInstant.input)) {
             window.clearInterval(HInstant.timer);
           } else {
@@ -185,14 +185,14 @@
               HInstant.oldvalue.minValue != HInstant.input.min ||
               HInstant.oldvalue.maxValue != HInstant.input.max ||
               HInstant.oldvalue.step != HInstant.input.step
-              ) {
+            ) {
               HInstant.setValue(HInstant.getValue(), null);
             }
           }
         }, 100);
       }
     },
-    setX: function (button, pos) {
+    setX: function(button, pos) {
       button.style.left = pos + "px";
       var val =
         floatval(this.input.min) + (this.getRange() * pos) / this.getWidth();
@@ -214,20 +214,20 @@
         this.setValue(val, button);
         values = val;
       }
-      window.setTimeout(function () {
+      window.setTimeout(function() {
         button.focus();
       }, 1);
       return values;
     },
-    getWidth: function () {
+    getWidth: function() {
       return (
         this.slider.getDimensions().width - this.pointerL.getDimensions().width
-        );
+      );
     },
-    getRange: function () {
+    getRange: function() {
       return floatval(this.input.max) - floatval(this.input.min);
     },
-    getValue: function () {
+    getValue: function() {
       if (this.pointerR) {
         var values = this.input.value.split(",");
         return [floatval(values[0]), floatval(values[1])];
@@ -235,20 +235,20 @@
         return floatval(this.input.value);
       }
     },
-    calcValue: function (value) {
+    calcValue: function(value) {
       var step = floatval(this.input.step),
         ss = this.input.step.split(".");
       value = Math.round(value / step) * step;
       value = Math.min(
         floatval(this.input.max),
         Math.max(floatval(this.input.min), value)
-        );
+      );
       if (ss[1] && ss[1] != "") {
         value = floatval(value.toFixed(ss[1].length));
       }
       return value;
     },
-    setValue: function (value, button) {
+    setValue: function(value, button) {
       var oldvalue = this.getValue(),
         cw = this.getWidth(),
         range = this.getRange(),

@@ -22,28 +22,27 @@ use Kotchasan\Template;
  */
 class Controller extends \Kotchasan\Controller
 {
-
-  /**
-   * export.php.
-   *
-   * @param Request $request
-   */
-  public function index(Request $request)
-  {
-    // ตัวแปรป้องกันการเรียกหน้าเพจโดยตรง
-    define('MAIN_INIT', 'export');
-    // session cookie
-    $request->initSession();
-    // กำหนด skin ให้กับ template
-    Template::init(self::$cfg->skin);
-    // ตรวจสอบโมดูลที่เรียก
-    $className = \Index\Main\Controller::parseModule($request);
-    if ($className && method_exists($className, 'execute')) {
-      // create Class
-      createClass($className)->execute($request);
-    } else {
-      // ไม่พบโมดูล
-      new \Kotchasan\Http\NotFound();
+    /**
+     * export.php.
+     *
+     * @param Request $request
+     */
+    public function index(Request $request)
+    {
+        // ตัวแปรป้องกันการเรียกหน้าเพจโดยตรง
+        define('MAIN_INIT', 'export');
+        // session cookie
+        $request->initSession();
+        // กำหนด skin ให้กับ template
+        Template::init(self::$cfg->skin);
+        // ตรวจสอบโมดูลที่เรียก
+        $className = \Index\Main\Controller::parseModule($request);
+        if ($className && method_exists($className, 'execute')) {
+            // create Class
+            createClass($className)->execute($request);
+        } else {
+            // ไม่พบโมดูล
+            new \Kotchasan\Http\NotFound();
+        }
     }
-  }
 }

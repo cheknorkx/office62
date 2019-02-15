@@ -21,31 +21,31 @@ use Kotchasan\Http\Request;
  */
 class Controller extends \Gcms\Controller
 {
+    /**
+     * forgot, login register.
+     *
+     * @param Request $request
+     *
+     * @return string
+     */
+    public function execute(Request $request)
+    {
+        // action ที่เลือก
+        $action = $request->get('action')->toString();
+        // ตรวจสอบ method ที่กำหนดไว้เท่านั้น
+        if ($action == 'register' && !empty(self::$cfg->user_register)) {
+            $action = 'register';
+        } elseif ($action == 'forgot' && !empty(self::$cfg->user_forgot)) {
+            $action = 'forgot';
+        } else {
+            $action = 'login';
+        }
+        // ประมวลผลหน้าที่เรียก
+        $page = \Index\Welcome\View::$action($request);
+        // ไตเติลจากและเนื้อหาจาก View
+        $this->title = $page->title;
+        $this->detail = $page->detail;
 
-  /**
-   * forgot, login register.
-   *
-   * @param Request $request
-   *
-   * @return string
-   */
-  public function execute(Request $request)
-  {
-    // action ที่เลือก
-    $action = $request->get('action')->toString();
-    // ตรวจสอบ method ที่กำหนดไว้เท่านั้น
-    if ($action == 'register' && !empty(self::$cfg->user_register)) {
-      $action = 'register';
-    } elseif ($action == 'forgot' && !empty(self::$cfg->user_forgot)) {
-      $action = 'forgot';
-    } else {
-      $action = 'login';
+        return $this;
     }
-    // ประมวลผลหน้าที่เรียก
-    $page = \Index\Welcome\View::$action($request);
-    // ไตเติลจากและเนื้อหาจาก View
-    $this->title = $page->title;
-    $this->detail = $page->detail;
-    return $this;
-  }
 }

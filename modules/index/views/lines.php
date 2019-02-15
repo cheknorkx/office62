@@ -22,66 +22,65 @@ use Kotchasan\Http\Request;
  */
 class View extends \Gcms\View
 {
+    /**
+     * ตารางราย ไลน์กลุ่ม
+     *
+     * @param Request $request
+     *
+     * @return string
+     */
+    public function render(Request $request)
+    {
+        // URL สำหรับส่งให้ตาราง
+        $uri = $request->createUriWithGlobals(WEB_URL.'index.php');
+        // ตาราง
+        $table = new DataTable(array(
+            /* Uri */
+            'uri' => $uri,
+            /* Model */
+            'model' => \Index\Lines\Model::toDataTable(),
+            /* เรียงลำดับ */
+            'sort' => 'id desc',
+            /* คอลัมน์ที่ไม่ต้องแสดงผล */
+            'hideColumns' => array('id'),
+            /* ตั้งค่าการกระทำของของตัวเลือกต่างๆ ด้านล่างตาราง ซึ่งจะใช้ร่วมกับการขีดถูกเลือกแถว */
+            'action' => 'index.php/index/model/lines/action',
+            'actionCallback' => 'dataTableActionCallback',
+            'actions' => array(
+                array(
+                    'id' => 'action',
+                    'class' => 'ok',
+                    'text' => '{LNG_With selected}',
+                    'options' => array(
+                        'delete' => '{LNG_Delete}',
+                    ),
+                ),
+                'edit' => array(
+                    'class' => 'button pink icon-plus',
+                    'id' => 'edit_0',
+                    'text' => '{LNG_Add New} {LNG_LINE group account}',
+                ),
+            ),
+            /* ส่วนหัวของตาราง และการเรียงลำดับ (thead) */
+            'headers' => array(
+                'name' => array(
+                    'text' => '{LNG_LINE group name}',
+                ),
+                'token' => array(
+                    'text' => '{LNG_Token}',
+                ),
+            ),
+            /* ปุ่มแสดงในแต่ละแถว */
+            'buttons' => array(
+                'edit' => array(
+                    'class' => 'icon-edit button green',
+                    'id' => ':id',
+                    'text' => '{LNG_Edit}',
+                ),
+            ),
+        ));
+        // คืนค่า HTML
 
-  /**
-   * ตารางราย ไลน์กลุ่ม
-   *
-   * @param Request $request
-   *
-   * @return string
-   */
-  public function render(Request $request)
-  {
-    // URL สำหรับส่งให้ตาราง
-    $uri = $request->createUriWithGlobals(WEB_URL.'index.php');
-    // ตาราง
-    $table = new DataTable(array(
-      /* Uri */
-      'uri' => $uri,
-      /* Model */
-      'model' => \Index\Lines\Model::toDataTable(),
-      /* เรียงลำดับ */
-      'sort' => 'id desc',
-      /* คอลัมน์ที่ไม่ต้องแสดงผล */
-      'hideColumns' => array('id'),
-      /* ตั้งค่าการกระทำของของตัวเลือกต่างๆ ด้านล่างตาราง ซึ่งจะใช้ร่วมกับการขีดถูกเลือกแถว */
-      'action' => 'index.php/index/model/lines/action',
-      'actionCallback' => 'dataTableActionCallback',
-      'actions' => array(
-        array(
-          'id' => 'action',
-          'class' => 'ok',
-          'text' => '{LNG_With selected}',
-          'options' => array(
-            'delete' => '{LNG_Delete}',
-          ),
-        ),
-        'edit' => array(
-          'class' => 'button pink icon-plus',
-          'id' => 'edit_0',
-          'text' => '{LNG_Add New} {LNG_LINE group account}',
-        ),
-      ),
-      /* ส่วนหัวของตาราง และการเรียงลำดับ (thead) */
-      'headers' => array(
-        'name' => array(
-          'text' => '{LNG_LINE group name}',
-        ),
-        'token' => array(
-          'text' => '{LNG_Token}',
-        ),
-      ),
-      /* ปุ่มแสดงในแต่ละแถว */
-      'buttons' => array(
-        'edit' => array(
-          'class' => 'icon-edit button green',
-          'id' => ':id',
-          'text' => '{LNG_Edit}',
-        ),
-      ),
-    ));
-    // คืนค่า HTML
-
-    return $table->render();
-  }
+        return $table->render();
+    }
 }

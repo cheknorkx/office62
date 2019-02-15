@@ -24,44 +24,43 @@ use Kotchasan\Language;
  */
 class Controller extends \Gcms\Controller
 {
+    /**
+     * แสดงรายการบุคลากร.
+     *
+     * @param Request $request
+     *
+     * @return string
+     */
+    public function render(Request $request)
+    {
+        // ข้อความ title bar
+        $this->title = Language::trans('{LNG_List of} {LNG_Personnel}');
+        // เลือกเมนู
+        $this->menu = 'personnel';
+        // Login
+        if ($login = Login::isMember()) {
+            // แสดงผล
+            $section = Html::create('section', array(
+                'class' => 'content_bg',
+            ));
+            // breadcrumbs
+            $breadcrumbs = $section->add('div', array(
+                'class' => 'breadcrumbs',
+            ));
+            $ul = $breadcrumbs->add('ul');
+            $ul->appendChild('<li><span class="icon-customer">{LNG_Module}</span></li>');
+            $ul->appendChild('<li><span>{LNG_Personnel}</span></li>');
+            $ul->appendChild('<li><span>{LNG_Personnel list}</span></li>');
+            $section->add('header', array(
+                'innerHTML' => '<h2 class="icon-list">'.$this->title.'</h2>',
+            ));
+            // ตาราง
+            $section->appendChild(createClass('Personnel\Setup\View')->render($request, $login));
 
-  /**
-   * แสดงรายการบุคลากร.
-   *
-   * @param Request $request
-   *
-   * @return string
-   */
-  public function render(Request $request)
-  {
-    // ข้อความ title bar
-    $this->title = Language::trans('{LNG_List of} {LNG_Personnel}');
-    // เลือกเมนู
-    $this->menu = 'personnel';
-    // Login
-    if ($login = Login::isMember()) {
-      // แสดงผล
-      $section = Html::create('section', array(
-          'class' => 'content_bg',
-      ));
-      // breadcrumbs
-      $breadcrumbs = $section->add('div', array(
-        'class' => 'breadcrumbs',
-      ));
-      $ul = $breadcrumbs->add('ul');
-      $ul->appendChild('<li><span class="icon-customer">{LNG_Module}</span></li>');
-      $ul->appendChild('<li><span>{LNG_Personnel}</span></li>');
-      $ul->appendChild('<li><span>{LNG_Personnel list}</span></li>');
-      $section->add('header', array(
-        'innerHTML' => '<h2 class="icon-list">'.$this->title.'</h2>',
-      ));
-      // ตาราง
-      $section->appendChild(createClass('Personnel\Setup\View')->render($request, $login));
+            return $section->render();
+        }
+        // 404
 
-      return $section->render();
+        return \Index\Error\Controller::execute($this);
     }
-    // 404
-
-    return \Index\Error\Controller::execute($this);
-  }
 }

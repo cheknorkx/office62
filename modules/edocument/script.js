@@ -1,7 +1,7 @@
 function initEdocumentView(id) {
-  callClick(id, function (e) {
+  callClick(id, function(e) {
     if (confirm(trans("Downloading is a signed document"))) {
-      var req = new GAjax({asynchronous: false});
+      var req = new GAjax({ asynchronous: false });
       req.send(WEB_URL + "index.php/edocument/model/download", "id=" + id);
       var datas = req.responseText.toJSON();
       if (datas) {
@@ -25,12 +25,13 @@ function initEdocumentView(id) {
     }
   });
 }
+
 function initEdocumentWrite() {
-  var doChecked = function () {
+  var doChecked = function() {
     var checked = false;
     forEach(
       $E("department").parentNode.parentNode.getElementsByTagName("input"),
-      function () {
+      function() {
         if (this.checked) {
           checked = true;
         }
@@ -45,7 +46,7 @@ function initEdocumentWrite() {
   };
   forEach(
     $E("department").parentNode.parentNode.getElementsByTagName("input"),
-    function () {
+    function() {
       callClick(this, doChecked);
     }
   );
@@ -54,17 +55,16 @@ function initEdocumentWrite() {
     "reciever",
     WEB_URL + "index.php/index/model/autocomplete/findUser",
     "name",
-    "customer",
-    {
-      get: function () {
+    "customer", {
+      get: function() {
         return (
           "name=" + encodeURIComponent($E("reciever").value) + "&from=name"
-          );
+        );
       },
-      callBack: function () {
+      callBack: function() {
         $E("reciever").value = this.name.unentityify();
       },
-      onSuccess: function () {
+      onSuccess: function() {
         var input = $G("reciever");
         input.inputGroup.addItem(this.datas.name, this.datas.id);
         input.value = "";
