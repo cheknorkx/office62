@@ -37,6 +37,12 @@ class Model extends \Kotchasan\Model
             // ค่าที่ส่งมา
             $year = $request->post('year')->toInt();
             $month = $request->post('month')->toInt();
+            if ($month == 12) {
+                $next = ($year + 1).'-1-1';
+            } else {
+                $next = $year.'-'.($month + 1).'-1';
+            }
+            $next_month = $month < 12 ? $month + 1 : 1;
             // Query เดือนที่เลือก
             $query = \Kotchasan\Model::createQuery()
                 ->select('V.id', 'V.topic', 'V.begin', 'V.end', 'R.color')
@@ -44,6 +50,7 @@ class Model extends \Kotchasan\Model
                 ->join('rooms R', 'INNER', array('R.id', 'V.room_id'))
                 ->where(array('V.status', 1))
                 ->andWhere(array(
+                    Sql::create("(DATE(V.`begin`)<='$year-$month-1' AND DATE(V.`end`)>'$next')"),
                     Sql::create("(YEAR(V.`begin`)='$year' AND MONTH(V.`begin`)='$month')"),
                     Sql::create("(YEAR(V.`end`)='$year' AND MONTH(V.`end`)='$month')"),
                 ), 'OR')
