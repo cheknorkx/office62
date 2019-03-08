@@ -174,7 +174,7 @@ class Field extends \Kotchasan\Database\Db
             $this->table_alias = $t;
         } elseif (preg_match('/([a-z0-9A-Z_]+)(\s+(as|AS))?\s+([a-zA-Z0-9]{1,})/', $this->table, $match)) {
             $this->table_name = $this->getFullTableName($match[1]);
-            $this->table_alias = sizeof($match[4]) < 3 ? $match[4] : '`'.$match[4].'`';
+            $this->table_alias = count($match[4]) < 3 ? $match[4] : '`'.$match[4].'`';
         } else {
             $this->table_name = $this->getFullTableName($this->table);
             $this->table_alias = '`'.$this->table.'`';

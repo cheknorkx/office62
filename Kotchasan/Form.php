@@ -325,6 +325,7 @@ class Form extends \Kotchasan\KBase
                 case 'validator':
                 case 'result':
                 case 'checked':
+                case 'datalist':
                     $$k = $v;
                     break;
                 case 'title':
@@ -436,6 +437,14 @@ class Form extends \Kotchasan\KBase
         if (isset($checked) && isset($value) && $checked == $value) {
             $prop['checked'] = 'checked';
         }
+        if (isset($datalist) && is_array($datalist)) {
+            if (empty($prop['list'])) {
+                $list = $id.'-datalist';
+            } else {
+                $list = $prop['list'];
+            }
+            $prop['list'] = 'list="'.$list.'"';
+        }
         $prop = implode(' ', $prop);
         if ($this->tag == 'input') {
             $element = '<'.$this->tag.' '.$prop.'>';
@@ -443,6 +452,13 @@ class Form extends \Kotchasan\KBase
             $element = '<'.$this->tag.' '.$prop.'>'.$value.'</'.$this->tag.'>';
         } else {
             $element = '<'.$this->tag.' '.$prop.'></'.$this->tag.'>';
+        }
+        if (isset($datalist) && is_array($datalist)) {
+            $element .= '<datalist id="'.$list.'">';
+            foreach ($datalist as $k => $v) {
+                $element .= '<option value="'.$k.'">'.$v.'</option>';
+            }
+            $element .= '</datalist>';
         }
         if (!empty($antispamid)) {
             $element = Antispam::createImage($antispamid, true).$element;

@@ -246,7 +246,7 @@ abstract class Query extends \Kotchasan\Database\Db
     protected function buildValue($params)
     {
         if (is_array($params)) {
-            if (sizeof($params) == 2) {
+            if (count($params) == 2) {
                 $params = array($params[0], '=', $params[1]);
             } else {
                 $params = array($params[0], trim($params[1]), $params[2]);
@@ -374,7 +374,7 @@ abstract class Query extends \Kotchasan\Database\Db
             } elseif (strpos($condition[0], '(') !== false) {
                 $condition = $condition[0];
             } else {
-                if (sizeof($condition) == 2) {
+                if (count($condition) == 2) {
                     $condition = array($condition[0], '=', $condition[1]);
                 } else {
                     $condition[1] = strtoupper(trim($condition[1]));
@@ -557,7 +557,7 @@ abstract class Query extends \Kotchasan\Database\Db
     {
         $result = array();
         if (is_array($params)) {
-            if (sizeof($params) == 2) {
+            if (count($params) == 2) {
                 $operator = '=';
                 $value = $params[1];
             } else {

@@ -159,8 +159,8 @@ class Csv
                 } elseif ($type == 'en') {
                     $save[$key] = preg_replace('/[^a-zA-Z0-9]+/', '', $data[$n]);
                 } elseif ($type == 'date') {
-                    if (preg_match('/^([0-9]{4,4})[\-\/]([0-9]{1,2})[\-\/]([0-9]{1,2})$/', $data[$n])) {
-                        $save[$key] = $data[$n];
+                    if (preg_match('/^([0-9]{4,4})[\-\/]([0-9]{1,2})[\-\/]([0-9]{1,2})$/', $data[$n], $match)) {
+                        $save[$key] = "$match[1]-$match[2]-$match[3]";
                     } elseif (preg_match('/^([0-9]{1,2})[\-\/]([0-9]{1,2})[\-\/]([0-9]{4,4})$/', $data[$n], $match)) {
                         $save[$key] = "$match[3]-$match[2]-$match[1]";
                     }

@@ -60,7 +60,7 @@ class InputItem
      * @assert create('#000')->color() [==] '#000'
      * @assert create('red')->color() [==] 'red'
      *
-     * @return string
+     * @return mixed
      */
     public function color()
     {
@@ -96,7 +96,7 @@ class InputItem
      *
      * @param bool $strict true ตรวจสอบความถูกต้องของวันที่ด้วย, false (default) ไม่ต้องตรวจสอบ
      *
-     * @return string
+     * @return mixed
      */
     public function date($strict = false)
     {
@@ -128,7 +128,7 @@ class InputItem
      *
      * @param bool $strict true ตรวจสอบความถูกต้องของวันที่ด้วย, false (default) ไม่ต้องตรวจสอบ
      *
-     * @return string
+     * @return mixed
      */
     public function time($strict = false)
     {
@@ -163,7 +163,7 @@ class InputItem
      *
      * @param int $len ความยาวของ description หมายถึงคืนค่าทั้งหมด
      *
-     * @return string
+     * @return mixed
      */
     public function description($len = 0)
     {
@@ -192,7 +192,7 @@ class InputItem
      *
      * @assert create('ทด\/สอบ<?php echo "555"?>')->detail() [==] 'ทด&#92;/สอบ'
      *
-     * @return string
+     * @return mixed
      */
     public function detail()
     {
@@ -203,7 +203,7 @@ class InputItem
      * ตรวจสอบว่ามีตัวแปรส่งมาหรือไม่
      * คืนค่า true ถ้ามีตัวแปรส่งมา.
      *
-     * @return bool
+     * @return mixed
      */
     public function exists()
     {
@@ -219,7 +219,7 @@ class InputItem
      * @param string $format  Regular Expression อักขระที่ยอมรับ เช่น \d\s\-:
      * @param string $replace ข้อความแทนที่
      *
-     * @return string
+     * @return mixed
      */
     public function filter($format, $replace = '')
     {
@@ -279,7 +279,7 @@ class InputItem
      *
      * @param int $len ความยาวของ keywords หมายถึงคืนค่าทั้งหมด
      *
-     * @return string
+     * @return mixed
      */
     public function keywords($len = 0)
     {
@@ -295,7 +295,7 @@ class InputItem
      * @assert create(0.12345)->number() [==] '012345'
      * @assert create('ทด0123สอ4บ5')->number() [==] '012345'
      *
-     * @return string
+     * @return mixed
      */
     public function number()
     {
@@ -305,7 +305,7 @@ class InputItem
     /**
      * รับค่าสำหรับ password อักขระทุกตัวไม่มีช่องว่าง.
      *
-     * @return string
+     * @return mixed
      */
     public function password()
     {
@@ -319,7 +319,7 @@ class InputItem
      *
      * @assert create("ทด'สอบ")->quote() [==] "ทด&#39;สอบ"
      *
-     * @return string
+     * @return mixed
      */
     public function quote()
     {
@@ -333,7 +333,7 @@ class InputItem
      *
      * @assert create(" ทด\/สอบ<?php echo '555'?> ")->text() [==] 'ทด&#92;/สอบ&lt;?php echo &#039;555&#039;?&gt;'
      *
-     * @return string
+     * @return mixed
      */
     public function text()
     {
@@ -347,7 +347,7 @@ class InputItem
      *
      * @assert create("ทด\/สอบ\n<?php echo '555'?>")->textarea() [==] "ทด&#92;/สอบ\n&lt;?php echo '555'?&gt;"
      *
-     * @return string
+     * @return mixed
      */
     public function textarea()
     {
@@ -363,7 +363,7 @@ class InputItem
      * @assert create(0)->toBoolean() [==] 0
      * @assert create(null)->toBoolean() [==] 0
      *
-     * @return bool
+     * @return mixed
      */
     public function toBoolean()
     {
@@ -376,7 +376,7 @@ class InputItem
      * @assert create(0.454)->toDouble() [==] 0.454
      * @assert create(0.545)->toDouble() [==] 0.545
      *
-     * @return float
+     * @return mixed
      */
     public function toDouble()
     {
@@ -389,7 +389,7 @@ class InputItem
      * @assert create(0.454)->toFloat() [==] 0.454
      * @assert create(0.545)->toFloat() [==] 0.545
      *
-     * @return float
+     * @return mixed
      */
     public function toFloat()
     {
@@ -402,7 +402,7 @@ class InputItem
      * @assert create(0.454)->toInt() [==] 0
      * @assert create(2.945)->toInt() [==] 2
      *
-     * @return int
+     * @return mixed
      */
     public function toInt()
     {
@@ -414,7 +414,7 @@ class InputItem
      *
      * @assert create('test')->toObject() [==] (object)'test'
      *
-     * @return object
+     * @return mixed
      */
     public function toObject()
     {
@@ -429,7 +429,7 @@ class InputItem
      * @assert create(1)->toString() [==] '1'
      * @assert create(null)->toString() [==] null
      *
-     * @return string|null
+     * @return mixed
      */
     public function toString()
     {
@@ -442,7 +442,7 @@ class InputItem
      *
      * @assert create(' ทด\/สอบ'."\r\n\t".'<?php echo \'555\'?> ')->topic() [==] 'ทด&#92;/สอบ &lt;?php echo &#039;555&#039;?&gt;'
      *
-     * @return string
+     * @return mixed
      */
     public function topic()
     {
@@ -458,7 +458,7 @@ class InputItem
      * @assert create("javascript:alert('xxx')")->url() [==] 'alertxxx'
      * @assert create("http://www.xxx.com/javascript/")->url() [==] 'http://www.xxx.com/javascript/'
      *
-     * @return string
+     * @return mixed
      */
     public function url()
     {
@@ -471,7 +471,7 @@ class InputItem
      * @assert create(' admin@demo.com')->username() [==] 'admin@demo.com'
      * @assert create('012 3465')->username() [==] '0123465'
      *
-     * @return string
+     * @return mixed
      */
     public function username()
     {

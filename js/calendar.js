@@ -20,6 +20,7 @@ Calendar.prototype = {
     this.calendar.className = "event-calendar";
     this.showToday = false;
     this.first_day_of_calendar = null;
+    this.next_day_of_calendar = null;
     for (var property in o) {
       if (property == "month") {
         this.cdate.setMonth(floatval(o[property]) - 1);
@@ -50,6 +51,7 @@ Calendar.prototype = {
     this.calendar.innerHTML = "";
     this.calendar.appendChild(header);
     this.first_day_of_calendar = null;
+    this.next_day_of_calendar = null;
     var a = document.createElement("a"),
       span = document.createElement("span");
     a.className = "prev";
@@ -164,6 +166,7 @@ Calendar.prototype = {
       cell.className = cls;
       pointer++;
     }
+    this.next_day_of_calendar = new Date(tmp_year, tmp_month - 1, pointer, 0, 0, 0, 0);
     if (this.showToday) {
       var a = document.createElement("a");
       a.innerHTML = new Date().format("d F Y");
@@ -217,42 +220,49 @@ Calendar.prototype = {
       elems,
       top,
       start,
+      start_date,
       d,
       self = this;
     forEach(this.events, function() {
       if (this.start) {
         a = new Date(this.start);
-        diff_start = a.compare(self.first_day_of_calendar);
-        if (diff_start.days < 0) {
-          a = self._addLabel(self.first_day_of_calendar, this, true);
-          this.start = self.first_day_of_calendar.format("y-m-d H:i:s");
-        } else {
-          a = self._addLabel(a, this, true);
-        }
-        if (a && this.end) {
-          diff = new Date(this.end).compare(new Date(this.start));
-          if (diff_start.days < 0) {
-            diff.days--;
+        diff_next = a.compare(self.next_day_of_calendar);
+        if (diff_next.days >= -42 || this.end) {
+          diff_start = a.compare(self.first_day_of_calendar);
+          start_date = this.start;
+          if (diff_next.days >= -42) {
+            if (diff_start.days < 0) {
+              a = self._addLabel(self.first_day_of_calendar, this, true);
+              start_date = self.first_day_of_calendar.format("y-m-d H:i:s");
+            } else {
+              a = self._addLabel(a, this, true);
+            }
           }
-          if (diff.days > 0) {
-            elems = [a];
-            top = a.offsetTop;
-            start = Date.parse(this.start);
-            for (var i = 1; i <= diff.days; i++) {
-              d = new Date(start + i * 86400000);
-              a = self._addLabel(d, this, false);
-              if (a) {
-                if (d.getDay() == 0) {
-                  self._align(elems, top);
-                  top = a.offsetTop;
-                  elems = [a];
-                } else {
-                  top = Math.max(top, a.offsetTop);
-                  elems.push(a);
+          if (a && this.end) {
+            diff = new Date(this.end).compare(new Date(start_date));
+            if (diff_start.days < 0) {
+              diff.days--;
+            }
+            if (diff.days > 0) {
+              elems = [a];
+              top = a.offsetTop;
+              start = Date.parse(start_date);
+              for (var i = 1; i <= diff.days; i++) {
+                d = new Date(start + i * 86400000);
+                a = self._addLabel(d, this, false);
+                if (a) {
+                  if (d.getDay() == 0) {
+                    self._align(elems, top);
+                    top = a.offsetTop;
+                    elems = [a];
+                  } else {
+                    top = Math.max(top, a.offsetTop);
+                    elems.push(a);
+                  }
                 }
               }
+              self._align(elems, top);
             }
-            self._align(elems, top);
           }
         }
       }

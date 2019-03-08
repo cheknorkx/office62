@@ -32,7 +32,7 @@ class Province
         if (method_exists('Kotchasan\Province', $country)) {
             return \Kotchasan\Province::$country();
         } else {
-            return \Kotchasan\Province::TH();
+            return array();
         }
     }
 
@@ -47,14 +47,17 @@ class Province
     public static function all($country = 'TH')
     {
         $datas = self::init($country);
-        $language = Language::name();
-        $language = in_array($language, array_keys(reset($datas))) ? $language : 'en';
         $result = array();
-        foreach ($datas as $iso => $values) {
-            $result[$iso] = $values[$language];
-        }
-        if ($language == 'en') {
-            asort($result);
+        if (!empty($datas)) {
+            $language = Language::name();
+            $language = in_array($language, array_keys(reset($datas))) ? $language : 'en';
+            $result = array();
+            foreach ($datas as $iso => $values) {
+                $result[$iso] = $values[$language];
+            }
+            if ($language == 'en') {
+                asort($result);
+            }
         }
 
         return $result;

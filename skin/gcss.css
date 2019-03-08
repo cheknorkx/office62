@@ -3970,6 +3970,7 @@ td.buttons .button:last-child {
   -ms-text-overflow: ellipsis;
   overflow: hidden;
 }
+.gautocomplete>p:hover,
 .gautocomplete>p.select {
   background-color: rgba(0, 0, 0, 0.05);
   color: #000;

@@ -315,7 +315,7 @@ class Html extends \Kotchasan\KBase
             }
         }
 
-        return sizeof($attr) == 0 ? '' : ' '.implode(' ', $attr);
+        return count($attr) == 0 ? '' : ' '.implode(' ', $attr);
     }
 
     /**

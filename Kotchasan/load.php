@@ -78,7 +78,7 @@ if (isset($_SERVER['APPL_PHYSICAL_PATH'])) {
 } else {
     $dir = basename($docRoot);
     $ds = explode($dir, dirname($_SERVER['SCRIPT_NAME']), 2);
-    if (sizeof($ds) > 1) {
+    if (count($ds) > 1) {
         $contextPrefix = $ds[0].$dir;
         $appPath = $ds[1];
         if (DIRECTORY_SEPARATOR != '/') {

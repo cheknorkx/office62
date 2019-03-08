@@ -48,7 +48,7 @@ class Model extends \Kotchasan\KBase
         $emails = array();
         // ส่งอีเมลไปยังผู้ที่เกี่ยว
         if (!empty(self::$cfg->edocument_send_mail)) {
-            // query อีเมล์ผู้รับ
+            // query อีเมลผู้รับ
             $query = $model->db()->createQuery()
                 ->select('name', 'username')
                 ->from('user');

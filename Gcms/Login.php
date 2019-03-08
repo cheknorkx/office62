@@ -39,31 +39,34 @@ class Login extends \Kotchasan\Login
             $ip = self::$request->getClientIp();
             // current session
             $session_id = session_id();
-            // token
-            $login_result['token'] = sha1(uniqid());
             // ลบ password
             unset($login_result['password']);
-            // อัปเดทการเยี่ยมชม
+            // เวลานี้
+            $mktime = time();
+            if (self::$cfg->member_only || empty($login_result['token']) || $mktime - $login_result['lastvisited'] > 86400) {
+                // อัปเดท token
+                $login_result['token'] = sha1(uniqid().$login_result['id'].$session_id);
+                $save = array('token' => $login_result['token']);
+            }
             if ($session_id != $login_result['session_id']) {
+                // อัปเดทการเยี่ยมชม
                 ++$login_result['visited'];
                 $save = array(
                     'session_id' => $session_id,
                     'visited' => $login_result['visited'],
-                    'lastvisited' => time(),
+                    'lastvisited' => $mktime,
                     'ip' => $ip,
                     'token' => $login_result['token'],
                 );
-            } else {
-                $save = array(
-                    'token' => $login_result['token'],
-                );
             }
-            // บันทึกการเข้าระบบ
-            \Kotchasan\Model::createQuery()
-                ->update('user')
-                ->set($save)
-                ->where((int) $login_result['id'])
-                ->execute();
+            if (!empty($save)) {
+                // บันทึกการเข้าระบบ
+                \Kotchasan\Model::createQuery()
+                    ->update('user')
+                    ->set($save)
+                    ->where((int) $login_result['id'])
+                    ->execute();
+            }
         }
 
         return $login_result;
@@ -79,14 +82,12 @@ class Login extends \Kotchasan\Login
      */
     public static function checkMember($params)
     {
-        // Model
-        $model = new \Kotchasan\Model();
         // query Where
         $where = array();
         foreach (self::$cfg->login_fields as $field) {
             $where[] = array("U.{$field}", $params['username']);
         }
-        $query = $model->db()->createQuery()
+        $query = \Kotchasan\Model::createQuery()
             ->select()
             ->from('user U')
             ->where($where, 'OR')

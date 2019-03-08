@@ -22,15 +22,7 @@ window.$K = (function() {
         var tagName = $G(elem).tagName.toLowerCase(),
           type = elem.get("type"),
           type = type ? type.toLowerCase() : "";
-        if (
-          elem.initObj !== true &&
-          (tagName == "textarea" ||
-            (type !== "hidden" &&
-              type !== "radio" &&
-              type !== "checkbox" &&
-              type !== "button" &&
-              type !== "submit"))
-        ) {
+        if (elem.initObj !== true && (tagName == "textarea" || (type !== "hidden" && type !== "radio" && type !== "checkbox" && type !== "button" && type !== "submit"))) {
           var obj = new Object();
           obj.tagName = tagName;
           obj.type = type;
@@ -85,16 +77,7 @@ window.$K = (function() {
             var text = elem;
             if (obj.type == "date") {
               new GCalendar(text);
-            } else if (
-              obj.type == "number" ||
-              obj.type == "integer" ||
-              obj.type == "tel" ||
-              obj.type == "email" ||
-              obj.type == "url" ||
-              obj.type == "color" ||
-              obj.type == "currency" ||
-              obj.type == "time"
-            ) {
+            } else if (obj.type == "number" || obj.type == "integer" || obj.type == "tel" || obj.type == "email" || obj.type == "url" || obj.type == "color" || obj.type == "currency" || obj.type == "time") {
               var o = {
                 type: "text",
                 name: elem.name,
@@ -150,11 +133,7 @@ window.$K = (function() {
                     obj.dataset["keyboard"] = "1234567890-";
                   } else if (obj.type == "currency") {
                     obj.dataset["keyboard"] = "1234567890-.";
-                  } else if (
-                    obj.type == "number" ||
-                    obj.type == "tel" ||
-                    obj.type == "currency"
-                  ) {
+                  } else if (obj.type == "number" || obj.type == "tel" || obj.type == "currency") {
                     obj.dataset["keyboard"] = "1234567890";
                   }
                 }
@@ -227,6 +206,8 @@ window.$K = (function() {
               new GRange(elem);
             } else if (obj.type == "inputgroup") {
               new GInputGroup(elem);
+            } else if (elem.get("list")) {
+              new Datalist(elem);
             } else if (obj.pattern) {
               new GMask(text, function() {
                 return obj.pattern.test(this.value);

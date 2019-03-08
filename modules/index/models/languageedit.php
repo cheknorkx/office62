@@ -82,7 +82,7 @@ class Model extends \Kotchasan\Model
                     foreach ($languages as $lng) {
                         if ($items[$lng] != '') {
                             $values[$lng][$items['key']] = $items[$lng];
-                            if (sizeof($values[$lng]) > 1) {
+                            if (count($values[$lng]) > 1) {
                                 $save['type'] = 'array';
                             }
                         }

@@ -506,7 +506,7 @@ class Recordset extends Query implements \Iterator
      */
     public function recordCount()
     {
-        return sizeof($this->datas);
+        return count($this->datas);
     }
 
     /**

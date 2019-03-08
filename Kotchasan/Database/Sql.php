@@ -697,7 +697,7 @@ class Sql
                 $sql = "'$value'";
             } elseif (preg_match('/0x[0-9]+/is', $value)) {
                 // 0x
-                $sql = ':'.strtolower(preg_replace('/[`\.\s\-_]+/', '', $column_name)).sizeof($values);
+                $sql = ':'.strtolower(preg_replace('/[`\.\s\-_]+/', '', $column_name)).count($values);
                 $values[$sql] = $value;
             } else {
                 if (preg_match('/^(([A-Z0-9]{1,2})|`([a-zA-Z0-9_]+)`)\.`?([a-zA-Z0-9_]+)`?$/', $value, $match)) {
@@ -710,7 +710,7 @@ class Sql
                     // ข้อความที่ไม่มีช่องว่างหรือรหัสที่อาจเป็น SQL
                     $sql = "'$value'";
                 } else {
-                    $sql = ':'.strtolower(preg_replace('/[`\.\s\-_]+/', '', $column_name)).sizeof($values);
+                    $sql = ':'.strtolower(preg_replace('/[`\.\s\-_]+/', '', $column_name)).count($values);
                     $values[$sql] = $value;
                 }
             }
@@ -804,7 +804,7 @@ class Sql
                 } else {
                     $key = self::fieldName($condition[0]);
                 }
-                if (sizeof($condition) == 2) {
+                if (count($condition) == 2) {
                     if ($condition[1] instanceof QueryBuilder) {
                         $operator = '=';
                         $value = '('.$condition[1]->text().')';

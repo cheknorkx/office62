@@ -128,6 +128,8 @@ function defaultSubmit(ds) {
           } else {
             if (typeof el.placeholder != "undefined") {
               t = el.placeholder.strip_tags();
+            } else {
+              t = "";
             }
             if (t == "") {
               t = el.title.strip_tags();
@@ -141,6 +143,8 @@ function defaultSubmit(ds) {
         } else if (val == "this") {
           if (typeof el.placeholder != "undefined") {
             t = el.placeholder.strip_tags();
+          } else {
+            t = "";
           }
           if (t == "") {
             t = el.title.strip_tags();
@@ -575,31 +579,19 @@ function initFirstRowNumberOnly(tr) {
   });
 }
 
-function initEditProfile(prefix, countries) {
+function initEditProfile(prefix) {
   prefix += prefix == "" ? "" : "_";
-  var countryChanged = function() {
-    var province = $E(prefix + "province"),
-      provinceID = $E(prefix + "provinceID");
-    if (countries.indexOf(this.value) === -1) {
-      if (provinceID) {
-        $G(provinceID.parentNode.parentNode).addClass("hidden");
+  $G(prefix + "country").addEvent('change', function(evt) {
+    var self = this;
+    self.addClass("wait");
+    new GAjax().send(WEB_URL + "index.php/index/model/province/toJSON", 'country=' + this.getValue(), function(xhr) {
+      self.removeClass("wait");
+      var items = xhr.responseText.toJSON(),
+        provinceID = $E(prefix + "provinceID");
+      if (items && provinceID) {
+        provinceID.setDatalist(items['provinceID']);
       }
-      if (province) {
-        $G(province.parentNode.parentNode).removeClass("hidden");
-      }
-    } else {
-      if (province) {
-        $G(province.parentNode.parentNode).addClass("hidden");
-      }
-      if (provinceID) {
-        $G(provinceID.parentNode.parentNode).removeClass("hidden");
-      }
-    }
-  };
-  new GMultiSelect([prefix + "country"], {
-    action: WEB_URL + "index.php/index/model/province/toJSON",
-    prefix: prefix,
-    onchange: countryChanged
+    });
   });
 }
 
@@ -672,10 +664,7 @@ function initWeb(module) {
     });
   }
   var fontSize = floatval(Cookie.get(module + "fontSize"));
-  document.body.set(
-    "data-fontSize",
-    floatval(document.body.getStyle("fontSize"))
-  );
+  document.body.set("data-fontSize", floatval(document.body.getStyle("fontSize")));
   if (fontSize > 5) {
     document.body.setStyle("fontSize", fontSize + "px");
   }

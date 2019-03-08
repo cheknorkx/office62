@@ -116,7 +116,7 @@ class Request extends AbstractRequest implements \Psr\Http\Message\RequestInterf
                     } elseif (substr($item[0], -1) == '*') {
                         $q = 0.02;
                     } else {
-                        $q = 1000 - sizeof($matches);
+                        $q = 1000 - count($matches);
                     }
                 }
                 $matches[(string) $q] = $item[0];

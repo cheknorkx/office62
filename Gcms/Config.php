@@ -113,6 +113,13 @@ class Config extends \Kotchasan\Config
      */
     public $welcome_email = 0;
     /**
+     * การเข้าระบบต่อ 1 user
+     * ค่าเริ่มต้น true (แนะนำ) สามารถเข้าระบบได้เพียงคนเดียวต่อ 1 user คนที่อยู่ในระบบก่อนหน้าจะถูกบังคับให้ออกจากระบบ.
+     *
+     * @var bool
+     */
+    public $member_only = true;
+    /**
      * นามสกุลของไฟล์แนบที่รองรับ ของ repair.
      *
      * @var array

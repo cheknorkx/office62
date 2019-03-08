@@ -20,19 +20,19 @@ namespace Kotchasan;
 class Tab
 {
     /**
-     * @var mixed
+     * @var array
      */
     private $datas;
     /**
-     * @var mixed
+     * @var string
      */
     private $id;
     /**
-     * @var mixed
+     * @var string
      */
     private $select;
     /**
-     * @var mixed
+     * @var array
      */
     private $urls;
 
@@ -47,7 +47,7 @@ class Tab
     {
         $this->id = $id;
         $this->urls = explode('?', $url);
-        if (sizeof($this->urls) == 1) {
+        if (count($this->urls) == 1) {
             $this->urls[1] = '';
         } else {
             $this->urls[1] = str_replace(array('&', '&amp;amp;'), '&amp;', $this->urls[1]);

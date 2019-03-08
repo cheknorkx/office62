@@ -61,7 +61,7 @@ class ListItem
      */
     public function count()
     {
-        return sizeof($this->datas);
+        return count($this->datas);
     }
 
     /**
@@ -137,7 +137,7 @@ class ListItem
      */
     public function insert($key, $item)
     {
-        if (is_int($key) && $key == sizeof($this->datas)) {
+        if (is_int($key) && $key == count($this->datas)) {
             $this->datas[] = $item;
         } else {
             $temp = $this->datas;

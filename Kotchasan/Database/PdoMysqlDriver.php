@@ -258,7 +258,7 @@ class PdoMysqlDriver extends Driver
                     $qs[] = '`'.$match[1].'`'.(empty($match[2]) ? '' : ' '.$match[2]);
                 }
             }
-            if (sizeof($qs) > 0) {
+            if (count($qs) > 0) {
                 $sql .= ' ORDER BY '.implode(', ', $qs);
             }
         }
@@ -307,7 +307,7 @@ class PdoMysqlDriver extends Driver
                 $sets[] = '`'.$key.'` = '.$value->text();
                 $values = $value->getValues($values);
             } else {
-                $k = ':'.$key.sizeof($values);
+                $k = ':'.$key.count($values);
                 $sets[] = '`'.$key.'` = '.$k;
                 $values[$k] = $value;
             }

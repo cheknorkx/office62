@@ -70,17 +70,27 @@ class View extends \Gcms\View
         foreach (\DateTimeZone::listIdentifiers() as $item) {
             $datas[$item] = $item;
         }
-        $fieldset->add('select', array(
+        $fieldset->add('text', array(
             'id' => 'timezone',
             'labelClass' => 'g-input icon-clock',
             'itemClass' => 'item',
             'label' => '{LNG_Time zone}&nbsp;({LNG_Server time}&nbsp;<em id=server_time>'.date('H:i:s').'</em>&nbsp;{LNG_Local time}&nbsp;<em id=local_time></em>)',
             'comment' => '{LNG_Settings the timing of the server to match the local time}',
-            'options' => $datas,
+            'datalist' => $datas,
             'value' => isset($config->timezone) ? $config->timezone : self::$cfg->timezone,
         ));
         $fieldset = $form->add('fieldset', array(
             'title' => '{LNG_User}',
+        ));
+        // member_only
+        $fieldset->add('select', array(
+            'id' => 'member_only',
+            'labelClass' => 'g-input icon-customer',
+            'itemClass' => 'item',
+            'label' => '{LNG_Login per one account}',
+            'comment' => '{LNG_Limit access to only one account per member. Members who have logged in before will be forced to log out.}',
+            'options' => Language::get('BOOLEANS'),
+            'value' => isset($config->member_only) ? $config->member_only : self::$cfg->member_only,
         ));
         // user_forgot
         $fieldset->add('select', array(

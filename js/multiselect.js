@@ -41,11 +41,7 @@
           }
           for (var sel in self.selects) {
             var select = self.selects[sel];
-            qs.push(
-              select.id.replace(self.prefix, "") +
-              "=" +
-              encodeURIComponent(select.value)
-            );
+            qs.push(select.id.replace(self.prefix, "") + "=" + encodeURIComponent(select.value));
           }
           temp.addClass("wait");
           self.req.send(o.action, qs.join("&"), function(xhr) {
