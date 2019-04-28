@@ -175,11 +175,21 @@ if (!defined('TOKEN_AGE')) {
  * @param string $className ชื่อคลาส
  * @param mixed  $param
  *
- * @return \static
+ * @return object
  */
 function createClass($className, $param = null)
 {
     return new $className($param);
+}
+
+/**
+ * แสดงข้อมูลตัวแปรออกทาง Console ของบราวเวอร์ (debug).
+ *
+ * @param mixed $expression
+ */
+function debug($expression)
+{
+    echo '<script>console.log("'.htmlspecialchars(stripslashes(str_replace(array("\r", "\n"), '', var_export($expression, true)))).'")</script>';
 }
 /*
  * custom error handler

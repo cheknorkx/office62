@@ -47,8 +47,8 @@ class Controller extends \Gcms\Controller
         $this->title = Language::trans('{LNG_List of} ').$title;
         // เลือกเมนู
         $this->menu = 'settings';
-        // สามารถตั้งค่าระบบได้
-        if (Login::checkPermission(Login::isMember(), 'can_config')) {
+        // สามารถบริหารจัดการ inventory ได้
+        if (Login::checkPermission(Login::isMember(), 'can_manage_inventory')) {
             // แสดงผล
             $section = Html::create('section', array(
                 'class' => 'content_bg',
@@ -66,6 +66,7 @@ class Controller extends \Gcms\Controller
             ));
             // แสดงฟอร์ม
             $section->appendChild(createClass('Inventory\Categories\View')->render($index));
+            // คืนค่า HTML
 
             return $section->render();
         }

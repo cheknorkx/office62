@@ -49,6 +49,7 @@ class Controller extends \Gcms\Controller
             $className = \Index\Main\Controller::parseModule($request, self::$menus->home());
             if ($className === null || !$login) {
                 // ถ้าไม่พบหน้าที่เรียก หรือไม่ได้เข้าระบบ แสดงหน้า 404
+                include APP_PATH.'modules/index/controllers/error.php';
                 $className = 'Index\Error\Controller';
             }
             // create Controller

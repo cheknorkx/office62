@@ -107,7 +107,7 @@ class Login extends \Kotchasan\KBase
             } else {
                 self::$login_params['username'] = null;
             }
-            self::$from_submit = false;
+            self::$from_submit = self::$request->post('login_username')->exists();
         } elseif (self::$request->post('login_password')->exists()) {
             self::$login_params['password'] = self::$request->post('login_password')->password();
             self::$from_submit = true;
@@ -125,11 +125,11 @@ class Login extends \Kotchasan\KBase
             // ตรวจสอบค่าที่ส่งมา
             if (empty(self::$login_params['username'])) {
                 if (self::$from_submit) {
-                    self::$login_message = Language::get('Please fill in');
+                    self::$login_message = 'Please fill in';
                     self::$login_input = 'login_username';
                 }
             } elseif (empty(self::$login_params['password']) && self::$from_submit) {
-                self::$login_message = Language::get('Please fill in');
+                self::$login_message = 'Please fill in';
                 self::$login_input = 'login_password';
             } elseif (!self::$from_submit || (self::$from_submit && self::$request->isReferer())) {
                 // ตรวจสอบการ login กับฐานข้อมูล

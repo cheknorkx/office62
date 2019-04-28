@@ -127,6 +127,25 @@ class Date
     }
 
     /**
+     * คืนค่าเวลาที่แตกต่าง หน่วย msec.
+     *
+     * @assert ('08:00', '09:00') [==] 3600
+     *
+     * @param  $firstTime
+     * @param  $lastTime
+     *
+     * @return int
+     */
+    public static function timeDiff($firstTime, $lastTime)
+    {
+        $firstTime = strtotime($firstTime);
+        $lastTime = strtotime($lastTime);
+        $timeDiff = $lastTime - $firstTime;
+
+        return $timeDiff;
+    }
+
+    /**
      * แปลงตัวเลขเป็นชื่อวันตามภาษาที่ใช้งานอยู่
      * คืนค่า อาทิตย์...6 เสาร์.
      *

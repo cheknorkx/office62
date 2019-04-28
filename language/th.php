@@ -1,5 +1,4 @@
 <?php
-
 /* language/th.php */
 return array(
   'A new document has been sent to you. Please check back' => 'มีเอกสารใหม่ส่งถึงคุณ กรุณากลับไปตรวจสอบ',
@@ -19,20 +18,20 @@ return array(
   'Booking calendar' => 'ปฏิทินการจอง',
   'Booking today' => 'การจองวันนี้',
   'BOOKING_OPTIONS' => array(
-    'accessories' => 'อุปกรณ์',
+    'accessories' => 'อุปกรณ์'
   ),
   'BOOKING_SELECT' => array(
-    'use' => 'ใช้สำหรับ',
+    'use' => 'ใช้สำหรับ'
   ),
   'BOOKING_STATUS' => array(
     0 => 'รอตรวจสอบ',
     1 => 'อนุมัติ',
     2 => 'ไม่อนุมัติ',
-    3 => 'ยกเลิก',
+    3 => 'ยกเลิก'
   ),
   'BOOLEANS' => array(
     0 => 'ปิดใช้งาน',
-    1 => 'เปิดใช้งาน',
+    1 => 'เปิดใช้งาน'
   ),
   'Browse file' => 'เลือกไฟล์',
   'Browse image uploaded, type :type' => 'เลือกรูปภาพอัปโหลดชนิด :type',
@@ -46,7 +45,7 @@ return array(
   'Can manage the inventory' => 'สามารถจัดการคลังสินค้าได้',
   'Can not be performed this request. Because they do not find the information you need or you are not allowed' => 'ไม่สามารถดำเนินการตามที่ร้องขอได้ เนื่องจากไม่พบข้อมูลที่ต้องการ หรือ คุณไม่มีสิทธิ์',
   'Can select multiple files, total size not exceeding :size' => 'สามารถเลือกได้หลายไฟล์ ขนาดรวม ไม่เกิน :size',
-  'Can upload your document file' => 'สามารถอัปโหลดไฟล์เอกสารได้',
+  'Can upload your document file' => 'สามารถอัพโหลดไฟล์เอกสารได้',
   'Cancel' => 'ยกเลิก',
   'Canceled successfully' => 'ยกเลิกเรียบร้อย',
   'Change language' => 'สลับภาษา',
@@ -68,7 +67,7 @@ return array(
     3 => 'พุธ',
     4 => 'พฤหัสบดี',
     5 => 'ศุกร์',
-    6 => 'เสาร์',
+    6 => 'เสาร์'
   ),
   'DATE_SHORT' => array(
     0 => 'อา.',
@@ -77,7 +76,7 @@ return array(
     3 => 'พ.',
     4 => 'พฤ.',
     5 => 'ศ.',
-    6 => 'ส.',
+    6 => 'ส.'
   ),
   'Delete' => 'ลบ',
   'Department' => 'แผนก',
@@ -94,7 +93,7 @@ return array(
   'Download history' => 'ประวัติการดาวน์โหลด',
   'DOWNLOAD_ACTIONS' => array(
     0 => 'ดาวน์โหลดไฟล์',
-    1 => 'เปิดไฟล์ (ที่รู้จัก)',
+    1 => 'เปิดไฟล์ (ที่รู้จัก)'
   ),
   'drag to order' => 'ลากเพื่อจัดลำดับ',
   'E-Document' => 'งานสารบรรณ',
@@ -133,9 +132,9 @@ return array(
   'History' => 'ติดตามการสั่งซ่อมของฉัน',
   'Home' => 'หน้าหลัก',
   'How to define user authentication for mail servers. If you enable it, you must configure below correctly.' => 'กำหนดวิธีการตรวจสอบผู้ใช้สำหรับเมล์เซิร์ฟเวอร์ หากคุณเปิดใช้งานคุณต้องกำหนดค่าต่างๆด้านล่างถูกต้อง',
-  'Identification No.' => 'เลขประชาชน',
+  'Identification No.' => 'เลขประจำตัวประชาชน',
   'Image' => 'รูปภาพ',
-  'Image size is in pixels' => 'ขนาดของรูปภาพเป็นพิกเซล',
+  'Image size is in pixels' => 'ขนาดของรูปภาพขนาดเป็นพิกเซล',
   'Import' => 'นำเข้า',
   'Incorrect :name' => ':name ไม่ถูกต้อง',
   'Informer' => 'ผู้แจ้งซ่อม',
@@ -144,11 +143,11 @@ return array(
   'INVENTORY_CATEGORIES' => array(
     'category_id' => 'หมวดหมู่',
     'type_id' => 'ประเภท',
-    'model_id' => 'ยี่ห้อ',
+    'model_id' => 'ยี่ห้อ'
   ),
   'INVENTORY_STATUS' => array(
     0 => 'เลิกใช้งานแล้ว',
-    1 => 'ใช้งานอยู่',
+    1 => 'ใช้งานอยู่'
   ),
   'Job today' => 'งานซ่อมวันนี้',
   'Key' => 'คีย์',
@@ -167,7 +166,7 @@ return array(
   'Mail server settings' => 'ค่ากำหนดของเมล์เซิร์ฟเวอร์',
   'MAIL_PROGRAMS' => array(
     0 => 'ส่งจดหมายด้วย PHP',
-    1 => 'ส่งจดหมายด้วย PHPMailer (แนะนำ)',
+    1 => 'ส่งจดหมายด้วย PHPMailer (แนะนำ)'
   ),
   'Manage languages' => 'จัดการภาษา',
   'Meeting room are not available at select time' => 'ห้องประชุมไม่สามารถใช้งานได้ในเวลาที่เลือก',
@@ -187,7 +186,7 @@ return array(
     9 => 'กันยายน',
     10 => 'ตุลาคม',
     11 => 'พฤศจิกายน',
-    12 => 'ธันวาคม',
+    12 => 'ธันวาคม'
   ),
   'MONTH_SHORT' => array(
     1 => 'ม.ค.',
@@ -201,7 +200,7 @@ return array(
     9 => 'ก.ย.',
     10 => 'ต.ค.',
     11 => 'พ.ย.',
-    12 => 'ธ.ค.',
+    12 => 'ธ.ค.'
   ),
   'My Booking' => 'รายการจองของฉัน',
   'My device' => 'อุปกรณ์ของฉัน',
@@ -222,12 +221,12 @@ return array(
   'Passwords must be at least four characters' => 'รหัสผ่านต้องไม่น้อยกว่า 4 ตัวอักษร',
   'Permission' => 'สิทธิ์การใช้งาน',
   'PERMISSIONS' => array(
-    'can_config' => 'สามารถตั้งค่าระบบได้',
+    'can_config' => 'สามารถตั้งค่าระบบได้'
   ),
   'Personnel' => 'บุคลากร',
   'Personnel list' => 'รายชื่อบุคลากร',
   'PERSONNEL_DETAILS' => array(
-    'job' => 'งาน',
+    'job' => 'งาน'
   ),
   'Phone' => 'โทรศัพท์',
   'Please fill in' => 'กรุณากรอก',
@@ -260,7 +259,7 @@ return array(
   'Repair status' => 'สถานะการซ่อม',
   'Repair system' => 'ระบบแจ้งซ่อม',
   'REPAIR_CATEGORIES' => array(
-    'repairstatus' => 'สถานะการซ่อม',
+    'repairstatus' => 'สถานะการซ่อม'
   ),
   'Repairman' => 'ช่างซ่อม',
   'Repassword' => 'ยืนยันรหัสผ่าน',
@@ -273,7 +272,7 @@ return array(
   'ROOM_CUSTOM_TEXT' => array(
     'building' => 'อาคาร/สถานที่',
     'number' => 'เลขที่ห้องประชุม',
-    'seats' => 'จำนวนที่นั่ง',
+    'seats' => 'จำนวนที่นั่ง'
   ),
   'Save' => 'บันทึก',
   'Save and email completed' => 'บันทึกและส่งอีเมลเรียบร้อย',
@@ -284,7 +283,7 @@ return array(
   'select all' => 'เลือกทั้งหมด',
   'Select the member name you want to send to Can choose many people' => 'เลือกชื่อสมาชิกที่ต้องการส่งถึง สามารถเลือกได้หลายคน',
   'Send a notification message to the person concerned' => 'ส่งข้อความแจ้งเตือนไปยังผู้ที่เกี่ยวข้องด้วย',
-  'Send a notification to the Email when the transaction is made' => 'ส่งการแจ้งเตือนไปยังอีเมลเมื่อมีการทำรายการ',
+  'Send a notification to the Email when the transaction is made' => 'ส่งการแจ้งเตือนไปยังอีเมล์เมื่อมีการทำรายการ',
   'Send a welcome email to new members' => 'ส่งอีเมลต้อนรับสมาชิกใหม่',
   'Send Document' => 'ส่งเอกสาร',
   'Send notification to LINE group when making a transaction' => 'ส่งการแจ้งเตือนไปยังกลุ่มไลน์เมื่อมีการทำรายการ',
@@ -298,7 +297,7 @@ return array(
   'Sex' => 'เพศ',
   'SEXES' => array(
     'f' => 'หญิง',
-    'm' => 'ชาย',
+    'm' => 'ชาย'
   ),
   'Short description about your website' => 'ข้อความสั้นๆอธิบายว่าเป็นเว็บไซต์เกี่ยวกับอะไร',
   'Show' => 'แสดง',
@@ -307,15 +306,15 @@ return array(
   'Site Name' => 'ชื่อของเว็บไซต์',
   'Site settings' => 'ตั้งค่าเว็บไซต์',
   'size of' => 'ขนาดของ',
-  'Size of the file upload' => 'ขนาดของไฟล์อัปโหลด',
+  'Size of the file upload' => 'ขนาดของไฟล์อัพโหลด',
   'skip to content' => 'ข้ามไปยังเนื้อหา',
   'SMTPSECURIES' => array(
     '' => 'การเชื่อมต่อแบบปกติ',
-    'ssl' => 'การเชื่อมต่อที่ปลอดภัย (SSL)',
+    'ssl' => 'การเชื่อมต่อที่ปลอดภัย (SSL)'
   ),
   'Sorry' => 'ขออภัย',
   'Sorry, Item not found It&#39;s may be deleted' => 'ขออภัย ไม่พบรายการที่เลือก รายการนี้อาจถูกลบไปแล้ว',
-  'Specify the file extension that allows uploading. English lowercase letters and numbers 2-4 characters to separate each type with a comma (,) and without spaces. eg zip,rar,doc,docx' => 'ระบุนามสกุลของไฟล์ที่สามารถอัปโหลดได้ ภาษาอังกฤษตัวพิมพ์เล็กและตัวเลขสองถึงสี่ตัวอักษร คั่นแต่ละรายการด้วยลูกน้ำ (,)',
+  'Specify the file extension that allows uploading. English lowercase letters and numbers 2-4 characters to separate each type with a comma (,) and without spaces. eg zip,rar,doc,docx' => 'ระบุนามสกุลของไฟล์ที่สามารถอัพโหลดได้ ภาษาอังกฤษตัวพิมพ์เล็กและตัวเลขสองถึงสี่ตัวอักษร คั่นแต่ละรายการด้วยลูกน้ำ (,)',
   'Specify the format of the document number as %04d means adding zeros until the four-digit number on the front, such as 0001.' => 'กำหนดรูปแบบเลขที่ของเอกสาร เช่น %04d หมายถึง เติมเลขศูนย์ด้านหน้าจนครบสี่หลัก เช่น 0001',
   'Specify the language code of the email, as utf-8' => 'ระบุรหัสภาษาของอีเมลที่ส่ง เช่น utf-8',
   'Status' => 'สถานะ',
@@ -329,7 +328,7 @@ return array(
   'The members status of the site' => 'สถานะของสมาชิกของเว็บไซต์',
   'The name of the document when downloaded. If empty, use the name of the uploaded file. (Thai language available)' => 'ชื่อของเอกสารเมื่อดาวน์โหลด ถ้าไม่ระบุช่องนี้ จะใช้ชื่อของไฟล์ที่อัปโหลด (สามารถใช้ภาษาไทยได้)',
   'The name of the mail server as localhost or smtp.gmail.com (To change the settings of your email is the default. To remove this box entirely.)' => 'ชื่อของเมล์เซิร์ฟเวอร์ เช่น localhost หรือ smtp.gmail.com (ต้องการเปลี่ยนค่ากำหนดของอีเมลทั้งหมดเป็นค่าเริ่มต้น ให้ลบข้อความในช่องนี้ออกทั้งหมด)',
-  'The size of the files can be uploaded. (Should not exceed the value of the Server :upload_max_filesize.)' => 'ขนาดของไฟล์ที่สามารถอัปโหลดได้ (ไม่ควรเกินค่ากำหนดของเซิร์ฟเวอร์ :upload_max_filesize)',
+  'The size of the files can be uploaded. (Should not exceed the value of the Server :upload_max_filesize.)' => 'ขนาดของไฟล์ที่สามารถอัพโหลดได้ (ไม่ควรเกินค่ากำหนดของเซิร์ฟเวอร์ :upload_max_filesize)',
   'The type of file is invalid' => 'ชนิดของไฟล์ไม่รองรับ',
   'There are new documents sent to you' => 'มีเอกสารใหม่ส่งถึงคุณ',
   'This :name already exist' => 'มี :name นี้อยู่ก่อนแล้ว',
@@ -340,7 +339,7 @@ return array(
   'Transaction date' => 'วันที่ทำรายการ',
   'Transaction history' => 'ประวัติการทำรายการ',
   'Type' => 'ชนิด',
-  'Type of file uploads' => 'ชนิดของไฟล์อัปโหลด',
+  'Type of file uploads' => 'ชนิดของไฟล์อัพโหลด',
   'Unable to complete the transaction' => 'ไม่สามารถทำรายการนี้ได้',
   'Unable to login' => 'ไม่สามารถเข้าระบบได้',
   'Update repair status' => 'ปรับปรุงสถานะการซ่อม',
@@ -362,5 +361,5 @@ return array(
   'You want to' => 'คุณต้องการ',
   'Your message was sent successfully' => 'ส่งข้อความไปยังผู้ที่เกี่ยวข้องเรียบร้อยแล้ว',
   'Your new password is' => 'รหัสผ่านใหม่ของคุณคือ',
-  'Zipcode' => 'รหัสไปรษณีย์',
+  'Zipcode' => 'รหัสไปรษณีย์'
 );

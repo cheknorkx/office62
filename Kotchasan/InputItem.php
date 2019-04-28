@@ -55,12 +55,12 @@ class InputItem
     }
 
     /**
-     * ค่าสี.
+     * คืนค่า ค่าสี String หรือ แอเรย์ของ String.
      *
      * @assert create('#000')->color() [==] '#000'
      * @assert create('red')->color() [==] 'red'
      *
-     * @return mixed
+     * @return string|array
      */
     public function color()
     {
@@ -96,7 +96,7 @@ class InputItem
      *
      * @param bool $strict true ตรวจสอบความถูกต้องของวันที่ด้วย, false (default) ไม่ต้องตรวจสอบ
      *
-     * @return mixed
+     * @return string|array
      */
     public function date($strict = false)
     {
@@ -128,7 +128,7 @@ class InputItem
      *
      * @param bool $strict true ตรวจสอบความถูกต้องของวันที่ด้วย, false (default) ไม่ต้องตรวจสอบ
      *
-     * @return mixed
+     * @return string|array
      */
     public function time($strict = false)
     {
@@ -163,7 +163,7 @@ class InputItem
      *
      * @param int $len ความยาวของ description หมายถึงคืนค่าทั้งหมด
      *
-     * @return mixed
+     * @return string|array
      */
     public function description($len = 0)
     {
@@ -192,7 +192,7 @@ class InputItem
      *
      * @assert create('ทด\/สอบ<?php echo "555"?>')->detail() [==] 'ทด&#92;/สอบ'
      *
-     * @return mixed
+     * @return string|array
      */
     public function detail()
     {
@@ -203,7 +203,7 @@ class InputItem
      * ตรวจสอบว่ามีตัวแปรส่งมาหรือไม่
      * คืนค่า true ถ้ามีตัวแปรส่งมา.
      *
-     * @return mixed
+     * @return bool
      */
     public function exists()
     {
@@ -219,7 +219,7 @@ class InputItem
      * @param string $format  Regular Expression อักขระที่ยอมรับ เช่น \d\s\-:
      * @param string $replace ข้อความแทนที่
      *
-     * @return mixed
+     * @return string|array
      */
     public function filter($format, $replace = '')
     {
@@ -279,7 +279,7 @@ class InputItem
      *
      * @param int $len ความยาวของ keywords หมายถึงคืนค่าทั้งหมด
      *
-     * @return mixed
+     * @return string|array
      */
     public function keywords($len = 0)
     {
@@ -289,13 +289,13 @@ class InputItem
     }
 
     /**
-     * ตัวเลข
+     * ตัวเลข หรือ แอเรย์ของ ตัวเลข
      *
      * @assert create(12345)->number() [==] '12345'
      * @assert create(0.12345)->number() [==] '012345'
      * @assert create('ทด0123สอ4บ5')->number() [==] '012345'
      *
-     * @return mixed
+     * @return string|array
      */
     public function number()
     {
@@ -305,7 +305,7 @@ class InputItem
     /**
      * รับค่าสำหรับ password อักขระทุกตัวไม่มีช่องว่าง.
      *
-     * @return mixed
+     * @return string|array
      */
     public function password()
     {
@@ -319,7 +319,7 @@ class InputItem
      *
      * @assert create("ทด'สอบ")->quote() [==] "ทด&#39;สอบ"
      *
-     * @return mixed
+     * @return string|array
      */
     public function quote()
     {
@@ -333,7 +333,7 @@ class InputItem
      *
      * @assert create(" ทด\/สอบ<?php echo '555'?> ")->text() [==] 'ทด&#92;/สอบ&lt;?php echo &#039;555&#039;?&gt;'
      *
-     * @return mixed
+     * @return string|array
      */
     public function text()
     {
@@ -347,7 +347,7 @@ class InputItem
      *
      * @assert create("ทด\/สอบ\n<?php echo '555'?>")->textarea() [==] "ทด&#92;/สอบ\n&lt;?php echo '555'?&gt;"
      *
-     * @return mixed
+     * @return string|array
      */
     public function textarea()
     {
@@ -355,7 +355,7 @@ class InputItem
     }
 
     /**
-     * คืนค่าเป็น boolean.
+     * คืนค่าเป็น boolean หรือ แอเรย์ของ boolean.
      *
      * @assert create(true)->toBoolean() [==] 1
      * @assert create(false)->toBoolean() [==] 0
@@ -363,7 +363,7 @@ class InputItem
      * @assert create(0)->toBoolean() [==] 0
      * @assert create(null)->toBoolean() [==] 0
      *
-     * @return mixed
+     * @return bool|array
      */
     public function toBoolean()
     {
@@ -376,7 +376,7 @@ class InputItem
      * @assert create(0.454)->toDouble() [==] 0.454
      * @assert create(0.545)->toDouble() [==] 0.545
      *
-     * @return mixed
+     * @return float|array
      */
     public function toDouble()
     {
@@ -384,12 +384,12 @@ class InputItem
     }
 
     /**
-     * คืนค่าเป็น float.
+     * คืนค่าเป็น float หรือ แอเรย์ของ float.
      *
      * @assert create(0.454)->toFloat() [==] 0.454
      * @assert create(0.545)->toFloat() [==] 0.545
      *
-     * @return mixed
+     * @return float|array
      */
     public function toFloat()
     {
@@ -397,12 +397,12 @@ class InputItem
     }
 
     /**
-     * คืนค่าเป็น integer.
+     * คืนค่าเป็น integer หรือ แอเรย์ของ integer.
      *
      * @assert create(0.454)->toInt() [==] 0
      * @assert create(2.945)->toInt() [==] 2
      *
-     * @return mixed
+     * @return int|array
      */
     public function toInt()
     {
@@ -410,11 +410,11 @@ class InputItem
     }
 
     /**
-     * คืนค่าเป็น Object.
+     * คืนค่าเป็น Object หรือ แอเรย์ของ Object.
      *
      * @assert create('test')->toObject() [==] (object)'test'
      *
-     * @return mixed
+     * @return object|array
      */
     public function toObject()
     {
@@ -422,14 +422,14 @@ class InputItem
     }
 
     /**
-     * คืนค่าเป็น string หรือ null.
+     * คืนค่าเป็น string หรือ แอเรย์ของ string หรือ null.
      *
      * @assert create('ทดสอบ')->toString() [==] 'ทดสอบ'
      * @assert create('1')->toString() [==] '1'
      * @assert create(1)->toString() [==] '1'
      * @assert create(null)->toString() [==] null
      *
-     * @return mixed
+     * @return string|array|null
      */
     public function toString()
     {
@@ -442,7 +442,7 @@ class InputItem
      *
      * @assert create(' ทด\/สอบ'."\r\n\t".'<?php echo \'555\'?> ')->topic() [==] 'ทด&#92;/สอบ &lt;?php echo &#039;555&#039;?&gt;'
      *
-     * @return mixed
+     * @return string|array
      */
     public function topic()
     {
@@ -458,7 +458,7 @@ class InputItem
      * @assert create("javascript:alert('xxx')")->url() [==] 'alertxxx'
      * @assert create("http://www.xxx.com/javascript/")->url() [==] 'http://www.xxx.com/javascript/'
      *
-     * @return mixed
+     * @return string|array
      */
     public function url()
     {
@@ -471,7 +471,7 @@ class InputItem
      * @assert create(' admin@demo.com')->username() [==] 'admin@demo.com'
      * @assert create('012 3465')->username() [==] '0123465'
      *
-     * @return mixed
+     * @return string|array
      */
     public function username()
     {

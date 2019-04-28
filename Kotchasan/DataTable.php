@@ -440,11 +440,12 @@ class DataTable extends \Kotchasan\KBase
         }
         $url_query = array();
         $hidden_fields = array();
+        $query_string = array();
         parse_str($this->uri->getQuery(), $query_string);
         self::$request->map($url_query, $query_string);
         foreach ($url_query as $key => $value) {
             // แอเรย์เก็บรายการ input ที่ไม่ต้องสร้าง
-            if ($key !== 'search' && $key !== 'count' && $key !== 'page' && $key !== 'action') {
+            if ($key !== 'search' && $key !== 'count' && $key !== 'page' && $key !== 'action' && !preg_match('/.*?(username|password|token|time).*?/', $key)) {
                 $hidden_fields[$key] = '<input type="hidden" name="'.$key.'" value="'.$value.'">';
             }
         }

@@ -85,12 +85,15 @@ class Csv
     }
 
     /**
-     * สร้างไฟล์ CSV สำหรับดาวน์โหลด.
+     * สร้างไฟล์ CSV สำหรับดาวน์โหลด
+     * คืนค่า true.
      *
      * @param string $file    ชื่อไฟล์ ไม่ต้องมีนามสกุล
      * @param array  $header  ส่วนหัวของข้อมูล
      * @param array  $datas   ข้อมูล
      * @param string $charset ภาษาของ CSV ค่าเริ่มต้นคือ Windows-874 (ภาษาไทย)
+     *
+     * @return bool
      */
     public static function send($file, $header, $datas, $charset = 'Windows-874')
     {
@@ -111,6 +114,9 @@ class Csv
         }
         // close
         fclose($f);
+        // คืนค่า สำเร็จ
+
+        return true;
     }
 
     /**

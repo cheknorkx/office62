@@ -60,16 +60,6 @@ class Kotchasan extends Kotchasan\KBase
     }
 
     /**
-     * แสดงข้อมูลตัวแปรออกทางหน้าจอ (debug).
-     *
-     * @param mix $expression
-     */
-    public static function debug($expression)
-    {
-        echo '<pre>'.stripslashes(var_export($expression, true)).'</pre>';
-    }
-
-    /**
      * แสดงผลหน้าเว็บไซต์.
      */
     public function run()

@@ -195,6 +195,7 @@ class Model extends \Kotchasan\Model
                             $department = $save['department'];
                             $save['department'] = ','.implode(',', $department).',';
                             $save['ip'] = $request->getClientIp();
+                            $save['topic'] = preg_replace('/[,;:_]{1,}/', '_', $save['topic']);
                             if ($index->id == 0) {
                                 // ใหม่
                                 $save['sender_id'] = $login['id'];

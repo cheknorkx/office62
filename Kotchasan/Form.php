@@ -198,12 +198,12 @@ class Form extends \Kotchasan\KBase
     {
         $hiddens = array();
         foreach (self::$request->getQueryParams() as $key => $value) {
-            if ($value != '' && preg_match('/^[_]+([^0-9]+)$/', $key, $match)) {
+            if ($value != '' && !preg_match('/.*?(username|password|token|time).*?/', $key) && preg_match('/^[_]+([^0-9]+)$/', $key, $match)) {
                 $hiddens[$match[1]] = '<input type="hidden" name="_'.$match[1].'" value="'.$value.'">';
             }
         }
         foreach (self::$request->getParsedBody() as $key => $value) {
-            if ($value != '' && preg_match('/^[_]+([^0-9]+)$/', $key, $match)) {
+            if ($value != '' && !preg_match('/.*?(username|password|token|time).*?/', $key) && preg_match('/^[_]+([^0-9]+)$/', $key, $match)) {
                 $hiddens[$match[1]] = '<input type="hidden" name="_'.$match[1].'" value="'.$value.'">';
             }
         }

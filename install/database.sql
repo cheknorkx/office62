@@ -3,22 +3,12 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 25, 2018 at 01:55 AM
+-- Generation Time: Mar 13, 2019 at 09:36 AM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 7.0.32
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `eoffice`
---
 
 -- --------------------------------------------------------
 
@@ -27,7 +17,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `{prefix}_category` (
-  `id` int(11) UNSIGNED NOT NULL,
+  `id` int(11) NOT NULL,
   `type` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `category_id` int(11) NOT NULL,
   `topic` text CHARACTER SET utf8 NOT NULL,
@@ -82,7 +72,7 @@ INSERT INTO `{prefix}_category` (`id`, `type`, `category_id`, `topic`, `color`, 
 --
 
 CREATE TABLE `{prefix}_edocument` (
-  `id` int(11) UNSIGNED NOT NULL,
+  `id` int(11) NOT NULL,
   `sender_id` int(11) UNSIGNED NOT NULL,
   `department` text COLLATE utf8_unicode_ci NOT NULL,
   `last_update` int(11) UNSIGNED NOT NULL,
@@ -110,7 +100,7 @@ INSERT INTO `{prefix}_edocument` (`id`, `sender_id`, `department`, `last_update`
 --
 
 CREATE TABLE `{prefix}_edocument_download` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) NOT NULL,
   `member_id` int(10) UNSIGNED NOT NULL,
   `downloads` int(10) UNSIGNED NOT NULL,
   `last_update` int(10) UNSIGNED NOT NULL
@@ -131,7 +121,7 @@ INSERT INTO `{prefix}_edocument_download` (`id`, `member_id`, `downloads`, `last
 --
 
 CREATE TABLE `{prefix}_inventory` (
-  `id` int(11) UNSIGNED NOT NULL,
+  `id` int(11) NOT NULL,
   `equipment` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `serial` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `create_date` datetime NOT NULL,
@@ -193,12 +183,11 @@ INSERT INTO `{prefix}_inventory_meta` (`inventory_id`, `name`, `value`) VALUES
 CREATE TABLE `{prefix}_language` (
   `id` int(11) NOT NULL,
   `key` text COLLATE utf8_unicode_ci NOT NULL,
-  `la` text COLLATE utf8_unicode_ci,
-  `th` text COLLATE utf8_unicode_ci,
-  `en` text COLLATE utf8_unicode_ci,
-  `owner` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `type` varchar(5) COLLATE utf8_unicode_ci NOT NULL,
-  `js` tinyint(1) NOT NULL
+  `owner` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `js` tinyint(1) NOT NULL,
+  `th` text COLLATE utf8_unicode_ci,
+  `en` text COLLATE utf8_unicode_ci
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -226,8 +215,6 @@ CREATE TABLE `{prefix}_repair` (
   `job_description` varchar(1000) COLLATE utf8_unicode_ci NOT NULL,
   `create_date` datetime NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `{prefix}_repair_status`
@@ -261,7 +248,8 @@ CREATE TABLE `{prefix}_reservation` (
   `begin` datetime DEFAULT NULL,
   `end` datetime DEFAULT NULL,
   `status` tinyint(1) NOT NULL,
-  `department` int(11) NOT NULL
+  `department` int(11) NOT NULL,
+  `reason` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -287,7 +275,7 @@ CREATE TABLE `{prefix}_rooms` (
   `name` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
   `detail` text COLLATE utf8_unicode_ci NOT NULL,
   `color` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  `published` int(1) NOT NULL
+  `published` int(1) NOT NULL DEFAULT 1
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -317,13 +305,12 @@ CREATE TABLE `{prefix}_rooms_meta` (
 
 INSERT INTO `{prefix}_rooms_meta` (`room_id`, `name`, `value`) VALUES
 (2, 'seats', '20 ที่นั่ง'),
-(2, 'number', 'R-0002'),
+(2, 'number', 'R-0001'),
 (2, 'building', 'อาคาร 1'),
+(1, 'number', 'R-0002'),
 (1, 'seats', '50 ที่นั่ง รูปตัว U'),
-(1, 'number', 'R-0001'),
 (1, 'building', 'อาคาร 2'),
 (3, 'building', 'โรงอาหาร'),
-(3, 'number', 'R-0003'),
 (3, 'seats', '100 คน');
 
 -- --------------------------------------------------------
@@ -338,7 +325,7 @@ CREATE TABLE `{prefix}_user` (
   `salt` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `token` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '0',
+  `status` tinyint(1) DEFAULT 0,
   `permission` text COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
   `sex` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -351,24 +338,22 @@ CREATE TABLE `{prefix}_user` (
   `province` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `zipcode` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
   `country` varchar(2) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `visited` int(11) UNSIGNED DEFAULT '0',
-  `lastvisited` int(11) DEFAULT '0',
+  `visited` int(11) UNSIGNED DEFAULT 0,
+  `lastvisited` int(11) DEFAULT 0,
   `session_id` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
   `ip` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `create_date` datetime DEFAULT NULL,
-  `active` tinyint(1) NOT NULL DEFAULT '1',
-  `social` tinyint(1) NOT NULL DEFAULT '0'
+  `active` tinyint(1) NOT NULL DEFAULT 1,
+  `social` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `{prefix}_user`
 --
 
-INSERT INTO `{prefix}_user` (`id`, `username`, `salt`, `password`, `token`, `status`, `permission`, `name`, `id_card`, `department`, `position`, `sex`, `address`, `phone`, `provinceID`, `province`, `zipcode`, `country`, `visited`, `lastvisited`, `session_id`, `ip`, `create_date`, `active`, `social`) VALUES
-(1, 'admin@localhost', '5c218d7d9ea4b', '6a397c750a3046e8b9873e9b7dd517bd070ba79c', NULL, 1, ',can_config,can_manage_room,can_approve_room,can_handle_all_edocument,can_upload_edocument,can_manage_inventory,can_manage_repair,can_repair,can_manage_personnel,', 'แอดมิน', '', 1, 4, 'm', '', '08080808', '103', '', '71190', 'TH', 21, 0, NULL, NULL, NOW(), 1, 0),
-(2, 'demo@localhost', '5c13b4c610781', 'd61303ebed15f6448dd3ebadd7e416b5350b4d1d', NULL, 0, ',can_upload_edocument,', 'ตัวอย่าง', '', 3, 4, 'f', '', '0123456788', '102', '', '', 'LA', 9, 0, NULL, NULL, NOW(), 1, 0);
-
--- --------------------------------------------------------
+INSERT INTO `{prefix}_user` (`id`, `username`, `salt`, `password`, `token`, `status`, `permission`, `name`, `sex`, `id_card`, `address`, `phone`, `provinceID`, `zipcode`, `visited`, `lastvisited`, `session_id`, `ip`, `create_date`, `active`, `social`) VALUES
+(1, 'admin@localhost', '5c218d7d9ea4b', '6a397c750a3046e8b9873e9b7dd517bd070ba79c', NULL, 1, ',can_config,can_manage_room,can_approve_room,', 'แอดมิน', 'm', '', '1 หมู่ 1 ตำบล ลาดหญ้า อำเภอ เมือง', '08080808', '102', '71190', 0, 0, '', '::1', NOW(), 1, 0),
+(2, 'demo@localhost', '5c13b4c610781', 'd61303ebed15f6448dd3ebadd7e416b5350b4d1d', NULL, 0, '', 'ตัวอย่าง', 'f', '', '', '0123456788', '102', '', 0, 0, '', '::1', NOW(), 1, 0);
 
 --
 -- Table structure for table `eoffice_user_category`
@@ -546,6 +531,3 @@ ALTER TABLE `{prefix}_rooms`
 --
 ALTER TABLE `{prefix}_user`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

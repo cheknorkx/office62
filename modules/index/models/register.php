@@ -98,7 +98,7 @@ class Model extends \Kotchasan\Model
                         $ret['location'] = 'index.php?action=login';
                     } else {
                         // คืนค่า
-                        $ret['alert'] = Language::get('Saved successfully');
+                        $ret['alert'] = Language::get('Register successfully Please log in');
                         // ไปหน้าเข้าระบบ
                         $ret['location'] = 'index.php?action=login';
                     }

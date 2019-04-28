@@ -39,53 +39,43 @@ class Model extends \Kotchasan\KBase
                 // โหลด config
                 $config = Config::load(ROOT_PATH.'settings/config.php');
                 // รับค่าจากการ POST
-                $save = array(
-                    'noreply_email' => $request->post('noreply_email')->url(),
-                    'email_charset' => $request->post('email_charset')->text(),
-                    'email_use_phpMailer' => $request->post('email_use_phpMailer')->toBoolean(),
-                    'email_Host' => $request->post('email_Host')->text(),
-                    'email_Port' => $request->post('email_Port')->toInt(),
-                    'email_SMTPAuth' => $request->post('email_SMTPAuth')->toBoolean(),
-                    'email_SMTPSecure' => $request->post('email_SMTPSecure')->text(),
-                    'email_Username' => $request->post('email_Username')->quote(),
-                    'email_Password' => $request->post('email_Password')->quote(),
-                );
-                // อีเมล
-                if (empty($save['noreply_email'])) {
-                    $ret['ret_noreply_email'] = 'Please fill in';
-                } elseif (!Validator::email($save['noreply_email'])) {
+                $config->noreply_email = $request->post('noreply_email')->url();
+                if ($config->noreply_email != '' && !Validator::email($config->noreply_email)) {
+                    // noreply_email ไม่ถูกต้อง
                     $ret['ret_noreply_email'] = str_replace(':name', Language::get('Email'), Language::get('Invalid :name'));
                 } else {
-                    $config->noreply_email = $save['noreply_email'];
-                }
-                $config->email_charset = empty($save['email_charset']) ? 'utf-8' : strtolower($save['email_charset']);
-                if (empty($save['email_Host'])) {
-                    $config->email_Host = 'localhost';
-                    $config->email_Port = 25;
-                    $config->email_SMTPSecure = '';
-                    $config->email_Username = '';
-                    $config->email_Password = '';
-                } else {
-                    $config->email_Host = $save['email_Host'];
-                    $config->email_Port = empty($save['email_Port']) ? 25 : $save['email_Port'];
-                    $config->email_SMTPSecure = isset($save['email_SMTPSecure']) ? $save['email_SMTPSecure'] : '';
-                    $config->email_Username = isset($save['email_Username']) ? $save['email_Username'] : '';
-                    if (!empty($save['email_Password'])) {
-                        $config->email_Password = $save['email_Password'];
-                    }
-                }
-                $config->email_use_phpMailer = $save['email_use_phpMailer'];
-                $config->email_SMTPAuth = $save['email_SMTPAuth'];
-                if (empty($ret)) {
-                    // save config
-                    if (Config::save($config, ROOT_PATH.'settings/config.php')) {
-                        $ret['alert'] = Language::get('Saved successfully');
-                        $ret['location'] = 'reload';
-                        // เคลียร์
-                        $request->removeToken();
+                    $email_charset = $request->post('email_charset')->text();
+                    $config->email_charset = $email_charset == '' ? 'utf-8' : strtolower($email_charset);
+                    $email_Host = $request->post('email_Host')->text();
+                    if (empty($email_Host)) {
+                        $config->email_Host = 'localhost';
+                        $config->email_Port = 25;
+                        $config->email_SMTPSecure = '';
+                        $config->email_Username = '';
+                        $config->email_Password = '';
                     } else {
-                        // ไม่สามารถบันทึก config ได้
-                        $ret['alert'] = sprintf(Language::get('File %s cannot be created or is read-only.'), 'settings/config.php');
+                        $config->email_Host = $email_Host;
+                        $config->email_Port = $request->post('email_Port', 25)->toInt();
+                        $config->email_SMTPSecure = $request->post('email_SMTPSecure')->text();
+                        $config->email_Username = $request->post('email_Username')->quote();
+                        $email_Password = $request->post('email_Password')->quote();
+                        if (!empty($email_Password)) {
+                            $config->email_Password = $email_Password;
+                        }
+                    }
+                    $config->email_use_phpMailer = $request->post('email_use_phpMailer')->toBoolean();
+                    $config->email_SMTPAuth = $request->post('email_SMTPAuth')->toBoolean();
+                    if (empty($ret)) {
+                        // save config
+                        if (Config::save($config, ROOT_PATH.'settings/config.php')) {
+                            $ret['alert'] = Language::get('Saved successfully');
+                            $ret['location'] = 'reload';
+                            // เคลียร์
+                            $request->removeToken();
+                        } else {
+                            // ไม่สามารถบันทึก config ได้
+                            $ret['alert'] = sprintf(Language::get('File %s cannot be created or is read-only.'), 'settings/config.php');
+                        }
                     }
                 }
             }

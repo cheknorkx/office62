@@ -51,6 +51,7 @@ class QueryBuilder extends \Kotchasan\Database\Query
     /**
      * ฟังก์ชั่นสร้างคำสั่ง WHERE ถ้ามีข้อมูล Where ก่อนหน้าจะ AND กับข้อมูลก่อนหน้า.
      *
+     * @assert where(array('U.id', 1))->andWhere(array())->text() [==] " WHERE U.`id` = 1"
      * @assert where(array('U.id', 1))->andWhere(array('U.id', 2))->text() [==] " WHERE (U.`id` = 1) AND (U.`id` = 2)"
      * @assert where(array('U.id', 1))->andWhere(array(Sql::BETWEEN('id', 0, 1), Sql::BETWEEN('id', 0, 1)), 'OR')->text() [==] " WHERE (U.`id` = 1) AND (`id` BETWEEN 0 AND 1 OR `id` BETWEEN 0 AND 1)"
      *
@@ -62,12 +63,14 @@ class QueryBuilder extends \Kotchasan\Database\Query
      */
     public function andWhere($condition, $oprator = 'AND', $id = 'id')
     {
-        $ret = $this->buildWhere($condition, $oprator, $id);
-        if (is_array($ret)) {
-            $this->sqls['where'] = empty($this->sqls['where']) ? $ret[0] : '('.$this->sqls['where'].') AND ('.$ret[0].')';
-            $this->values = ArrayTool::replace($this->values, $ret[1]);
-        } else {
-            $this->sqls['where'] = empty($this->sqls['where']) ? $ret : '('.$this->sqls['where'].') AND ('.$ret.')';
+        if (!empty($condition)) {
+            $ret = $this->buildWhere($condition, $oprator, $id);
+            if (is_array($ret)) {
+                $this->sqls['where'] = empty($this->sqls['where']) ? $ret[0] : '('.$this->sqls['where'].') AND ('.$ret[0].')';
+                $this->values = ArrayTool::replace($this->values, $ret[1]);
+            } else {
+                $this->sqls['where'] = empty($this->sqls['where']) ? $ret : '('.$this->sqls['where'].') AND ('.$ret.')';
+            }
         }
 
         return $this;
@@ -459,6 +462,7 @@ class QueryBuilder extends \Kotchasan\Database\Query
     /**
      * ฟังก์ชั่นสร้างคำสั่ง WHERE ถ้ามีข้อมูล Where ก่อนหน้าจะ OR กับข้อมูลก่อนหน้า.
      *
+     * @assert where(array('U.id', 1))->orWhere(array())->text() [==] " WHERE U.`id` = 1"
      * @assert where(array('U.id', 1))->orWhere(array('U.id', 2))->text() [==] " WHERE (U.`id` = 1) OR (U.`id` = 2)"
      * @assert where(array('U.id', 1))->orWhere(array(Sql::BETWEEN('id', 0, 1), Sql::BETWEEN('id', 0, 1)), 'OR')->text() [==] " WHERE (U.`id` = 1) OR (`id` BETWEEN 0 AND 1 OR `id` BETWEEN 0 AND 1)"
      *
@@ -470,12 +474,14 @@ class QueryBuilder extends \Kotchasan\Database\Query
      */
     public function orWhere($condition, $oprator = 'AND', $id = 'id')
     {
-        $ret = $this->buildWhere($condition, $oprator, $id);
-        if (is_array($ret)) {
-            $this->sqls['where'] = empty($this->sqls['where']) ? $ret[0] : '('.$this->sqls['where'].') OR ('.$ret[0].')';
-            $this->values = ArrayTool::replace($this->values, $ret[1]);
-        } else {
-            $this->sqls['where'] = empty($this->sqls['where']) ? $ret : '('.$this->sqls['where'].') OR ('.$ret.')';
+        if (!empty($condition)) {
+            $ret = $this->buildWhere($condition, $oprator, $id);
+            if (is_array($ret)) {
+                $this->sqls['where'] = empty($this->sqls['where']) ? $ret[0] : '('.$this->sqls['where'].') OR ('.$ret[0].')';
+                $this->values = ArrayTool::replace($this->values, $ret[1]);
+            } else {
+                $this->sqls['where'] = empty($this->sqls['where']) ? $ret : '('.$this->sqls['where'].') OR ('.$ret.')';
+            }
         }
 
         return $this;
@@ -725,6 +731,7 @@ class QueryBuilder extends \Kotchasan\Database\Query
     /**
      * ฟังก์ชั่นสร้างคำสั่ง WHERE.
      *
+     * @assert where(array())->text() [==] ""
      * @assert where(1)->text() [==] " WHERE `id` = 1"
      * @assert where(array('id', 1))->text() [==] " WHERE `id` = 1"
      * @assert where(array('id', '1'))->text() [==] " WHERE `id` = '1'"
@@ -756,9 +763,11 @@ class QueryBuilder extends \Kotchasan\Database\Query
      */
     public function where($condition, $oprator = 'AND', $id = 'id')
     {
-        $sql = Sql::WHERE($condition, $oprator, $id);
-        $this->sqls['where'] = $sql->text();
-        $this->values = $sql->getValues($this->values);
+        if (!empty($condition)) {
+            $sql = Sql::WHERE($condition, $oprator, $id);
+            $this->sqls['where'] = $sql->text();
+            $this->values = $sql->getValues($this->values);
+        }
 
         return $this;
     }

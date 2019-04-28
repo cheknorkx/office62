@@ -205,7 +205,7 @@
               for (var prop in obj) {
                 if (prop == "search") {
                   q.push(prop + "=" + encodeURIComponent(obj[prop]));
-                } else if (prop != "time") {
+                } else if (prop != "" && prop != "time") {
                   q.push(prop + "=" + obj[prop]);
                 }
               }

@@ -85,7 +85,7 @@ class Config extends \Kotchasan\Config
     /**
      * @var string
      */
-    public $password_key = '1245678912';
+    public $password_key = '1234567890';
     /**
      * ไดเร็คทอรี่ template ที่ใช้งานอยู่ ตั้งแต่ DOCUMENT_ROOT
      * ไม่ต้องมี / ทั้งเริ่มต้นและปิดท้าย
@@ -99,19 +99,19 @@ class Config extends \Kotchasan\Config
      *
      * @var bool
      */
-    public $user_forgot = 0;
+    public $user_forgot = true;
     /**
      * บุคคลทั่วไป สามารถสมัครสมาชิกได้.
      *
      * @var bool
      */
-    public $user_register = 0;
+    public $user_register = true;
     /**
      * ส่งอีเมลต้อนรับ เมื่อบุคคลทั่วไปสมัครสมาชิก
      *
      * @var bool
      */
-    public $welcome_email = 0;
+    public $welcome_email = true;
     /**
      * การเข้าระบบต่อ 1 user
      * ค่าเริ่มต้น true (แนะนำ) สามารถเข้าระบบได้เพียงคนเดียวต่อ 1 user คนที่อยู่ในระบบก่อนหน้าจะถูกบังคับให้ออกจากระบบ.

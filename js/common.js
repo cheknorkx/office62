@@ -97,19 +97,6 @@ function defaultSubmit(ds) {
           $G(val).remove();
         });
       }
-    } else if (prop == "input") {
-      el = $G(val);
-      t = el.title ? el.title.strip_tags() : "";
-      if (t == "" && el.placeholder) {
-        t = el.placeholder.strip_tags();
-      }
-      if (_input != el) {
-        el.invalid(t);
-      }
-      if (t != "" && _alert == "") {
-        _alert = t;
-        _input = el;
-      }
     } else if ($E(prop)) {
       $G(prop).setValue(decodeURIComponent(val).replace(/\%/g, "&#37;"));
     } else if ($E(prop.replace("ret_", ""))) {

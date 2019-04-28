@@ -81,7 +81,7 @@ class Controller extends \Gcms\Controller
             closedir($f);
         }
         // แสดงจำนวนสมาชิกทั้งหมด
-        if ($card->count() < 4) {
+        if ($card->count() < 4 && Login::checkPermission($login, 'can_config')) {
             self::renderCard($card, 'icon-users', '{LNG_Users}', number_format(\Index\Member\Model::getCount()), '{LNG_Member list}', 'index.php?module=member');
         }
         // dashboard

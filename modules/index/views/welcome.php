@@ -33,6 +33,7 @@ class View extends \Kotchasan\View
      */
     public static function login(Request $request)
     {
+        $login_action = $request->request('ret')->url();
         // template
         $template = Template::create('', '', 'login');
         $template->add(array(
@@ -45,6 +46,7 @@ class View extends \Kotchasan\View
             '/{CLASS}/' => empty(Login::$login_message) ? 'hidden' : (empty(Login::$login_input) ? 'message' : 'error'),
             '/{URL}/' => $request->getUri()->withoutParams('action'),
             '/{LOGINMENU}/' => self::menus('login'),
+            '/{LOGIN_ACTION}/' => $login_action == '' ? WEB_URL.'index.php' : $login_action,
         ));
 
         return (object) array(

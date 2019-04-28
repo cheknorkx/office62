@@ -28,11 +28,13 @@
       function _isPanel(src) {
         var c,
           tag = src.tagName.toLowerCase();
-        var test = self.prefix + " " + self.prefix + "-arrow";
+        var test = self.prefix + " gcalendar gddcolor " + self.prefix + "-arrow";
         while (src && src != document.body) {
           c = $G(src).hasClass(test);
           if (c) {
             return c == self.prefix + "-arrow" ||
+              c == "gcalendar" ||
+              c == "gddcolor" ||
               tag == "input" ||
               tag == "select" ||
               tag == "textarea" ||

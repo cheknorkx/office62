@@ -8,8 +8,13 @@
  *
  * @see http://www.kotchasan.com/
  */
-// load Kotchasan
-include 'load.php';
-// Initial Kotchasan Framework
-$app = Kotchasan::createWebApplication('Gcms\Config');
-$app->run();
+if (!is_file('settings/config.php')) {
+    // ติดตั้งครั้งแรก
+    header('Location: install/index.php');
+} else {
+    // load Kotchasan
+    include 'load.php';
+    // Initial Kotchasan Framework
+    $app = Kotchasan::createWebApplication('Gcms\Config');
+    $app->run();
+}

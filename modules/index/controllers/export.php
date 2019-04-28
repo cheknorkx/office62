@@ -37,12 +37,17 @@ class Controller extends \Kotchasan\Controller
         Template::init(self::$cfg->skin);
         // ตรวจสอบโมดูลที่เรียก
         $className = \Index\Main\Controller::parseModule($request);
+        $ret = false;
         if ($className && method_exists($className, 'execute')) {
             // create Class
-            createClass($className)->execute($request);
-        } else {
-            // ไม่พบโมดูล
+            $ret = createClass($className)->execute($request);
+        }
+        if ($ret === false) {
+            // ไม่พบโมดูล หรือ ไม่สามารถทำรายการได้
             new \Kotchasan\Http\NotFound();
+        } elseif (is_string($ret)) {
+            // คืนค่าเป็น string มา เช่น พิมพ์
+            echo $ret;
         }
     }
 }
