@@ -1797,19 +1797,21 @@ window.$K = (function() {
       pForm = $E(pForm);
       var nParams = [];
       forEach(pForm.getElementsByTagName("*"), function() {
-        var t = this.tagName.toLowerCase();
-        if (t == "input") {
-          if (
-            (this.checked == true && this.type == "radio") ||
-            (this.checked == true && this.type == "checkbox") ||
-            (this.type != "radio" && this.type != "checkbox")
-          ) {
+        if (!this.disabled) {
+          var t = this.tagName.toLowerCase();
+          if (t == "input") {
+            if (
+              (this.checked == true && this.type == "radio") ||
+              (this.checked == true && this.type == "checkbox") ||
+              (this.type != "radio" && this.type != "checkbox")
+            ) {
+              nParams.push(this.name + "=" + this.value);
+            }
+          } else if (t == "select") {
             nParams.push(this.name + "=" + this.value);
+          } else if (t == "textarea") {
+            nParams.push(this.name + "=" + encodeURIComponent(this.innerHTML));
           }
-        } else if (t == "select") {
-          nParams.push(this.name + "=" + this.value);
-        } else if (t == "textarea") {
-          nParams.push(this.name + "=" + encodeURIComponent(this.innerHTML));
         }
       });
       return nParams.join("&");

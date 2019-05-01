@@ -3,15 +3,29 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 13, 2019 at 09:36 AM
--- Server version: 10.1.37-MariaDB
+-- Generation Time: Mar 31, 2019 at 03:13 PM
+-- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.0.32
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
+--
+-- Table structure for table `{prefix}_language`
+--
 
+CREATE TABLE `{prefix}_language` (
+  `id` int(11) NOT NULL,
+  `key` text COLLATE utf8_unicode_ci NOT NULL,
+  `type` varchar(5) COLLATE utf8_unicode_ci NOT NULL,
+  `owner` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `js` tinyint(1) NOT NULL,
+  `th` text COLLATE utf8_unicode_ci,
+  `en` text COLLATE utf8_unicode_ci
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 --
 -- Table structure for table `{prefix}_category`
 --
@@ -20,9 +34,9 @@ CREATE TABLE `{prefix}_category` (
   `id` int(11) NOT NULL,
   `type` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `category_id` int(11) NOT NULL,
-  `topic` text CHARACTER SET utf8 NOT NULL,
-  `color` varchar(16) CHARACTER SET utf8 NOT NULL,
-  `published` tinyint(1) NOT NULL DEFAULT '1'
+  `topic` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `color` varchar(16) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `published` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -177,22 +191,6 @@ INSERT INTO `{prefix}_inventory_meta` (`inventory_id`, `name`, `value`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `{prefix}_language`
---
-
-CREATE TABLE `{prefix}_language` (
-  `id` int(11) NOT NULL,
-  `key` text COLLATE utf8_unicode_ci NOT NULL,
-  `type` varchar(5) COLLATE utf8_unicode_ci NOT NULL,
-  `owner` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  `js` tinyint(1) NOT NULL,
-  `th` text COLLATE utf8_unicode_ci,
-  `en` text COLLATE utf8_unicode_ci
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `{prefix}_line`
 --
 
@@ -228,7 +226,7 @@ CREATE TABLE `{prefix}_repair_status` (
   `comment` varchar(1000) NOT NULL,
   `member_id` int(11) NOT NULL,
   `create_date` datetime NOT NULL,
-  `cost` decimal(10,2) NOT NULL
+  `cost` decimal(10,2) NOT NULL DEFAULT 0
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -320,7 +318,7 @@ INSERT INTO `{prefix}_rooms_meta` (`room_id`, `name`, `value`) VALUES
 --
 
 CREATE TABLE `{prefix}_user` (
-  `id` int(11) UNSIGNED NOT NULL,
+  `id` int(11) NOT NULL,
   `username` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `salt` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -373,16 +371,26 @@ INSERT INTO `{prefix}_user_category` (`member_id`, `name`, `value`) VALUES
 (2, 'job', 'นักศึกษาฝึกงาน');
 
 --
--- Indexes for dumped tables
---
-
---
 -- Indexes for table `{prefix}_category`
 --
 ALTER TABLE `{prefix}_category`
   ADD PRIMARY KEY (`id`),
   ADD KEY `type` (`type`),
   ADD KEY `category_id` (`category_id`);
+
+--
+-- Indexes for table `{prefix}_language`
+--
+ALTER TABLE `{prefix}_language`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `{prefix}_user`
+--
+ALTER TABLE `{prefix}_user`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `username` (`username`),
+  ADD KEY `id_card` (`id_card`);
 
 --
 -- Indexes for table `{prefix}_edocument`
@@ -408,12 +416,6 @@ ALTER TABLE `{prefix}_inventory`
 --
 ALTER TABLE `{prefix}_inventory_meta`
   ADD KEY `inventory_id` (`inventory_id`) USING BTREE;
-
---
--- Indexes for table `{prefix}_language`
---
-ALTER TABLE `{prefix}_language`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `{prefix}_repair`
@@ -459,75 +461,72 @@ ALTER TABLE `{prefix}_rooms_meta`
   ADD KEY `room_id` (`room_id`) USING BTREE;
 
 --
--- Indexes for table `{prefix}_user`
---
-ALTER TABLE `{prefix}_user`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `username` (`username`),
-  ADD KEY `id_card` (`id_card`);
-
---
 -- Indexes for table `eoffice_user_category`
 --
 ALTER TABLE `{prefix}_user_category`
   ADD KEY `member_id` (`member_id`);
 
 --
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `{prefix}_category`
---
-ALTER TABLE `{prefix}_category`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
---
 -- AUTO_INCREMENT for table `{prefix}_edocument`
 --
 ALTER TABLE `{prefix}_edocument`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `{prefix}_edocument_download`
 --
 ALTER TABLE `{prefix}_edocument_download`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `{prefix}_inventory`
---
-ALTER TABLE `{prefix}_inventory`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `{prefix}_line`
 --
 ALTER TABLE `{prefix}_line`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `{prefix}_category`
+--
+ALTER TABLE `{prefix}_category`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `{prefix}_language`
 --
 ALTER TABLE `{prefix}_language`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `{prefix}_user`
+--
+ALTER TABLE `{prefix}_user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `{prefix}_repair`
 --
 ALTER TABLE `{prefix}_repair`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `{prefix}_repair_status`
 --
 ALTER TABLE `{prefix}_repair_status`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `{prefix}_inventory`
+--
+ALTER TABLE `{prefix}_inventory`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `{prefix}_reservation`
 --
 ALTER TABLE `{prefix}_reservation`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `{prefix}_rooms`
 --
 ALTER TABLE `{prefix}_rooms`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `{prefix}_user`
---
-ALTER TABLE `{prefix}_user`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
