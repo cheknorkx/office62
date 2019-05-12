@@ -36,6 +36,18 @@ abstract class AbstractMessage implements MessageInterface
     protected $stream;
 
     /**
+     * init Class
+     *
+     * @param bool $with_header true คืนค่า HTTP Header ด้วย, false (default) ไม่รวม HTTP Header
+     */
+    public function __construct($with_header = false)
+    {
+        if ($with_header) {
+            $this->headers = $this->getRequestHeaders();
+        }
+    }
+
+    /**
      * อ่าน stream.
      *
      * @return StreamInterface
@@ -51,7 +63,7 @@ abstract class AbstractMessage implements MessageInterface
      *
      * @param string $name
      *
-     * @return array
+     * @return string[]
      */
     public function getHeader($name)
     {
@@ -228,5 +240,27 @@ abstract class AbstractMessage implements MessageInterface
         if (!preg_match('/^[a-zA-Z0-9\-]+$/', $name)) {
             throw new \InvalidArgumentException('Invalid header name');
         }
+    }
+
+    /**
+     * ฟังก์ชั่นคืนค่า HTTP Header
+     *
+     * @return array
+     */
+    protected function getRequestHeaders()
+    {
+        if (function_exists("apache_request_headers")) {
+            if ($headers = apache_request_headers()) {
+                return $headers;
+            }
+        }
+        $headers = array();
+        foreach ($_SERVER as $key => $value) {
+            if (preg_match('/^HTTP_([A-Z0-9_]+)$/', $key, $match)) {
+                $headers[ucwords(strtolower(str_replace('_', '-', $match[1])), '-')] = $value;
+            }
+        }
+
+        return $headers;
     }
 }
