@@ -51,7 +51,7 @@ class View extends \Kotchasan\View
 
         return (object) array(
             'detail' => $template->render(),
-            'title' => Language::get('Login with an existing account'),
+            'title' => self::$cfg->web_title.' - '.Language::get('Login with an existing account'),
         );
     }
 
@@ -76,7 +76,7 @@ class View extends \Kotchasan\View
 
         return (object) array(
             'detail' => $template->render(),
-            'title' => Language::get('Get new password'),
+            'title' => self::$cfg->web_title.' - '.Language::get('Get new password'),
         );
     }
 
@@ -100,7 +100,7 @@ class View extends \Kotchasan\View
 
         return (object) array(
             'detail' => $template->render(),
-            'title' => Language::get('Register'),
+            'title' => self::$cfg->web_title.' - '.Language::get('Register'),
         );
     }
 

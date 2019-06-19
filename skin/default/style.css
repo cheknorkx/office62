@@ -255,6 +255,10 @@ fieldset.search input[type="submit"],
   border-color: #dbdbdb;
   padding-bottom: 10px;
   clear: both;
+  background-color: #fff;
+}
+.dashboard .section {
+  margin: 0;
 }
 section>header {
   padding: 10px;
@@ -508,6 +512,9 @@ header .inline {
   width: 100%;
   height: 200px;
 }
+.ggraphs td {
+  text-align: center;
+}
 #GModal_modaldiv>.modaldiv>article,
 #GModal_modaldiv>.modaldiv>form {
   padding: 10px;
@@ -676,16 +683,16 @@ header .inline {
   width: 2em;
   text-align: center;
 }
-.room_detail h1 {
+.modal_detail h1 {
   font-size: 1.5em;
   border-bottom: 2px solid rgba(0, 0, 0, 0.1);
 }
-.room_detail table tbody th,
-.room_detail table td {
+.modal_detail table tbody th,
+.modal_detail table td {
   vertical-align: top;
   text-align: left;
 }
-.room_detail table tbody th {
+.modal_detail table tbody th {
   font-weight: bold;
 }
 

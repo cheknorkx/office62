@@ -11,6 +11,7 @@
 namespace Edocument\View;
 
 use Kotchasan\Date;
+use Kotchasan\Language;
 use Kotchasan\Text;
 
 /**
@@ -32,11 +33,14 @@ class View extends \Gcms\View
      */
     public function render($index, $login)
     {
+        $urgencies = Language::get('URGENCIES');
+        $urgencies = array_map(array('Edocument\View\View', 'urgencyStyle'), array_keys($urgencies), array_values($urgencies));
         $content = array();
         $content[] = '<article class=edocument_view>';
         $content[] = '<header><h3 class=icon-file>{LNG_Details of} {LNG_Document}</h3></header>';
         $content[] = '<div class="table fullwidth">';
         $content[] = '<p class=tr><span class="td icon-number">{LNG_Document No.}</span><span class=td>:</span><span class=td>'.$index->document_no.'</span></p>';
+        $content[] = '<p class=tr><span class="td icon-rocket">{LNG_Urgency}</span><span class=td>:</span><span class=td>'.(isset($urgencies[$index->urgency]) ? $urgencies[$index->urgency] : '').'</span></p>';
         $content[] = '<p class=tr><span class="td icon-file">{LNG_Document title}</span><span class=td>:</span><span class=td>'.$index->topic.'</span></p>';
         $content[] = '<p class=tr><span class="td icon-customer">{LNG_Sender}</span><span class=td>:</span><span class=td>'.\Edocument\Sender\Model::init()->get($index->sender_id).'</span></p>';
         $content[] = '<p class=tr><span class="td icon-calendar">{LNG_date}</span><span class=td>:</span><span class=td>'.($index->last_update == 0 ? '' : Date::format($index->last_update)).'</span></p>';
@@ -54,5 +58,14 @@ class View extends \Gcms\View
         $content[] = '<script>initEdocumentView("download_'.$index->id.'")</script>';
 
         return implode('', $content);
+    }
+
+    public static function urgencyStyle($key, $value)
+    {
+        if ($key < 2) {
+            return '<em>'.$value.'</em>';
+        } else {
+            return $value;
+        }
     }
 }

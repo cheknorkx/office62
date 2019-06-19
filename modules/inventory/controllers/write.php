@@ -61,6 +61,7 @@ class Controller extends \Gcms\Controller
             ));
             // แสดงฟอร์ม
             $section->appendChild(createClass('Inventory\Write\View')->render($index, $login));
+            // คืนค่า HTML
 
             return $section->render();
         }

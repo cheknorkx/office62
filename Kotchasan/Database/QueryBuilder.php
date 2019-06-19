@@ -186,6 +186,9 @@ class QueryBuilder extends \Kotchasan\Database\Query
      * @param string $table     ชื่อตาราง
      * @param mixed  $condition query WHERE
      *
+     * @assert select()->from('user U')->exists('useronline', array('member_id', 'U.id'))->text() [==] 'SELECT * FROM `user` AS U WHERE  EXISTS (SELECT * FROM `useronline` WHERE `member_id` = U.`id`)'
+     * @assert select()->from('user U')->where(array('U.id', 1))->exists('useronline', array('member_id', 'U.id'))->text() [==] 'SELECT * FROM `user` AS U WHERE U.`id` = 1 AND EXISTS (SELECT * FROM `useronline` WHERE `member_id` = U.`id`)'
+     *
      * @return \static
      */
     public function exists($table, $condition)
@@ -198,7 +201,7 @@ class QueryBuilder extends \Kotchasan\Database\Query
         if (empty($this->sqls['where'])) {
             $this->sqls['where'] = '';
         } else {
-            $this->sqls['where'] = ' AND';
+            $this->sqls['where'] .= ' AND';
         }
         $this->sqls['where'] .= ' EXISTS (SELECT * FROM '.$this->quoteTableName($table).' WHERE '.$ret.')';
 

@@ -103,5 +103,10 @@ return array(
     '' => 'Clear Text',
     'ssl' => 'Server using a secure connection (SSL)'
   ),
+  'URGENCIES' => array(
+    0 => 'Quickly',
+    1 => 'Quick',
+    2 => 'Normal'
+  ),
   'YEAR_OFFSET' => 0
 );

@@ -261,7 +261,7 @@
         if (hs) {
           if (hs[1] == "delete" || hs[1] == "cancel") {
             if (confirm(trans("You want to XXX ?").replace(/XXX/, trans(hs[1])))) {
-              action = "action=" + hs[1] + "&id=" + hs[2];
+              action = "action=" + hs[1] + "&id=" + hs[2] + (hs[4] ? '&opt=' + hs[4] : '');
             }
           } else if (hs[4]) {
             action = "action=" + hs[1] + "_" + hs[2] + "&id=" + hs[4];

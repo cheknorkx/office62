@@ -31,7 +31,7 @@ class Model extends \Kotchasan\Model
     public static function toDataTable()
     {
         return static::createQuery()
-            ->select('A.id', 'A.document_no', 'A.ext', 'A.topic', 'A.sender_id', 'A.size', 'A.last_update', 'E.downloads' /* , Sql::COUNT('E.*', 'downloads') */)
+            ->select('A.id', 'A.document_no', 'A.urgency', 'A.ext', 'A.topic', 'A.sender_id', 'A.size', 'A.last_update', 'E.downloads' /* , Sql::COUNT('E.*', 'downloads') */)
             ->from('edocument A')
             ->join('edocument_download E', 'LEFT', array(array('E.id', 'A.id'), array('E.downloads', '>', 0)));
     }

@@ -505,6 +505,7 @@ button {
   border-radius: 0;
   -moz-border-radius: 0;
   -webkit-border-radius: 0;
+  filter: none;
 }
 input[type="text"],
 input[type="password"],
@@ -575,6 +576,16 @@ input[type="color"] {
   border-style: solid;
   border-color: #ccc;
   border-color: rgba(0, 0, 0, 0.2);
+}
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px white inset;
+}
+input:focus,
+:-moz-autofill,
+ :-moz-autofill-preview {
+  filter: none;
+  -webkit-box-shadow: 0 0 0px 1000px white inset;
 }
 ::placeholder {
   color: rgba(0, 0, 0, 0.5);
@@ -3893,7 +3904,7 @@ td.buttons .button:last-child {
   float: left;
   margin: 5px 5px 5px 0;
   display: block;
-  max-width: 60px;
+  max-width: 5.3em;
 }
 .thumbview .figure {
   display: table;

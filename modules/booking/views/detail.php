@@ -31,7 +31,7 @@ class View extends \Gcms\View
      */
     public function room($index)
     {
-        $content = '<article class="room_detail">';
+        $content = '<article class="modal_detail">';
         $content .= '<header><h1 class="cuttext">{LNG_Details of} {LNG_Room}</h1></header>';
         if (is_file(ROOT_PATH.DATA_FOLDER.'booking/'.$index->id.'.jpg')) {
             $content .= '<figure class="center"><img src="'.WEB_URL.DATA_FOLDER.'booking/'.$index->id.'.jpg"></figure>';
@@ -57,7 +57,7 @@ class View extends \Gcms\View
      */
     public function booking($index)
     {
-        $content = '<article class="room_detail">';
+        $content = '<article class="modal_detail">';
         $content .= '<header><h1 class="cuttext">{LNG_Details of} {LNG_Booking}</h1></header>';
         $content .= '<table class="border data fullwidth"><tbody>';
         $content .= '<tr><th>{LNG_Topic}</th><td>'.$index->topic.'</td></tr>';

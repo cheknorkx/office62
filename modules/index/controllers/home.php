@@ -151,7 +151,7 @@ class Controller extends \Gcms\Controller
         $content .= '<span class="cuttext">'.$link.'</span>';
         $content .= '</span>';
         $content .= '</a>';
-        $card->set($title, $content);
+        $card->set(uniqid(), $content);
     }
 
     /**

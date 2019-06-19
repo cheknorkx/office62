@@ -346,6 +346,12 @@ return array(
   'Upload' => 'ອັບໂຫຼດ',
   'Upload :type files no larger than :size' => 'ອັບໂຫຼດແຟ້ມຂໍ້ມູນ :type ຂະໜາດບໍ່ເກີນ :size',
   'Uploaded images are resized automatically' => 'ຮູບພາບທີ່ອັບໂຫຼດຈະຖືກປັບຂະໜາດໂດຍອັດຕະໂນມັດ',
+  'URGENCIES' => array(
+    0 => 'ດ່ວນຫລາຍ',
+    1 => 'ດ່ວນ',
+    2 => 'ປະກະຕິ'
+  ),
+  'Urgency' => 'ຄວາມໄວດ່ວນ',
   'User' => 'ສະມາຊິກ',
   'Username' => 'ຊື່ຜູ້ໃຊ້',
   'Username for the mail server. (To change, enter a new value.)' => 'ຊື່ຜູ້ໃຊ້ຂອງເມວເຊີບເວີ (ຕ້ອງການປ່ຽນ ໃຫ້ເພີ່ມ)',

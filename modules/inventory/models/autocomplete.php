@@ -56,7 +56,6 @@ class Model extends \Kotchasan\Model
             if (isset($order)) {
                 $query->order($order);
             }
-
             $result = $query->execute();
             if (!empty($result)) {
                 // คืนค่า JSON

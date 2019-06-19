@@ -11,6 +11,7 @@
 namespace Edocument\Write;
 
 use Kotchasan\Html;
+use Kotchasan\Language;
 use Kotchasan\Text;
 
 /**
@@ -55,6 +56,16 @@ class View extends \Gcms\View
             'maxlength' => 20,
             'value' => $index->document_no,
         ));
+        // urgency
+        $urgencies = Language::get('URGENCIES');
+        $fieldset->add('radiogroups', array(
+            'id' => 'urgency',
+            'labelClass' => 'g-input icon-rocket',
+            'itemClass' => 'item',
+            'label' => '{LNG_Urgency}',
+            'options' => array_map(array('Edocument\View\View', 'urgencyStyle'), array_keys($urgencies), array_values($urgencies)),
+            'value' => $index->urgency,
+        ));
         // topic
         $fieldset->add('text', array(
             'id' => 'topic',
@@ -80,7 +91,7 @@ class View extends \Gcms\View
             'labelClass' => 'g-input icon-file',
             'itemClass' => 'item',
             'label' => '{LNG_Description}',
-            'comment' => '{LNG_Notes or Additional Notes}',
+            'comment' => '{LNG_Note or additional notes}',
             'rows' => 5,
             'value' => $index->detail,
         ));

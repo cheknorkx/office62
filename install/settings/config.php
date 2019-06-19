@@ -3,7 +3,7 @@
 /* config.php */
 
 return array(
-    'version' => '2.0.2',
+    'version' => '2.0.5',
     'web_title' => 'E-Office',
     'web_description' => 'ระบบจองห้องประชุม แจ้งซ่อม งานสารบรรณ',
     'timezone' => 'Asia/Bangkok',

@@ -346,6 +346,12 @@ return array(
   'Upload' => 'อัปโหลด',
   'Upload :type files no larger than :size' => 'อัปโหลดไฟล์ :type ขนาดไม่เกิน :size',
   'Uploaded images are resized automatically' => 'รูปภาพที่อัปโหลดจะถูกปรับขนาดโดยอัตโนมัติ',
+  'URGENCIES' => array(
+    0 => 'ด่วนมาก',
+    1 => 'ด่วน',
+    2 => 'ปกติ'
+  ),
+  'Urgency' => 'ความเร่งด่วน',
   'User' => 'สมาชิก',
   'Username' => 'ชื่อผู้ใช้',
   'Username for the mail server. (To change, enter a new value.)' => 'ชื่อผู้ใช้ของเมล์เซิร์ฟเวอร์ (ต้องการเปลี่ยน ให้กรอก)',

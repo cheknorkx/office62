@@ -77,8 +77,12 @@ function defaultSubmit(ds) {
     } else if (prop == "elem") {
       el = $E(val);
       if (el) {
-        el.className = ds.class;
-        el.title = ds.title;
+        if (ds.class) {
+          el.className = ds.class;
+        }
+        if (ds.title) {
+          el.title = ds.title;
+        }
       }
     } else if (prop == "location") {
       _location = val;
@@ -107,8 +111,7 @@ function defaultSubmit(ds) {
       if (val == "") {
         el.valid();
       } else {
-        if (val == "Please fill in" || val == "Please select" || val == "Please browse file") {
-          val = trans(val);
+        if (val == "Please fill in" || val == "Please select" || val == "Please browse file" || val == "already exist") {
           var label = el.findLabel();
           if (label) {
             t = label.innerHTML.strip_tags();
@@ -123,7 +126,11 @@ function defaultSubmit(ds) {
             }
           }
           if (t != "") {
-            val += " " + t;
+            if (val == "already exist") {
+              val = t + " " + trans(val);
+            } else {
+              val = trans(val) + " " + t;
+            }
           }
         } else if (val == "Please select at least one item") {
           val = trans(val);

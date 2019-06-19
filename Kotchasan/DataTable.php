@@ -215,6 +215,15 @@ class DataTable extends \Kotchasan\KBase
      */
     public $autoSearch = true;
     /**
+     * การแสดงฟอร์มค้นหา
+     * auto (default) แสดงฟอร์มค้นหา ถ้ามี $searchColumns ระบุมา
+     * true แสดงฟอร์มค้นหาเสมอ
+     * false ไม่ต้องแสดงฟอร์มค้นหา
+     *
+     * @var bool
+     */
+    public $searchForm = 'auto';
+    /**
      * จำนวนรายการต่อหน้า
      * ถ้ากำหนดรายการนี้จะแสดงรายการแบ่งหน้า และตัวเลือกแสดงรายการต่อหน้า.
      *
@@ -512,7 +521,7 @@ class DataTable extends \Kotchasan\KBase
         }
         // search
         $search = self::$request->globals(array('POST', 'GET'), 'search')->text();
-        if (!empty($this->searchColumns)) {
+        if ($this->searchForm === true || ($this->searchForm === 'auto' && !empty($this->searchColumns))) {
             if (!empty($search)) {
                 if ($this->autoSearch) {
                     if (isset($this->model)) {

@@ -34,7 +34,7 @@ class Model extends \Kotchasan\Model
     public static function toDataTable($login)
     {
         return static::createQuery()
-            ->select('A.id', 'A.document_no', 'E.downloads', 'A.ext', 'A.topic', 'A.sender_id', 'A.size', 'A.last_update')
+            ->select('A.id', 'A.document_no', 'A.urgency', 'E.downloads', 'A.ext', 'A.topic', 'A.sender_id', 'A.size', 'A.last_update')
             ->from('edocument_download E')
             ->join('edocument A', 'INNER', array('A.id', 'E.id'))
             ->where(array('E.member_id', $login['id']))

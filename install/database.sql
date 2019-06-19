@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 31, 2019 at 03:13 PM
+-- Generation Time: Jun 16, 2019 at 01:54 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.0.32
 
@@ -33,7 +33,7 @@ CREATE TABLE `{prefix}_language` (
 CREATE TABLE `{prefix}_category` (
   `id` int(11) NOT NULL,
   `type` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  `category_id` int(11) NOT NULL,
+  `category_id` int(11) DEFAULT 0,
   `topic` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `color` varchar(16) COLLATE utf8_unicode_ci DEFAULT NULL,
   `published` tinyint(1) NOT NULL DEFAULT 1
@@ -89,6 +89,7 @@ CREATE TABLE `{prefix}_edocument` (
   `id` int(11) NOT NULL,
   `sender_id` int(11) UNSIGNED NOT NULL,
   `department` text COLLATE utf8_unicode_ci NOT NULL,
+  `urgency` tinyint(1) NOT NULL DEFAULT 2,
   `last_update` int(11) UNSIGNED NOT NULL,
   `document_no` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `detail` text COLLATE utf8_unicode_ci NOT NULL,
@@ -114,10 +115,10 @@ INSERT INTO `{prefix}_edocument` (`id`, `sender_id`, `department`, `last_update`
 --
 
 CREATE TABLE `{prefix}_edocument_download` (
-  `id` int(10) NOT NULL,
-  `member_id` int(10) UNSIGNED NOT NULL,
-  `downloads` int(10) UNSIGNED NOT NULL,
-  `last_update` int(10) UNSIGNED NOT NULL
+  `id` int(11) NOT NULL,
+  `member_id` int(11) NOT NULL,
+  `downloads` int(11) NOT NULL,
+  `last_update` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -207,12 +208,14 @@ CREATE TABLE `{prefix}_line` (
 --
 
 CREATE TABLE `{prefix}_repair` (
-  `id` int(11) UNSIGNED NOT NULL,
+  `id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `inventory_id` int(11) NOT NULL,
   `job_description` varchar(1000) COLLATE utf8_unicode_ci NOT NULL,
   `create_date` datetime NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `{prefix}_repair_status`
@@ -420,13 +423,13 @@ ALTER TABLE `{prefix}_inventory_meta`
 --
 -- Indexes for table `{prefix}_repair`
 --
-ALTER TABLE `{prefix}_line`
+ALTER TABLE `{prefix}_repair`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `{prefix}_repair_status`
+-- Indexes for table `{prefix}_line`
 --
-ALTER TABLE `{prefix}_repair`
+ALTER TABLE `{prefix}_line`
   ADD PRIMARY KEY (`id`);
 
 --

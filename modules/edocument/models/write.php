@@ -48,6 +48,7 @@ class Model extends \Kotchasan\Model
                 'sender_id' => (int) $login['id'],
                 'reciever' => array(),
                 'department' => array(),
+                'urgency' => 2,
                 'topic' => '',
                 'detail' => '',
             );
@@ -90,6 +91,7 @@ class Model extends \Kotchasan\Model
                     'document_no' => $request->post('document_no')->topic(),
                     // ผู้รับตามแผนก
                     'department' => $request->post('department', array())->toInt(),
+                    'urgency' => $request->post('urgency')->toInt(),
                     'topic' => $request->post('topic')->topic(),
                     'detail' => $request->post('detail')->textarea(),
                 );
