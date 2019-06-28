@@ -25,7 +25,7 @@ use Kotchasan\Language;
 class Controller extends \Gcms\Controller
 {
     /**
-     * เพิ่ม-แก้ไข สินค้า.
+     * เพิ่ม-แก้ไข Booking.
      *
      * @param Request $request
      *

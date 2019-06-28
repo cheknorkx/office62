@@ -66,15 +66,24 @@ class Model extends \Kotchasan\Model
     public function action(Request $request)
     {
         $ret = array();
-        // session, referer, สมาชิก
-        if ($request->initSession() && $request->isReferer()) {
-            if (Login::isMember()) {
-                if ($request->post('action')->toString() === 'detail') {
-                    // แสดงรายละเอียดห้อง
-                    $search = \Booking\Write\Model::get($request->post('id')->toInt());
-                    if ($search) {
-                        $ret['modal'] = createClass('Booking\Detail\View')->room($search);
-                    }
+        // session, referer, Ajax
+        if ($request->initSession() && $request->isReferer() && $request->isAjax()) {
+            $action = $request->post('action')->toString();
+            if ($action === 'detail') {
+                // แสดงรายละเอียดห้อง
+                $search = \Booking\Write\Model::get($request->post('id')->toInt());
+                if ($search) {
+                    $ret['modal'] = createClass('Booking\Detail\View')->room($search);
+                }
+            } elseif ($action === 'booking') {
+                $url = WEB_URL.'index.php?module=booking-booking&room_id='.$request->post('id')->toInt();
+                if (Login::isMember()) {
+                    // จองห้อง
+                    $ret['location'] = $url;
+                } else {
+                    // login
+                    $ret['alert'] = Language::get('Please log in. To continue.');
+                    $ret['location'] = WEB_URL.'index.php?module=welcome&action=login&ret='.urlencode($url);
                 }
             }
         }

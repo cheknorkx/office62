@@ -38,6 +38,11 @@ class View extends \Gcms\View
      */
     public function render(Request $request, $index)
     {
+        // ค่าที่ส่งมา
+        $params = array(
+            'room_id' => $request->request('room_id')->toInt(),
+            'status' => $index->status,
+        );
         // URL สำหรับส่งให้ตาราง
         $uri = $request->createUriWithGlobals(WEB_URL.'index.php');
         // ตาราง
@@ -45,15 +50,15 @@ class View extends \Gcms\View
             /* Uri */
             'uri' => $uri,
             /* Model */
-            'model' => \Booking\Report\Model::toDataTable($index->status),
+            'model' => \Booking\Report\Model::toDataTable($params),
             /* รายการต่อหน้า */
-            'perPage' => $request->cookie('report_perPage', 30)->toInt(),
+            'perPage' => $request->cookie('booking_report_perPage', 30)->toInt(),
             /* เรียงลำดับ */
-            'sort' => $request->cookie('report_sort', 'create_date')->toString(),
+            'sort' => $request->cookie('booking_report_sort', 'create_date')->toString(),
             /* ฟังก์ชั่นจัดรูปแบบการแสดงผลแถวของตาราง */
             'onRow' => array($this, 'onRow'),
             /* คอลัมน์ที่ไม่ต้องแสดงผล */
-            'hideColumns' => array('id', 'today'),
+            'hideColumns' => array('id', 'today', 'end'),
             /* คอลัมน์ที่สามารถค้นหาได้ */
             'searchColumns' => array('name', 'contact', 'phone'),
             /* ตั้งค่าการกระทำของของตัวเลือกต่างๆ ด้านล่างตาราง ซึ่งจะใช้ร่วมกับการขีดถูกเลือกแถว */
@@ -71,12 +76,12 @@ class View extends \Gcms\View
             ),
             /* ตัวเลือกด้านบนของตาราง ใช้จำกัดผลลัพท์การ query */
             'filters' => array(
-                'room_id' => array(
+                array(
                     'name' => 'room_id',
                     'default' => 0,
                     'text' => '{LNG_Room}',
-                    'options' => array(0 => '{LNG_all items}') + \Booking\Rooms\Model::toSelect(),
-                    'value' => $request->request('room_id')->toInt(),
+                    'options' => array(0 => '{LNG_all items}')+\Booking\Rooms\Model::toSelect(),
+                    'value' => $params['room_id'],
                 ),
             ),
             /* ส่วนหัวของตาราง และการเรียงลำดับ (thead) */
@@ -100,18 +105,17 @@ class View extends \Gcms\View
                     'class' => 'center',
                 ),
                 'begin' => array(
-                    'text' => '{LNG_Begin date}',
+                    'text' => '{LNG_Date}',
                     'class' => 'center',
                     'sort' => 'begin',
-                ),
-                'end' => array(
-                    'text' => '{LNG_End date}',
-                    'class' => 'center',
                 ),
                 'create_date' => array(
                     'text' => '{LNG_Created}',
                     'class' => 'center',
                     'sort' => 'create_date',
+                ),
+                'reason' => array(
+                    'text' => '{LNG_Reason}',
                 ),
             ),
             /* รูปแบบการแสดงผลของคอลัมน์ (tbody) */
@@ -132,6 +136,8 @@ class View extends \Gcms\View
                     'class' => 'center',
                 ),
             ),
+            /* ฟังก์ชั่นตรวจสอบการแสดงผลปุ่มในแถว */
+            'onCreateButton' => array($this, 'onCreateButton'),
             /* ปุ่มแสดงในแต่ละแถว */
             'buttons' => array(
                 'edit' => array(
@@ -142,8 +148,8 @@ class View extends \Gcms\View
             ),
         ));
         // save cookie
-        setcookie('report_perPage', $table->perPage, time() + 2592000, '/', HOST, HTTPS, true);
-        setcookie('report_sort', $table->sort, time() + 2592000, '/', HOST, HTTPS, true);
+        setcookie('booking_report_perPage', $table->perPage, time() + 2592000, '/', HOST, HTTPS, true);
+        setcookie('booking_report_sort', $table->sort, time() + 2592000, '/', HOST, HTTPS, true);
 
         return $table->render();
     }
@@ -165,10 +171,25 @@ class View extends \Gcms\View
         $thumb = is_file(ROOT_PATH.DATA_FOLDER.'booking/'.$item['room_id'].'.jpg') ? WEB_URL.DATA_FOLDER.'booking/'.$item['room_id'].'.jpg' : WEB_URL.'modules/booking/img/noimage.png';
         $item['room_id'] = '<img src="'.$thumb.'" style="max-height:50px;max-width:50px" alt=thumbnail>';
         $item['phone'] = '<a href="tel:'.$item['phone'].'">'.$item['phone'].'</a>';
-        $item['begin'] = Date::format($item['begin']);
-        $item['end'] = Date::format($item['end']);
+        $item['begin'] = Date::format($item['begin']).' - '.Date::format($item['end']);
         $item['create_date'] = Date::format($item['create_date']);
 
         return $item;
+    }
+
+    /**
+     * ฟังกชั่นตรวจสอบว่าสามารถสร้างปุ่มได้หรือไม่.
+     *
+     * @param array $item
+     *
+     * @return array
+     */
+    public function onCreateButton($btn, $attributes, $items)
+    {
+        if ($btn == 'edit' && in_array($items['today'], array(1, 2))) {
+            return false;
+        } else {
+            return $attributes;
+        }
     }
 }

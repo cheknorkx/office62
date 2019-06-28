@@ -83,7 +83,7 @@ class View extends \Gcms\View
             'id' => 'type',
             'value' => $index->type,
         ));
-        // คืนค่าฟอร์ม
+        // คืนค่า HTML
 
         return $form->render();
     }

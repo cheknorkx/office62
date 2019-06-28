@@ -1,14 +1,6 @@
 <article id=login_div>
-  <h1>
-    <a href="{WEBURL}index.php" id=logo title="{WEBTITLE}">{LOGO}</a>
-  </h1>
-  <form id=login_frm method=post autocomplete=off action="{URL}">
-    <h2 class="table fullwidth">
-      <span class="td icon-signin">{LNG_Sign in}</span>
-      <span class="td icon-language language-menu" title="{LNG_Change language}">
-        <ul>{LANGUAGES}</ul>
-      </span>
-    </h2>
+  <form id=login_frm method=post autocomplete=off>
+    <h1><span class="icon-signin">{LNG_Sign in}</span></h1>
     <aside class="{CLASS} center">{MESSAGE}</aside>
     <fieldset>
       <p>
@@ -44,7 +36,7 @@
     </fieldset>
   </form>
   <script>
-    new GForm('login_frm');
+    new GForm('login_frm', '{WEBURL}index.php/index/model/login/chklogin').onsubmit(doFormSubmit);
     initFacebookButton('facebook_login');
     initGoogleButton('google_login');
   </script>

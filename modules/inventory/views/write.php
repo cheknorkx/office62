@@ -155,6 +155,7 @@ class View extends \Gcms\View
         ));
         // Javascript
         $form->script('initInventoryWrite();');
+        // คืนค่า HTML
 
         return $form->render();
     }

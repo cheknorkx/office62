@@ -32,28 +32,30 @@ class Controller extends \Kotchasan\KBase
      */
     public static function execute(Request $request, $menu, $login)
     {
-        // รายการเมนูย่อย
-        $submenus = array(
-            array(
-                'text' => '{LNG_List of} {LNG_received document}',
-                'url' => 'index.php?module=edocument-received',
-            ),
-        );
-        if (Login::checkPermission($login, 'can_upload_edocument')) {
-            $submenus[] = array(
-                'text' => '{LNG_List of} {LNG_sent document}',
-                'url' => 'index.php?module=edocument-sent',
-            );
-        }
-        $menu->addTopLvlMenu('edocument', '{LNG_E-Document}', null, $submenus, 'module');
-        // เมนูตั้งค่า
-        if (Login::checkPermission(Login::isMember(), 'can_config')) {
-            $menu->add('settings', '{LNG_E-Document}', null, array(
+        if ($login) {
+            // รายการเมนูย่อย
+            $submenus = array(
                 array(
-                    'text' => '{LNG_Settings}',
-                    'url' => 'index.php?module=edocument-settings',
+                    'text' => '{LNG_List of} {LNG_received document}',
+                    'url' => 'index.php?module=edocument-received',
                 ),
-            ));
+            );
+            if (Login::checkPermission($login, 'can_upload_edocument')) {
+                $submenus[] = array(
+                    'text' => '{LNG_List of} {LNG_sent document}',
+                    'url' => 'index.php?module=edocument-sent',
+                );
+            }
+            $menu->addTopLvlMenu('edocument', '{LNG_E-Document}', null, $submenus, 'module');
+            // เมนูตั้งค่า
+            if (Login::checkPermission(Login::isMember(), 'can_config')) {
+                $menu->add('settings', '{LNG_E-Document}', null, array(
+                    array(
+                        'text' => '{LNG_Settings}',
+                        'url' => 'index.php?module=edocument-settings',
+                    ),
+                ));
+            }
         }
     }
 

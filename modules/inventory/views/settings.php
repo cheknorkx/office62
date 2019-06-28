@@ -58,6 +58,7 @@ class View extends \Gcms\View
             'class' => 'button save large icon-save',
             'value' => '{LNG_Save}',
         ));
+        // คืนค่า HTML
 
         return $form->render();
     }

@@ -250,7 +250,7 @@ CREATE TABLE `{prefix}_reservation` (
   `end` datetime DEFAULT NULL,
   `status` tinyint(1) NOT NULL,
   `department` int(11) NOT NULL,
-  `reason` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL
+  `reason` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------

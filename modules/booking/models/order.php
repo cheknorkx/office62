@@ -66,6 +66,7 @@ class Model extends \Kotchasan\Model
                     'topic' => $request->post('topic')->topic(),
                     'comment' => $request->post('comment')->textarea(),
                     'status' => $request->post('status')->toInt(),
+                    'reason' => $request->post('reason')->topic(),
                 );
                 $begin_date = $request->post('begin_date')->date();
                 $begin_time = $request->post('begin_time')->time(true);

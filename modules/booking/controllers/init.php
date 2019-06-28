@@ -33,20 +33,19 @@ class Controller extends \Kotchasan\KBase
      */
     public static function execute(Request $request, $menu, $login)
     {
-        $menu->addTopLvlMenu('booking', '{LNG_Room}', null, array(
-            array(
-                'text' => '{LNG_My Booking}',
-                'url' => 'index.php?module=booking',
-            ),
-            array(
-                'text' => '{LNG_List of} {LNG_Room}',
-                'url' => 'index.php?module=booking-rooms',
-            ),
-            array(
-                'text' => '{LNG_Book a meeting}',
-                'url' => 'index.php?module=booking-booking',
-            ),
-        ), 'member');
+        $menu->addTopLvlMenu('rooms', '{LNG_List of} {LNG_Room}', 'index.php?module=booking-rooms', null, 'member');
+        if ($login) {
+            $menu->addTopLvlMenu('booking', '{LNG_Room}', null, array(
+                array(
+                    'text' => '{LNG_My Booking}',
+                    'url' => 'index.php?module=booking',
+                ),
+                array(
+                    'text' => '{LNG_Book a meeting}',
+                    'url' => 'index.php?module=booking-booking',
+                ),
+            ), 'member');
+        }
         if (Login::checkPermission($login, 'can_manage_room')) {
             // เมนูตั้งค่า
             $submenus = array(

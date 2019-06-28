@@ -85,7 +85,7 @@ class View extends \Gcms\View
             ),
         ));
         if (Login::checkPermission($login, array('can_manage_repair', 'can_repair'))) {
-            // ปุ่มแสดงในแต่ละแถว
+            /* ปุ่มแสดงในแต่ละแถว */
             $table->buttons = array(
                 'delete' => array(
                     'class' => 'icon-delete button red notext',

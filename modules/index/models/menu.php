@@ -94,11 +94,18 @@ class Model
                 'text' => '{LNG_Settings}',
                 'submenus' => $settings,
             ),
-            'signout' => array(
+        );
+        if ($login) {
+            $menus['signout'] = array(
                 'text' => '{LNG_Sign out}',
                 'url' => 'index.php?action=logout',
-            ),
-        );
+            );
+        } else {
+            $menus['signin'] = array(
+                'text' => '{LNG_Sign in}',
+                'url' => 'index.php?module=welcome&amp;action=login',
+            );
+        }
 
         return $menus;
     }

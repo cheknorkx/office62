@@ -26,7 +26,7 @@ class Model extends \Kotchasan\Model
      *
      * @return object
      */
-    public static function getNew($login)
+    public static function getNew()
     {
         $search = static::createQuery()
             ->selectCount()
@@ -35,10 +35,28 @@ class Model extends \Kotchasan\Model
                 array('status', 1),
                 Sql::BETWEEN(date('Y-m-d'), Sql::DATE('begin'), Sql::DATE('end')),
             ))
-            ->toArray()
             ->execute();
         if (!empty($search)) {
-            return $search[0]['count'];
+            return $search[0]->count;
+        }
+
+        return 0;
+    }
+
+    /**
+     * จำนวนห้องทั้งหมดที่เปิดใช้งาน.
+     *
+     * @return object
+     */
+    public static function rooms()
+    {
+        $search = static::createQuery()
+            ->selectCount()
+            ->from('rooms')
+            ->where(array('published', 1))
+            ->execute();
+        if (!empty($search)) {
+            return $search[0]->count;
         }
 
         return 0;

@@ -13,10 +13,6 @@ html {
   height: 100%;
   min-height: 100%;
 }
-body.mainpage .footer,
-body.loginpage {
-  background-color: #3498db;
-}
 a {
   color: #1276b9;
 }
@@ -31,10 +27,7 @@ a:hover {
 }
 #login_div h1 {
   text-align: center;
-  margin: 0 auto 30px;
-  font-weight: bold;
-  color: #fff;
-  text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.4);
+  margin: 20px auto 30px;
 }
 #login_div .comment,
 #login_div a {
@@ -72,7 +65,7 @@ a:hover {
   margin: 0;
   cursor: pointer;
 }
-.mainpage .language-menu {
+.language-menu {
   margin-right: 10px;
   display: inline-block;
   text-align: center;
@@ -84,7 +77,7 @@ a:hover {
   -moz-border-radius: 50em;
   -webkit-border-radius: 50em;
 }
-.mainpage .language-menu:hover {
+.language-menu:hover {
   background-color: rgba(0, 0, 0, 0.2);
 }
 .language-menu ul {
@@ -99,7 +92,7 @@ a:hover {
   height: 0;
   font-size: 1em;
 }
-.mainpage .language-menu ul {
+.language-menu ul {
   font-size: 1.625em;
 }
 .language-menu:hover ul {
@@ -191,13 +184,12 @@ header.header a {
   color: inherit;
 }
 .footer {
-  color: rgba(255, 255, 255, 0.5);
   border-top: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 0 1px 1px rgba(255, 255, 255, 0.1) inset;
+  box-shadow: 0 1px 1px rgba(255, 255, 255, 0.5) inset;
   display: table;
   width: 100%;
-  margin-top: 10px;
-  text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
 }
 .footer p {
   height: 57px;
@@ -213,12 +205,16 @@ header.header a {
 }
 .wrapper {
   min-height: 100%;
-  margin-bottom: -68px;
+  margin-bottom: -58px;
 }
 .wrapper::after {
   content: "";
   display: block;
-  height: 68px;
+  height: 58px;
+}
+.content_bg {
+  background-color: rgba(255, 255, 255, 0.9);
+  overflow: hidden;
 }
 fieldset.search input[type="submit"],
 .editinplace:hover:after,
@@ -694,6 +690,9 @@ header .inline {
 }
 .modal_detail table tbody th {
   font-weight: bold;
+}
+.modal_detail .bg {
+  background-color: #f5f5f5;
 }
 
 /* tablet, small device */

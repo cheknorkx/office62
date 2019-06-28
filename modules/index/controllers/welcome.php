@@ -22,6 +22,34 @@ use Kotchasan\Http\Request;
 class Controller extends \Gcms\Controller
 {
     /**
+     * forgot, login register
+     * จากโมดูล welcome.
+     *
+     * @param Request $request
+     *
+     * @return string
+     */
+    public function render(Request $request)
+    {
+        // action ที่เลือก
+        $action = $request->request('action')->toString();
+        // ตรวจสอบ method ที่กำหนดไว้เท่านั้น
+        if ($action == 'register' && !empty(self::$cfg->user_register)) {
+            $action = 'register';
+        } elseif ($action == 'forgot' && !empty(self::$cfg->user_forgot)) {
+            $action = 'forgot';
+        } else {
+            $action = 'login';
+        }
+        // ประมวลผลหน้าที่เรียก
+        $page = \Index\Welcome\View::$action($request);
+        // ไตเติล
+        $this->title = $page->title;
+
+        return $page->detail;
+    }
+
+    /**
      * forgot, login register.
      *
      * @param Request $request

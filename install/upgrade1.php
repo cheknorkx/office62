@@ -47,6 +47,12 @@ if (defined('ROOT_PATH')) {
             }
             $conn->query("ALTER TABLE `$table` CHANGE `password` `password` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL");
             $content[] = '<li class="correct">ปรับปรุงตาราง `'.$table.'` สำเร็จ</li>';
+            // ตาราง reservation
+            $table = $db_config['prefix'].'_reservation';
+            if (!fieldExists($conn, $table, 'reason')) {
+                $conn->query("ALTER TABLE `$table` ADD `reason` VARCHAR(20) NULL AFTER `status`");
+                $content[] = '<li class="correct">ปรับปรุงตาราง `'.$table.'` สำเร็จ</li>';
+            }
             // ตาราง edocument
             $table = $db_config['prefix'].'_edocument';
             if (!fieldExists($conn, $table, 'urgency')) {
@@ -56,6 +62,9 @@ if (defined('ROOT_PATH')) {
             $content[] = '<li class="correct">ปรับปรุงตาราง `'.$table.'` สำเร็จ</li>';
             // บันทึก settings/config.php
             $config['version'] = $new_config['version'];
+            if (isset($new_config['default_icon'])) {
+                $config['default_icon'] = $new_config['default_icon'];
+            }
             $f = save($config, ROOT_PATH.'settings/config.php');
             $content[] = '<li class="'.($f ? 'correct' : 'incorrect').'">บันทึก <b>config.php</b> ...</li>';
         } catch (\PDOException $e) {

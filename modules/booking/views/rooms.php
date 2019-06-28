@@ -70,9 +70,9 @@ class View extends \Gcms\View
             ),
             /* ปุ่มแสดงในแต่ละแถว */
             'buttons' => array(
-                array(
+                'booking' => array(
                     'class' => 'icon-valid button blue',
-                    'href' => 'index.php?module=booking-booking&amp;room_id=:id',
+                    'id' => ':id',
                     'text' => '{LNG_Book a meeting}',
                 ),
                 'detail' => array(

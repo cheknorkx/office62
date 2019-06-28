@@ -27,20 +27,26 @@ class Model extends \Kotchasan\Model
     /**
      * Query ข้อมูลสำหรับส่งให้กับ DataTable.
      *
-     * @param int $status
+     * @param array $index
      *
      * @return \Kotchasan\Database\QueryBuilder
      */
-    public static function toDataTable($status)
+    public static function toDataTable($index)
     {
+        $where = array(
+            array('V.status', $index['status']),
+        );
+        if ($index['room_id'] > 0) {
+            $where[] = array('V.room_id', $index['room_id']);
+        }
         $sql = Sql::create('(CASE WHEN NOW() BETWEEN V.`begin` AND V.`end` THEN 1 WHEN NOW() > V.`end` THEN 2 ELSE 0 END) AS `today`');
 
         return static::createQuery()
-            ->select('V.id', 'V.topic', 'V.room_id', 'R.name', 'U.name contact', 'U.phone', 'V.begin', 'V.end', 'V.create_date', $sql)
+            ->select('V.id', 'V.topic', 'V.room_id', 'R.name', 'U.name contact', 'U.phone', 'V.begin', 'V.end', 'V.create_date', 'V.reason', $sql)
             ->from('reservation V')
             ->join('rooms R', 'INNER', array('R.id', 'V.room_id'))
             ->join('user U', 'INNER', array('U.id', 'V.member_id'))
-            ->where(array('V.status', $status));
+            ->where($where);
     }
 
     /**

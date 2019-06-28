@@ -199,6 +199,15 @@ class View extends \Gcms\View
             'options' => Language::get('BOOKING_STATUS'),
             'value' => $index->status,
         ));
+        // reason
+        $fieldset->add('text', array(
+            'id' => 'reason',
+            'labelClass' => 'g-input icon-question',
+            'itemClass' => 'item',
+            'label' => '{LNG_Reason}',
+            'maxlength' => 128,
+            'value' => $index->reason,
+        ));
         $fieldset = $form->add('fieldset', array(
             'class' => 'submit',
         ));

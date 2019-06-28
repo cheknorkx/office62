@@ -80,29 +80,29 @@ class Model extends \Kotchasan\Model
         $ret = array();
         // session, referer, member, ไม่ใช่สมาชิกตัวอย่าง
         if ($request->initSession() && $request->isReferer() && $login = Login::isMember()) {
-            //if (Login::notDemoMode($login)) {
-            // รับค่าจากการ POST
-            $action = $request->post('action')->toString();
-            $id = $request->post('id')->toString();
-            // id ที่ส่งมา
-            if (preg_match('/^delete_([0-9a-z]+)$/', $id, $match)) {
-                if (isset($_SESSION[$match[1]])) {
-                    $file = $_SESSION[$match[1]];
-                    if (is_file($file['file'])) {
-                        unlink($file['file']);
+            if (Login::notDemoMode($login)) {
+                // รับค่าจากการ POST
+                $action = $request->post('action')->toString();
+                $id = $request->post('id')->toString();
+                // id ที่ส่งมา
+                if (preg_match('/^delete_([0-9a-z]+)$/', $id, $match)) {
+                    if (isset($_SESSION[$match[1]])) {
+                        $file = $_SESSION[$match[1]];
+                        if (is_file($file['file'])) {
+                            unlink($file['file']);
+                        }
+                        // คืนค่ารายการที่ลบ
+                        $ret['remove'] = 'item_'.$match[1];
                     }
-                    // คืนค่ารายการที่ลบ
-                    $ret['remove'] = 'item_'.$match[1];
-                }
-            } elseif (preg_match_all('/,?([0-9]+),?/', $id, $match)) {
-                if ($action === 'delete' && Login::checkPermission($login, array('can_manage_repair', 'can_repair'))) {
-                    // ลบรายละเอียดซ่อม
-                    $this->db()->delete($this->getTableName('repair_status'), array('id', (int) $match[1][0]));
-                    // reload
-                    $ret['location'] = 'reload';
+                } elseif (preg_match_all('/,?([0-9]+),?/', $id, $match)) {
+                    if ($action === 'delete' && Login::checkPermission($login, array('can_manage_repair', 'can_repair'))) {
+                        // ลบรายละเอียดซ่อม
+                        $this->db()->delete($this->getTableName('repair_status'), array('id', (int) $match[1][0]));
+                        // reload
+                        $ret['location'] = 'reload';
+                    }
                 }
             }
-            //}
         }
         if (empty($ret)) {
             $ret['alert'] = Language::get('Unable to complete the transaction');

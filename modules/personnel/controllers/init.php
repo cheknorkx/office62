@@ -32,14 +32,16 @@ class Controller extends \Kotchasan\KBase
      */
     public static function execute(Request $request, $menu, $login)
     {
-        $menu->addTopLvlMenu('personnel', '{LNG_Personnel}', 'index.php?module=personnel-setup', null, 'module');
-        if (Login::checkPermission($login, 'can_manage_personnel')) {
-            $menu->add('settings', '{LNG_Personnel}', null, array(
-                array(
-                    'text' => '{LNG_Settings}',
-                    'url' => 'index.php?module=personnel-settings',
-                ),
-            ));
+        if ($login) {
+            $menu->addTopLvlMenu('personnel', '{LNG_Personnel}', 'index.php?module=personnel-setup', null, 'module');
+            if (Login::checkPermission($login, 'can_manage_personnel')) {
+                $menu->add('settings', '{LNG_Personnel}', null, array(
+                    array(
+                        'text' => '{LNG_Settings}',
+                        'url' => 'index.php?module=personnel-settings',
+                    ),
+                ));
+            }
         }
     }
 

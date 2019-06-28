@@ -1,14 +1,6 @@
 <article id=login_div>
-  <h1>
-    <a href="{WEBURL}index.php" id=logo title="{WEBTITLE}">{LOGO}</a>
-  </h1>
-  <form id=forgot_frm method=post autocomplete=off action="{WEBURL}index.php?action=forgot">
-    <h2 class="table fullwidth">
-      <span class="td icon-password">{LNG_Forgot}</span>
-      <span class="td icon-language language-menu" title="{LNG_Change language}">
-        <ul>{LANGUAGES}</ul>
-      </span>
-    </h2>
+  <form id=forgot_frm method=post autocomplete=off action="{WEBURL}index.php?module=forgot">
+    <h1><span class="icon-password">{LNG_Forgot}</span></h1>
     <aside class="{CLASS} center">{MESSAGE}</aside>
     <fieldset>
       <p>
